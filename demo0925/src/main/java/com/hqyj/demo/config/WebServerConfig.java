@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
+ * web server相关配置类
  * @Configuration ---- 配置类
  * @AutoConfigureAfter ---- 控制配置类的加载顺序
  */

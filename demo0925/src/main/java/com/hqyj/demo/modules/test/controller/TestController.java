@@ -3,6 +3,8 @@ package com.hqyj.demo.modules.test.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,11 +40,9 @@ public class TestController {
 	@Autowired
 	private CityAndCountryService cityAndCountryService;
 	
-	@RequestMapping("/home")
-	public String home() {
-		return "index";
-	}
-	
+	/**
+	 * thymeleaf 测试页面，数据处理
+	 */
 	@RequestMapping("/testPage")
 	public String testPage(ModelMap modelMap) {
 		int countryId = 522;
@@ -57,7 +57,7 @@ public class TestController {
 //		modelMap.addAttribute("shopLogo", "http://cdn.duitang.com/uploads/item/201308/13/20130813115619_EJCWm.thumb.700_0.jpeg");
 		modelMap.addAttribute("country", country);
 		modelMap.addAttribute("cities", cities);
-		modelMap.addAttribute("processForm", "/test/city1");
+		modelMap.addAttribute("updateCityUri", "/test/updateCityByForm");
 		modelMap.addAttribute("city", cities.get(0));
 		
 		modelMap.addAttribute("thymeleafTitle", "This is thymeleaf page.");
@@ -66,28 +66,27 @@ public class TestController {
 		return "index";
 	}
 	
-	@RequestMapping(value="/city1", 
+	/**
+	 * 通过form表单更新city对象
+	 */
+	@RequestMapping(value="/updateCityByForm", 
 			method=RequestMethod.POST, consumes="application/x-www-form-urlencoded")
 	public String updateCityByForm(@ModelAttribute("city") City city) {
 		cityAndCountryService.updateCity(city);
 		return "redirect:/test/testPage";
 	}
 	
+	/**
+	 * 通过json字符串更新city对象
+	 */
 	@RequestMapping(value="/city", method=RequestMethod.PUT, consumes="application/json")
 	@ResponseBody
-	public void updateCity(@RequestBody City city) {
-		cityAndCountryService.updateCity(city);
-	}
-	
-	@RequestMapping(value = "/city1", method = RequestMethod.PUT, consumes = "application/json")
-	@ResponseBody
-	public void updateCity1(@RequestBody City city) {
-		System.out.println("3333333333333333333333333333333");
+	public void updateCityByJoson(@RequestBody City city) {
 		cityAndCountryService.updateCity(city);
 	}
 	
 	/**
-	 * countryName 作为 URL 查询参数，方法参数使用 @RequestParam 注解
+	 * countryName 作为 URL查询参数，方法参数使用 @RequestParam注解
 	 */
 	@RequestMapping("/country")
 	@ResponseBody
@@ -96,7 +95,7 @@ public class TestController {
 	}
 	
 	/**
-	 * id 作为 url path 一部分，方法参数使用 @PathVariable 注解
+	 * id 作为 uri 一部分，方法参数使用 @PathVariable 注解
 	 */
 	@RequestMapping("/country/{countryId}")
 	@ResponseBody
@@ -110,6 +109,9 @@ public class TestController {
 		return cityAndCountryService.getCitiesByCountryId(countryId);
 	}
 	
+	/**
+	 * log测试
+	 */
 	@RequestMapping("/logInfo")
 	@ResponseBody
 	public String getLogInfo() {
@@ -122,12 +124,18 @@ public class TestController {
 		return "log test.";
 	}
 	
+	/**
+	 * post测试
+	 */
 	@RequestMapping(value="/bean", method=RequestMethod.POST)
 	@ResponseBody
 	public void updateBean() {
 		System.out.println("This is post test.");
 	}
 	
+	/**
+	 * 配置文件测试
+	 */
 	@RequestMapping("/config")
 	@ResponseBody
 	public String getConfig() {
@@ -142,9 +150,16 @@ public class TestController {
 		return sb.toString();
 	}
 
+	/**
+	 * 普通接口测试
+	 */
 	@RequestMapping("/info")
 	@ResponseBody
-	public String getInfo() {
-		return "This is spring boot demo app.";
+	public String getInfo(HttpServletRequest request) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("This is spring boot demo app.")
+			.append(request.getParameter("keyWord"));
+		
+		return sb.toString();
 	}
 }

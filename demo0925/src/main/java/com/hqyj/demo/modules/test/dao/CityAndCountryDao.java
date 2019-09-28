@@ -44,7 +44,7 @@ public interface CityAndCountryDao {
 	 * @ResultMap ---- 引用公共 @Results 的 id 属性，可以共享结果集
 	 */
 	@Select("select * from m_country where country_name = #{countryName}")
-//	@ResultMap(value="countryResult")
+	@ResultMap(value="countryResult")
 	Country getCountryByName(String countryName);
 	
 	@Update("update m_city set local_city_name = #{localCityName} where city_id = #{cityId}")
