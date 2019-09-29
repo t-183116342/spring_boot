@@ -17,12 +17,24 @@ import com.hqyj.demo.common.GifCaptcha;
 @Controller
 public class AccountController {
 
+	/**
+	 * 跳转logoin页面
+	 */
 	@RequestMapping("/login")
 	public String loginPage(ModelMap modelMap) {
 		modelMap.addAttribute("template", "/login");
 		return "indexSimple";
 	}
 	
+	@RequestMapping("/register")
+	public String registerPage(ModelMap modelMap) {
+		modelMap.addAttribute("template", "/register");
+		return "indexSimple";
+	}
+	
+	/**
+	 * 生成动态验证码
+	 */
 	@RequestMapping(value="/getGifCode",method=RequestMethod.GET)
 	public void getGifCode(HttpServletResponse response,HttpServletRequest request){
 		// 设定response相关信息
