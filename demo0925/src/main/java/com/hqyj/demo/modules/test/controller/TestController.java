@@ -1,5 +1,10 @@
 package com.hqyj.demo.modules.test.controller;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,8 +14,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.hqyj.demo.modules.test.entity.City;
 import com.hqyj.demo.modules.test.entity.Country;
@@ -39,6 +53,105 @@ public class TestController {
 	private ApplicationConfigTest configTest;
 	@Autowired
 	private CityAndCountryService cityAndCountryService;
+	
+	/**
+	 * 下载文件
+	 * 响应头信息
+	 * 'Content-Type': 'application/octet-stream',
+	 * 'Content-Disposition': 'attachment;filename=req_get_download.js'
+	 * @return ResponseEntity ---- spring专门包装响应信息的类
+	 */
+	@RequestMapping("/download")
+	@ResponseBody
+	public ResponseEntity<Resource> downloadFile(@RequestParam("fileName") String fileName) {
+		try {
+			// 使用resource来包装下载文件
+			Resource resource = new UrlResource(Paths.get("d:/upload/" + fileName).toUri());
+			if (resource.exists() && resource.isReadable()) {
+				return ResponseEntity.ok()
+						.header(HttpHeaders.CONTENT_TYPE, "application/octet-stream")
+						.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=\"" + 
+								resource.getFilename() + "\"")
+						.body(resource);
+			}
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	/**
+	 * 上传多个文件
+	 */
+	@RequestMapping(value="/uploadBatchFile", 
+			method=RequestMethod.POST, consumes="multipart/form-data")
+	public String uploadBatchFile(
+			@RequestParam MultipartFile[] files, RedirectAttributes redirectAttributes) {
+		
+		boolean empty = true;
+		try {
+			for (MultipartFile file : files) {
+				if (file.isEmpty()) {
+//					break;
+					continue;
+				}
+				String fileName = file.getOriginalFilename();
+				String destFileName = "d:/upload" + File.separator + fileName;
+				
+				// 使用MultipartFile的transferTo方法保存文件
+				File destFile = new File(destFileName);
+				file.transferTo(destFile);
+				
+				empty = false;
+			}
+		} catch (Exception e) {
+			// 不同controller之间使用redirectAttributes传递参数
+			redirectAttributes.addFlashAttribute("message", "upload file error.");
+			return "redirect:/test/testPage";
+		}
+		
+		if (empty) {
+			redirectAttributes.addFlashAttribute("message", "Please select file.");
+		} else {
+			redirectAttributes.addFlashAttribute("message", "upload file success.");
+		}
+		
+		return "redirect:/test/testPage";
+	}
+	
+	/**
+	 * 上传单个文件，虽然是form表单，但file是以参数的形式传递的，采用requestParam注解接收MultipartFile
+	 */
+	@RequestMapping(value="/upload", method=RequestMethod.POST, consumes="multipart/form-data")
+	public String uploadFile(
+			@RequestParam MultipartFile file, RedirectAttributes redirectAttributes) {
+		
+		if (file.isEmpty()) {
+			redirectAttributes.addFlashAttribute("message", "Please select file.");
+			return "redirect:/test/testPage";
+		}
+		
+		try {
+			String fileName = file.getOriginalFilename();
+			String destFileName = "d:/upload" + File.separator + fileName;
+			
+			// 使用MultipartFile的transferTo方法保存文件
+			File destFile = new File(destFileName);
+			file.transferTo(destFile);
+			
+			// 使用工具类Files来上传文件
+//			byte[] bytes = file.getBytes();
+//			Path path = Paths.get(destFileName);
+//			Files.write(path, bytes);
+			
+			// 不同controller之间使用redirectAttributes传递参数
+			redirectAttributes.addFlashAttribute("message", "upload file success.");
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("message", "upload file error.");
+		}
+		
+		return "redirect:/test/testPage";
+	}
 	
 	/**
 	 * thymeleaf 测试页面，数据处理
