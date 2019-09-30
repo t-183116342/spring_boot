@@ -1,6 +1,7 @@
 package com.hqyj.demo.filter;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -35,6 +36,9 @@ public class ParameterFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletRequestWrapper requestWrapper = null;
+		
+//		Map<String, String[]> paraMap = httpRequest.getParameterMap();
+//		paraMap.put("keyWord", new String[]{"22222"});
 		
 		requestWrapper = new HttpServletRequestWrapper(httpRequest) {
 			@Override

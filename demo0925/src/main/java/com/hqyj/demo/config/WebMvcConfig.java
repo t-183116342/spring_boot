@@ -20,15 +20,13 @@ import com.hqyj.demo.interceptor.MyInterceptor;
 public class WebMvcConfig implements WebMvcConfigurer {
 	
 	@Autowired
-	private MyInterceptor viewMappingInterceptor;
+	private MyInterceptor myInterceptor;
 
-	/* 
-	 * 添加拦截器
-	 */
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(viewMappingInterceptor)
-			.addPathPatterns("/**");
+		registry.addInterceptor(myInterceptor).addPathPatterns("/**");
+		
+		WebMvcConfigurer.super.addInterceptors(registry);
 	}
 
 	/**
