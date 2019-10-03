@@ -1,4 +1,4 @@
-package com.hqyj.demo.common;
+package com.hqyj.demo.common.gifCaptcha;
 
 public class NeuQuant {
 	protected static final int netsize = 256; /* number of colours used */

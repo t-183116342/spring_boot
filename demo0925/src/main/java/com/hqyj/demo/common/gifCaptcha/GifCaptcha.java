@@ -1,10 +1,12 @@
-package com.hqyj.demo.common;
+package com.hqyj.demo.common.gifCaptcha;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+
+import com.hqyj.demo.common.Randoms;
 
 /**
  * Gif验证码类

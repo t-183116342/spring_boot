@@ -2,10 +2,12 @@
 	<div class="wrapper">
 		<div class="container">
 			<h1>Welcome</h1>
-			<form method="post" class="form">
-				<input type="text" value="itdragon" name="username" placeholder="Account"/>
-				<input type="password" value="12345678" name="password" placeholder="Password"/>
-				<button type="button" id="login-button">Login</button>
+			<form name="loginForm" method="post" class="form">
+				<p id="message"></p>
+				<input type="text" value="" name="userName" placeholder="UserName"/>
+				<input type="password" value="" name="password" placeholder="Password"/>
+				<button type="button" id="loginButton">Login</button>
+				<br><a style="margin-left: 200px;" href="/shiro/register">register</a>
 			</form>
 		</div>
 		<ul class="bg-bubbles">

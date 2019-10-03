@@ -1,4 +1,4 @@
-package com.hqyj.demo.common;
+package com.hqyj.demo.common.gifCaptcha;
 
 import java.io.OutputStream;
 import java.io.IOException;

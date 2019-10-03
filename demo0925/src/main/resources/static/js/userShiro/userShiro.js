@@ -1,5 +1,63 @@
 $(document).ready(function() {
 	
+	/*
+	 * 控制导航栏active属性
+	 */
+	$('.nav li a').each(function(){  
+		if($($(this))[0].href==String(window.location))  
+			$(this).parent().addClass('active');  
+	});
+	
+	/*
+	 * 用户注册
+	 */
+	$("#registerButton").bind("click", function() {
+		var user = {};
+		user.userName = $("[name='userName']").val();
+		user.password = $("[name='password']").val();
+		$.ajax({
+			url : "/shiro/doRegister",
+			type : "post",
+			contentType: "application/json",
+			data : JSON.stringify(user),
+			success : function (data) {
+				if (data.status == 200) {
+					location.href = "/shiro/dashboard";
+				} else {
+					$("#message").html(data.message);
+				}
+			},
+			error : function (data) {
+				$("#message").html(data.responseText);
+			}
+		});
+	});
+	
+	/*
+	 * 用户注登录
+	 */
+	$("#loginButton").bind("click", function() {
+		var user = {};
+		user.userName = $("[name='userName']").val();
+		user.password = $("[name='password']").val();
+		$.ajax({
+			url : "/shiro/doLogin",
+			type : "post",
+			contentType: "application/json",
+			data : JSON.stringify(user),
+			success : function (data) {
+				if (data.status == 200) {
+					location.href = "/shiro/dashboard";
+				} else {
+					$("#message").html(data.message);
+				}
+			},
+			error : function (data) {
+				$("#message").html(data.responseText);
+			}
+		});
+	});
+	
 	$("#codePic").bind("click", function() {
 		$("#codePic").attr("src", "/getGifCode?flag=" + Math.random());
 	});
