@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.hqyj.demo.common.GifCaptcha;
 
 @Controller
+@RequestMapping("/shiro")
 public class AccountController {
 
 	/**
@@ -22,18 +23,56 @@ public class AccountController {
 	 */
 	@RequestMapping("/login")
 	public String loginPage(ModelMap modelMap) {
-		modelMap.addAttribute("template", "/login");
-		return "indexSimple";
+		modelMap.addAttribute("template", "shiro/login");
+		return "shiroIndexSimple";
 	}
 	
+	/**
+	 * 跳转注册页面
+	 */
 	@RequestMapping("/register")
 	public String registerPage(ModelMap modelMap) {
-		modelMap.addAttribute("template", "/register");
-		return "indexSimple";
+		modelMap.addAttribute("template", "shiro/register");
+		return "shiroIndexSimple";
+	}
+	
+	/**
+	 * 跳转dashboard页面
+	 */
+	@RequestMapping("/dashboard")
+	public String dashboardPage(ModelMap modelMap) {
+		modelMap.addAttribute("template", "shiro/dashboard");
+		return "shiroIndex";
+	}
+	
+	/**
+	 * 跳转user页面
+	 */
+	@RequestMapping("/users")
+	public String usersPage(ModelMap modelMap) {
+		modelMap.put("template", "shiro/users");
+		return "shiroIndex";
+	}
+	
+	/**
+	 * 跳转roles页面
+	 */
+	@RequestMapping("/roles")
+	public String rolesPage(ModelMap modelMap) {
+		modelMap.put("template", "shiro/roles");
+		return "shiroIndex";
+	}
+	
+	public String permissionsPage(ModelMap modelMap) {
+		modelMap.put("template", "");
+		return "shiroIndex";
 	}
 	
 	/**
 	 * 生成动态验证码
+	 * $("#codePic").bind("click", function() {
+	 * 	$("#codePic").attr("src", "/getGifCode?flag=" + Math.random());
+	 * });
 	 */
 	@RequestMapping(value="/getGifCode",method=RequestMethod.GET)
 	public void getGifCode(HttpServletResponse response,HttpServletRequest request){

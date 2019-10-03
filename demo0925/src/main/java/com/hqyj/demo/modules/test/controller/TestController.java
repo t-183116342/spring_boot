@@ -166,8 +166,8 @@ public class TestController {
 		
 		modelMap.addAttribute("thymeleafTitle", "This is thymeleaf page.");
 		
-//		modelMap.addAttribute("template", "test");
-		return "test";
+		modelMap.addAttribute("template", "test/index");
+		return "index";
 	}
 	
 	/**
