@@ -34,6 +34,7 @@
 									<th>资源id</th>
 									<th>资源名称</th>
 									<th>资源路径</th>
+									<th>授权名称</th>
 									<th>操作</th>
 								</tr>
 							</thead>
@@ -42,6 +43,7 @@
 									<td name="resourceId" th:text="${resource.resourceId}"></td>
 									<td name="resourceName" th:text="${resource.resourceName}"></td>
 									<td name="resourceUri" th:text="${resource.resourceUri}"></td>
+									<td name="permission" th:text="${resource.permission}"></td>
 									<td>
 										<a name="editResource" href="#">EDIT</a> | 
 										<a th:href="'/shiro/deleteResource/' + ${resource.resourceId}">DELETE</a>
@@ -68,6 +70,12 @@
 						<label for="resourceUri" class="col-sm-1 control-label">资源路径：</label>
 						<div class="col-sm-2">
 							<input type="text" class="form-control" id="resourceUri" placeholder="请输入uri">
+					    </div>
+					</div>
+					<div class="form-group">
+						<label for="permission" class="col-sm-1 control-label">授权名称：</label>
+						<div class="col-sm-2">
+							<input type="text" class="form-control" id="permission" placeholder="请输入授权名称">
 					    </div>
 					</div>
 					<div class="form-group">

@@ -17,6 +17,7 @@ public class Resource {
 	private int resourceId;
 	private String resourceUri;
 	private String resourceName;
+	private String permission;
 	
 	@Transient
 	private List<Role> roles;
@@ -51,5 +52,13 @@ public class Resource {
 
 	public void setRoles(List<Role> roles) {
 		this.roles = roles;
+	}
+
+	public String getPermission() {
+		return permission;
+	}
+
+	public void setPermission(String permission) {
+		this.permission = permission;
 	}
 }

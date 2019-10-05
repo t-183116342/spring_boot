@@ -14,6 +14,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.hqyj.demo.modules.account.entity.Resource;
 import com.hqyj.demo.modules.account.entity.Role;
 import com.hqyj.demo.modules.account.entity.User;
 import com.hqyj.demo.modules.service.AccountService;
@@ -43,6 +44,10 @@ public class MyRealm extends AuthorizingRealm {
 		List<Role> roles = accountService.getRolesByUserId(user.getUserId());
 		for (Role role : roles) {
 			authorizationInfo.addRole(role.getRoleName());
+			List<Resource> resources = accountService.getResourcesByRoleId(role.getRoleId());
+			for (Resource resource : resources) {
+				authorizationInfo.addStringPermission(resource.getPermission());
+			}
 		}
 		
 		return authorizationInfo;

@@ -73,6 +73,7 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public void deleteUser(int userId) {
+		accountDao.deletUserRoleByUserId(userId);
 		accountDao.deleteUser(userId);
 	}
 
@@ -137,11 +138,17 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Override
 	public void deleteResource(int resourceId) {
+		accountDao.deletRoleResourceByResourceId(resourceId);
 		accountDao.deleteResource(resourceId);
 	}
 
 	@Override
 	public List<Resource> getResources() {
 		return accountDao.getResources();
+	}
+
+	@Override
+	public List<Resource> getResourcesByRoleId(int roleId) {
+		return accountDao.getResourcesByRoleId(roleId);
 	}
 }

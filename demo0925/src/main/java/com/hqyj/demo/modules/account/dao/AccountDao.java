@@ -62,11 +62,13 @@ public interface AccountDao {
 	@Insert("insert m_user_role(role_id, user_id) value(#{roleId}, #{userId})")
 	void addUserRole(@Param("roleId") int roleId, @Param("userId") int userId);
 	
-	@Insert("insert m_resource(resource_name, resource_uri) value(#{resourceName}, #{resourceUri})")
+	@Insert("insert m_resource(resource_name, resource_uri, permission) value(#{resourceName}, "
+			+ "#{resourceUri}, #{permission})")
 	@Options(useGeneratedKeys = true, keyProperty = "resourceId", keyColumn = "resource_id")
 	void addResource(Resource resource);
 	
-	@Update("update m_resource set resource_name = #{resourceName}, resource_uri = #{resourceUri} where resource_id=#{resourceId}")
+	@Update("update m_resource set resource_name = #{resourceName}, resource_uri = #{resourceUri}, "
+			+ "permission=#{permission} where resource_id=#{resourceId}")
 	void updateResource(Resource resource);
 	
 	@Delete("delete from m_resource where resource_id = #{resourceId}")
@@ -74,6 +76,10 @@ public interface AccountDao {
 	
 	@Select("select * from m_resource")
 	List<Resource> getResources();
+	
+	@Select("select * from m_resource resource left join m_role_resource roleResource on "
+			+ "resource.resource_id = roleResource.resource_id where roleResource.role_id = #{roleId}")
+	List<Resource> getResourcesByRoleId(int roleId);
 	
 	@Delete("delete from m_role_resource where resource_id = #{resourceId}")
 	void deletRoleResourceByResourceId(int resourceId);

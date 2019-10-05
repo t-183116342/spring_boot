@@ -182,6 +182,7 @@ $(document).ready(function() {
 		resource.resourceId = $("#resourceId").val();
 		resource.resourceName = $("#resourceName").val();
 		resource.resourceUri = $("#resourceUri").val();
+		resource.permission = $("#permission").val();
 		var roles = new Array();
 		$.each($("input[name='roleCheckbox']"), function(){
 			if(this.checked){

@@ -48,4 +48,7 @@ public interface AccountService {
 	// 获取资源列表
 	List<Resource> getResources();
 	
+	// 根据roleId获取资源列表
+	List<Resource> getResourcesByRoleId(int roleId);
+	
 }

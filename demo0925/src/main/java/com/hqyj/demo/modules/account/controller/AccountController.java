@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -135,8 +136,9 @@ public class AccountController {
 	 * 删除user
 	 */
 	@RequestMapping("/deleteUser/{userId}")
+	@RequiresPermissions("user:delete")
 	public String deleteUser(@PathVariable("userId") int userId) {
-		accountService.deleteUser(userId);;;
+		accountService.deleteUser(userId);
 		return "redirect:/shiro/users";
 	}
 	
