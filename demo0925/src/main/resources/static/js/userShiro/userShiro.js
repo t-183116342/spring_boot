@@ -53,49 +53,161 @@ $(document).ready(function() {
 				}
 			},
 			error : function (data) {
-				$("#message").html(data.responseText);
+				$("#message").html(data.message);
 			}
 		});
 	});
 	
-	$("#codePic").bind("click", function() {
-		$("#codePic").attr("src", "/getGifCode?flag=" + Math.random());
+	/*
+	 * 点击 edit按钮，获取user数据，渲染到编辑框内
+	 */
+	$("[name='userEdit']").bind("click", function(){
+        var userId = $(this).parents("tr").find("[name=userId]").text();
+        var userName = $(this).parents("tr").find("[name=userName]").text();
+        $("#userId").val(userId);
+        $("#userName").val(userName);
+        $("#userList").hide();
+		$("#userEdit").show();
 	});
 	
-	function sendAjax() {
-		var username = $("#username").val();
-		var password = $("#password").val();
-		var vcode = $("#vcode").val();
-		var rememberMe = $('#rememberMe').is(':checked');
+	/*
+	 * 编辑user
+	 */
+	$("#userSubmit").bind("click", function(){
+		var user = {};
+		user.userId = $("#userId").val();
+		var roles = new Array();
+		$.each($("input[name='roleCheckbox']"), function(){
+			if(this.checked){
+				var role = {};
+				role.roleId = $(this).val();
+				roles.push(role);
+			}
+		});
+		user.roles = roles;
 		$.ajax({
-			url : "/ajaxLogin",
-			data : {
-				"username" : username,
-				"password" : password,
-				"vcode" : vcode,
-				"rememberMe" : rememberMe
-			},
+			url : "/shiro/editUser",
 			type : "post",
-			dataType : "json",
-			success : function(data) {
+			contentType: "application/json",
+			data : JSON.stringify(user),
+			success : function (data) {
 				if (data.status == 200) {
-					location.href = "/index";
-				} else if (data.status == 400) {
-					location.href = "/lock";
-				} else if (data.status == 100) {
-					$("#erro1").html("密码错误，您还有：" + data.message + " 次机会");
-				} else if (data.status == 600) {
-					$("#erro1").html("账号不存在,您还有：" + data.message + " 次机会");
-				} else if (data.status == 300) {
-					$("#erro1").html("账号不存在,您还有：" + data.message + " 次机会");
+					location.href = "/shiro/users";
 				} else {
-					$("#erro1").html(data.message);
+					$("[name=messageDiv]").show();
+					$("[name=message]").html(data.message);
 				}
 			},
-			error : function() {
-				$("#erro").html("登录失败");
+			error : function (data) {
+				$("[name=messageDiv]").show();
+				$("[name=message]").html(data.message);
 			}
 		});
-	}
+	});
 	
+	/*
+	 * 控制role新增页面
+	 */
+	$("#addRole").bind("click", function(){
+		$("#roleList").hide();
+		$("#roleEdit").show();
+	});
+	
+	/*
+	 * 点击 edit按钮，获取role数据，渲染到编辑框内
+	 */
+	$("[name='editRole']").bind("click", function(){
+        var roleId = $(this).parents("tr").find("[name=roleId]").text();
+        var roleName = $(this).parents("tr").find("[name=roleName]").text();
+        $("#roleId").val(roleId);
+        $("#roleName").val(roleName);
+        $("#roleList").hide();
+		$("#roleEdit").show();
+	});
+	
+	/*
+	 * 新增或修改role
+	 */
+	$("#roleSubmit").bind("click", function(){
+		var role = {};
+		role.roleId = $("#roleId").val();
+		role.roleName = $("#roleName").val();
+		$.ajax({
+			url : "/shiro/editRole",
+			type : "post",
+			contentType: "application/json",
+			data : JSON.stringify(role),
+			success : function (data) {
+				if (data.status == 200) {
+					location.href = "/shiro/roles";
+				} else {
+					$("[name=messageDiv]").show();
+					$("[name=message]").html(data.message);
+				}
+			},
+			error : function (data) {
+				$("[name=messageDiv]").show();
+				$("[name=message]").html(data.message);
+			}
+		});
+	});
+	
+	/*
+	 * 控制resource新增页面
+	 */
+	$("#addResource").bind("click", function(){
+		$("#resourceList").hide();
+		$("#resourceEdit").show();
+	});
+	
+	/*
+	 * 点击 edit按钮，获取相应数据，渲染到编辑框内
+	 */
+	$("[name='editResource']").bind("click", function(){
+        var resourceId = $(this).parents("tr").find("[name=resourceId]").text();
+        var resourceName = $(this).parents("tr").find("[name=resourceName]").text();
+        var resourceUri = $(this).parents("tr").find("[name=resourceUri]").text();
+        $("#resourceId").val(resourceId);
+        $("#resourceName").val(resourceName);
+        $("#resourceUri").val(resourceUri);
+        $("#resourceList").hide();
+		$("#resourceEdit").show();
+	});
+	
+	/*
+	 * 新增或修改resource
+	 */
+	$("#resourceSubmit").bind("click", function(){
+		var resource = {};
+		resource.resourceId = $("#resourceId").val();
+		resource.resourceName = $("#resourceName").val();
+		resource.resourceUri = $("#resourceUri").val();
+		var roles = new Array();
+		$.each($("input[name='roleCheckbox']"), function(){
+			if(this.checked){
+				var role = {};
+				role.roleId = $(this).val();
+				roles.push(role);
+			}
+		});
+		resource.roles = roles;
+		$.ajax({
+			url : "/shiro/editResource",
+			type : "post",
+			contentType: "application/json",
+			data : JSON.stringify(resource),
+			success : function (data) {
+				if (data.status == 200) {
+					location.href = "/shiro/resources";
+				} else {
+					$("[name=messageDiv]").show();
+					$("[name=message]").html(data.message);
+				}
+			},
+			error : function (data) {
+				$("[name=messageDiv]").show();
+				$("[name=message]").html(data.message);
+			}
+		});
+	});
 });

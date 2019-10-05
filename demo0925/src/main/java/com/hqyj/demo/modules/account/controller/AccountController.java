@@ -7,9 +7,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,15 +21,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hqyj.demo.common.Result;
 import com.hqyj.demo.common.gifCaptcha.GifCaptcha;
+import com.hqyj.demo.modules.account.entity.Resource;
+import com.hqyj.demo.modules.account.entity.Role;
 import com.hqyj.demo.modules.account.entity.User;
-import com.hqyj.demo.modules.service.UserService;
+import com.hqyj.demo.modules.service.AccountService;
 
 @Controller
 @RequestMapping("/shiro")
 public class AccountController {
 	
 	@Autowired
-	private UserService userService;
+	private AccountService accountService;
 
 	/**
 	 * 跳转logoin页面
@@ -42,7 +48,18 @@ public class AccountController {
 	@RequestMapping(value="/doLogin", method=RequestMethod.POST, consumes="application/json")
 	@ResponseBody
 	public Result doLogin(HttpServletRequest request, @RequestBody User user) {
-		Result result = userService.getUserByNameAndPassword(user);
+		Result result = new Result(200, "success.");
+		
+		Subject subject = SecurityUtils.getSubject();
+		try {
+			// 登录验证，调用MyRealm中doGetAuthenticationInfo方法
+			subject.login(new UsernamePasswordToken(user.getUserName(), user.getPassword()));
+			// 授权，调用MyRealm中doGetAuthorizationInfo方法
+			subject.checkRoles();
+		} catch (Exception e) {
+			result = new Result(500, e.getMessage());
+			return result;
+		}
 		
 		//存入Session
     	HttpSession session = request.getSession(true);
@@ -53,8 +70,7 @@ public class AccountController {
 	
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request, ModelMap modelMap) {
-		HttpSession session = request.getSession(true);
-    	session.removeAttribute("user");
+    	SecurityUtils.getSubject().logout();
     	
 		return "redirect:/shiro/login";
 	}
@@ -75,7 +91,7 @@ public class AccountController {
 			method=RequestMethod.POST, consumes="application/json")
 	@ResponseBody
 	public Result doRegister(HttpServletRequest request, @RequestBody User user) {
-		Result result = userService.addUser(user);
+		Result result = accountService.addUser(user);
 		
 		//存入Session
     	HttpSession session = request.getSession(true);
@@ -98,8 +114,30 @@ public class AccountController {
 	 */
 	@RequestMapping("/users")
 	public String usersPage(ModelMap modelMap) {
+		
+		modelMap.put("roles", accountService.getRoles());
+		modelMap.put("users", accountService.getUsers());
 		modelMap.put("template", "shiro/users");
 		return "shiroIndex";
+	}
+	
+	/**
+	 * 编辑user
+	 */
+	@RequestMapping(value="/editUser", 
+			method=RequestMethod.POST, consumes="application/json")
+	@ResponseBody
+	public Result editUser(@RequestBody User user) {
+		return accountService.editUser(user);
+	}
+	
+	/**
+	 * 删除user
+	 */
+	@RequestMapping("/deleteUser/{userId}")
+	public String deleteUser(@PathVariable("userId") int userId) {
+		accountService.deleteUser(userId);;;
+		return "redirect:/shiro/users";
 	}
 	
 	/**
@@ -107,17 +145,58 @@ public class AccountController {
 	 */
 	@RequestMapping("/roles")
 	public String rolesPage(ModelMap modelMap) {
+		modelMap.put("roles", accountService.getRoles());
 		modelMap.put("template", "shiro/roles");
 		return "shiroIndex";
 	}
 	
 	/**
-	 * 跳转permission页面
+	 * 新增或修改role
 	 */
-	@RequestMapping("/permissions")
-	public String permissionsPage(ModelMap modelMap) {
-		modelMap.put("template", "shiro/permissions");
+	@RequestMapping(value="/editRole", 
+			method=RequestMethod.POST, consumes="application/json")
+	@ResponseBody
+	public Result editRole(@RequestBody Role role) {
+		return accountService.editRole(role);
+	}
+	
+	/**
+	 * 删除role
+	 */
+	@RequestMapping("/deleteRole/{roleId}")
+	public String deleteRole(@PathVariable("roleId") int roleId) {
+		accountService.deleteRole(roleId);;
+		return "redirect:/shiro/roles";
+	}
+	
+	/**
+	 * 跳转resources页面
+	 */
+	@RequestMapping("/resources")
+	public String resourcesPage(ModelMap modelMap) {
+		modelMap.put("roles", accountService.getRoles());
+		modelMap.put("resources", accountService.getResources());
+		modelMap.put("template", "shiro/resources");
 		return "shiroIndex";
+	}
+	
+	/**
+	 * 新增或编辑resource
+	 */
+	@RequestMapping(value="/editResource", 
+			method=RequestMethod.POST, consumes="application/json")
+	@ResponseBody
+	public Result editResource(@RequestBody Resource resource) {
+		return accountService.editResource(resource);
+	}
+	
+	/**
+	 * 删除resource
+	 */
+	@RequestMapping("/deleteResource/{resourceId}")
+	public String deleteResource(@PathVariable("resourceId") int resourceId) {
+		accountService.deleteResource(resourceId);
+		return "redirect:/shiro/resources";
 	}
 	
 	/**

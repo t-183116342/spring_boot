@@ -16,7 +16,9 @@ public class Role {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int roleId;
 	private String roleName;
-
+	
+	@Transient
+	private List<User> users;
 	@Transient
 	private List<Resource> resources;
 
@@ -42,5 +44,13 @@ public class Role {
 
 	public void setResources(List<Resource> resources) {
 		this.resources = resources;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 }

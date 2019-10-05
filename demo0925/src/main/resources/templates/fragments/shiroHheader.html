@@ -9,14 +9,14 @@
 			<li>
 			    <a href="/shiro/dashboard"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
 			</li>
-			<li>
-			    <a href="/shiro/users"><i class="fa fa-fw fa-bar-chart-o"></i> Users</a>
-			</li>
-			<li>
+				<li shiro:hasAnyRoles="admin,manager">
+				    <a href="/shiro/users"><i class="fa fa-fw fa-bar-chart-o"></i> Users</a>
+				</li>
+			<li shiro:hasAnyRoles="admin,manager">
 			    <a href="/shiro/roles"><i class="fa fa-fw fa-file"></i> Roles</a>
 			</li>
-			<li>
-			    <a href="/shiro/permissions"><i class="fa fa-fw fa-table"></i> Permissions</a>
+			<li shiro:hasAnyRoles="admin,manager">
+			    <a href="/shiro/resources"><i class="fa fa-fw fa-table"></i> Resources</a>
 			</li>
 		</ul>
 		
