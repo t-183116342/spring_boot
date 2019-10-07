@@ -1,4 +1,4 @@
-package com.hqyj.demo.modules.service.impl;
+package com.hqyj.demo.modules.account.service.impl;
 
 import java.util.Date;
 import java.util.List;
@@ -12,7 +12,7 @@ import com.hqyj.demo.modules.account.dao.AccountDao;
 import com.hqyj.demo.modules.account.entity.Resource;
 import com.hqyj.demo.modules.account.entity.Role;
 import com.hqyj.demo.modules.account.entity.User;
-import com.hqyj.demo.modules.service.AccountService;
+import com.hqyj.demo.modules.account.service.AccountService;
 
 @Service
 public class AccountServiceImpl implements AccountService {
@@ -110,6 +110,11 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public List<Role> getRolesByUserId(int userId) {
 		return accountDao.getRolesByUserId(userId);
+	}
+
+	@Override
+	public List<Role> getRolesByResourceId(int resourceId) {
+		return accountDao.getRolesByResourceId(resourceId);
 	}
 
 	@Override

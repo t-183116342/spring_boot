@@ -2,6 +2,7 @@ package com.hqyj.demo.modules.account.controller;
 
 import java.awt.Font;
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +26,7 @@ import com.hqyj.demo.common.gifCaptcha.GifCaptcha;
 import com.hqyj.demo.modules.account.entity.Resource;
 import com.hqyj.demo.modules.account.entity.Role;
 import com.hqyj.demo.modules.account.entity.User;
-import com.hqyj.demo.modules.service.AccountService;
+import com.hqyj.demo.modules.account.service.AccountService;
 
 @Controller
 @RequestMapping("/shiro")
@@ -62,10 +63,6 @@ public class AccountController {
 			return result;
 		}
 		
-		//存入Session
-    	HttpSession session = request.getSession(true);
-    	session.setAttribute("user", user);
-    	
 		return result;
 	}
 	
@@ -134,6 +131,12 @@ public class AccountController {
 	
 	/**
 	 * 删除user
+	 * shiro常见注解
+	 * @RequiresAuthentication : 表示当前 Subject 已经认证登录的用户才能调用的代码块。
+	 * @RequiresUser : 表示当前 Subject 已经身份验证或通过记住我登录的。
+	 * @RequiresGuest : 表示当前 Subject 没有身份验证，即是游客身份。
+	 * @RequiresRoles(value={"admin", "user"}, logical=Logical.AND)
+	 * @RequiresPermissions (value={"***","***"}, logical= Logical.OR) 
 	 */
 	@RequestMapping("/deleteUser/{userId}")
 	@RequiresPermissions("user:delete")
@@ -150,6 +153,24 @@ public class AccountController {
 		modelMap.put("roles", accountService.getRoles());
 		modelMap.put("template", "shiro/roles");
 		return "shiroIndex";
+	}
+	
+	/**
+	 * 根据userId获取role list
+	 */
+	@RequestMapping("/roles/user/{userId}")
+	@ResponseBody
+	public List<Role> getRolesByUserId(@PathVariable("userId") int userId) {
+		return accountService.getRolesByUserId(userId);
+	}
+	
+	/**
+	 * 根据resourceId获取role list
+	 */
+	@RequestMapping("/roles/resource/{resourceId}")
+	@ResponseBody
+	public List<Role> getRolesByResourceId(@PathVariable("resourceId") int resourceId) {
+		return accountService.getRolesByResourceId(resourceId);
 	}
 	
 	/**

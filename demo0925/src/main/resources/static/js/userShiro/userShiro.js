@@ -64,6 +64,24 @@ $(document).ready(function() {
 	$("[name='userEdit']").bind("click", function(){
         var userId = $(this).parents("tr").find("[name=userId]").text();
         var userName = $(this).parents("tr").find("[name=userName]").text();
+        
+        // ajax 获取被选中的 role list，选中相应的checkbox
+        $.ajax({
+        	url : "/shiro/roles/user/" + userId,
+        	type : "get",
+        	contentType: "application/json",
+        	success : function (data) {
+        		$.each(data, function(i, item){
+        			$("input[name='roleCheckbox'][value=" + item.roleId + "]")
+        				.attr("checked","checked");
+        		});
+        	},
+        	error : function (data) {
+        		$("[name=messageDiv]").show();
+        		$("[name=message]").html(data.message);
+        	}
+        });
+        
         $("#userId").val(userId);
         $("#userName").val(userName);
         $("#userList").hide();
@@ -167,9 +185,29 @@ $(document).ready(function() {
         var resourceId = $(this).parents("tr").find("[name=resourceId]").text();
         var resourceName = $(this).parents("tr").find("[name=resourceName]").text();
         var resourceUri = $(this).parents("tr").find("[name=resourceUri]").text();
+        var permission = $(this).parents("tr").find("[name=permission]").text();
+        
+        // ajax 获取被选中的 role list，选中相应的checkbox
+        $.ajax({
+        	url : "/shiro/roles/resource/" + resourceId,
+        	type : "get",
+        	contentType: "application/json",
+        	success : function (data) {
+        		$.each(data, function(i, item){
+        			$("input[name='roleCheckbox'][value=" + item.roleId + "]")
+        				.attr("checked","checked");
+        		});
+        	},
+        	error : function (data) {
+        		$("[name=messageDiv]").show();
+        		$("[name=message]").html(data.message);
+        	}
+        });
+        
         $("#resourceId").val(resourceId);
         $("#resourceName").val(resourceName);
         $("#resourceUri").val(resourceUri);
+        $("#permission").val(permission);
         $("#resourceList").hide();
 		$("#resourceEdit").show();
 	});

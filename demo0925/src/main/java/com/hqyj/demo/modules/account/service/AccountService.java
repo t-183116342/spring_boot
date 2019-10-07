@@ -1,4 +1,4 @@
-package com.hqyj.demo.modules.service;
+package com.hqyj.demo.modules.account.service;
 
 import java.util.List;
 
@@ -38,6 +38,9 @@ public interface AccountService {
 	
 	// 根据userId获取role list
 	List<Role> getRolesByUserId(int userId);
+	
+	// 根据resourceId获取role list
+	List<Role> getRolesByResourceId(int resourceId);
 	
 	// 新增或修改resource
 	Result editResource(Resource resource);

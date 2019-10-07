@@ -12,8 +12,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 @Entity
 @Table(name = "m_user")
 public class User {
@@ -25,9 +23,8 @@ public class User {
 	@Column(name = "password")
 	private String password;
 	@Column(name = "create_date")
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date createDate;
-	
+	// 表示该属性并非一个到数据库表的字段的映射
 	@Transient
 	private List<Role> roles;
 

@@ -17,8 +17,11 @@ import org.springframework.stereotype.Component;
 import com.hqyj.demo.modules.account.entity.Resource;
 import com.hqyj.demo.modules.account.entity.Role;
 import com.hqyj.demo.modules.account.entity.User;
-import com.hqyj.demo.modules.service.AccountService;
+import com.hqyj.demo.modules.account.service.AccountService;
 
+/**
+ * shiro核心组件MyRealm
+ */
 @Component
 public class MyRealm extends AuthorizingRealm {
 	

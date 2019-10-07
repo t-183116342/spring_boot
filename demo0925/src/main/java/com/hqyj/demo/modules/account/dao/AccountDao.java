@@ -56,6 +56,10 @@ public interface AccountDao {
 			+ "on role.role_id = userRole.role_id where userRole.user_id = #{userId}")
 	List<Role> getRolesByUserId(int userId);
 	
+	@Select("select * from m_role role left join m_role_resource roleResource "
+			+ "on role.role_id = roleResource.role_id where roleResource.resource_id = #{resourceId}")
+	List<Role> getRolesByResourceId(int resourceId);
+	
 	@Delete("delete from m_user_role where user_id = #{userId}")
 	void deletUserRoleByUserId(int userId);
 	

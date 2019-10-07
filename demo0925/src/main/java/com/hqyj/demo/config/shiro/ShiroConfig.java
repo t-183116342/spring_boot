@@ -14,6 +14,9 @@ import org.springframework.context.annotation.DependsOn;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 
+/**
+ * shiro配置类
+ */
 @Configuration
 public class ShiroConfig {
 
@@ -31,7 +34,7 @@ public class ShiroConfig {
 	}
 	
 	/**
-	 * 配置shiro拦截工厂
+	 * 配置shiro过滤器工厂
 	 * -----------------
 	 * 拦截权限
 	 * anon：匿名访问，无需登录
@@ -46,11 +49,11 @@ public class ShiroConfig {
 	 */
 	@Bean
 	public ShiroFilterFactoryBean filterBean() {
-		ShiroFilterFactoryBean filterBean = new ShiroFilterFactoryBean();
-		filterBean.setSecurityManager(securityManager());
-		filterBean.setLoginUrl("/shiro/login");
-		filterBean.setSuccessUrl("/shiro/dashboard");
-		filterBean.setUnauthorizedUrl("/error");
+		ShiroFilterFactoryBean filterFactory = new ShiroFilterFactoryBean();
+		filterFactory.setSecurityManager(securityManager());
+		filterFactory.setLoginUrl("/shiro/login");
+		filterFactory.setSuccessUrl("/shiro/dashboard");
+		filterFactory.setUnauthorizedUrl("/error/403");
 		
 		Map<String, String> map = new LinkedHashMap<>();
 		map.put("/static/**", "anon");
@@ -62,9 +65,9 @@ public class ShiroConfig {
 		map.put("/shiro/register", "anon");
 		map.put("/shiro/doRegister", "anon");
 		map.put("/shiro/**", "authc");
-		filterBean.setFilterChainDefinitionMap(map);
+		filterFactory.setFilterChainDefinitionMap(map);
 		
-		return filterBean;
+		return filterFactory;
 	}
 	
 	/**
@@ -76,7 +79,7 @@ public class ShiroConfig {
 	}
 	
 	/**
-	 * 自动创建代理类，若不添加，Shiro的注解可能不会生效。
+	 * 自动代理类，支持Shiro的注解
 	 */
 	@Bean
 	@DependsOn({"lifecycleBeanPostProcessor"})
