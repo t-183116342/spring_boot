@@ -2,15 +2,15 @@
 	<!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <a class="navbar-brand" href="/shiro/dashboard">Shiro demo</a>
+            <a class="navbar-brand" href="/shiro/dashboard">Shiro demo:<span th:text="${session.user.userName}"></a>
         </div>
         
         <ul class="nav navbar-nav navbar-left">
 			<li>
 			    <a href="/shiro/dashboard"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
 			</li>
-			<li shiro:hasAnyRoles="admin,manager">
-			<!-- <li> -->
+			<!-- <li shiro:hasAnyRoles="admin,manager"> -->
+			<li>
 			    <a href="/shiro/users"><i class="fa fa-fw fa-bar-chart-o"></i> Users</a>
 			</li>
 			<li shiro:hasAnyRoles="admin,manager">

@@ -10,7 +10,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -63,6 +65,10 @@ public class AccountController {
 			return result;
 		}
 		
+		//存入Session
+    	HttpSession session = request.getSession(true);
+    	session.setAttribute("user", user);
+		
 		return result;
 	}
 	
@@ -111,6 +117,7 @@ public class AccountController {
 	 * 跳转user页面
 	 */
 	@RequestMapping("/users")
+	@RequiresRoles(value={"admin", "manager"}, logical=Logical.OR)
 	public String usersPage(ModelMap modelMap) {
 		
 		modelMap.put("roles", accountService.getRoles());

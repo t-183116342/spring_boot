@@ -46,14 +46,17 @@ public class ShiroConfig {
 	 * ?：匹配一个字符，如 /admin? 将匹配 /admin1，但不匹配 /admin 或 /admin/
 	 * *：匹配零个或多个字符串，如 /admin* 将匹配 /admin 或/admin123，但不匹配 /admin/1
 	 * **：匹配路径中的零个或多个路径，如 /admin/** 将匹配 /admin/a 或 /admin/a/b
+	 * -----------------------
+	 * 方法名不能乱写，如果我们定义为别的名称，又没有添加注册过滤器的配置，那么shiro会加载ShiroWebFilterConfiguration过滤器，
+	 * 该过滤器会寻找shiroFilterFactoryBean，找不到会抛出异常
 	 */
 	@Bean
-	public ShiroFilterFactoryBean filterBean() {
+	public ShiroFilterFactoryBean shiroFilterFactoryBean() {
 		ShiroFilterFactoryBean filterFactory = new ShiroFilterFactoryBean();
 		filterFactory.setSecurityManager(securityManager());
 		filterFactory.setLoginUrl("/shiro/login");
 		filterFactory.setSuccessUrl("/shiro/dashboard");
-		filterFactory.setUnauthorizedUrl("/error/403");
+//		filterFactory.setUnauthorizedUrl("/error/403");
 		
 		Map<String, String> map = new LinkedHashMap<>();
 		map.put("/static/**", "anon");
