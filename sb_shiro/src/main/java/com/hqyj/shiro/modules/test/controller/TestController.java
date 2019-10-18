@@ -1,16 +1,33 @@
 package com.hqyj.shiro.modules.test.controller;
 
+import java.awt.MediaTracker;
+import java.awt.PageAttributes.MediaType;
+import java.util.List;
+
+import javax.print.attribute.standard.Media;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hqyj.shiro.modules.test.entity.City;
+import com.hqyj.shiro.modules.test.entity.Country;
+import com.hqyj.shiro.modules.test.service.TestService;
 import com.hqyj.shiro.modules.test.vo.ApplicationTest;
 
+import junit.framework.Test;
+
 @Controller
+@RequestMapping("/test")
 public class TestController {
 	
 	private final static Logger LOGGER = LoggerFactory.getLogger(TestController.class);
@@ -28,8 +45,34 @@ public class TestController {
 	
 	@Autowired
 	private ApplicationTest applicationTest;
+	@Autowired
+	private TestService testService;
 	
-	@RequestMapping("/test/log")
+	@RequestMapping("/country")
+	@ResponseBody
+	public Country getCountryByName(@RequestParam String countryName) {
+		return testService.getCountryByName(countryName);
+	}
+	
+	@RequestMapping("/country/{countryId}")
+	@ResponseBody
+	public Country getCountry(@PathVariable int countryId) {
+		return testService.getCountry(countryId);
+	}
+	
+	@RequestMapping("/cities/{countryId}")
+	@ResponseBody
+	public List<City> getCities(@PathVariable int countryId){
+		return testService.getCities(countryId);
+	}
+	
+	@PostMapping("/post")
+	@ResponseBody
+	public String postTest() {
+		return "This is post test.";
+	}
+	
+	@RequestMapping("/log")
 	@ResponseBody
 	public String logInfo() {
 		LOGGER.trace("This is trace log.");
@@ -38,10 +81,10 @@ public class TestController {
 		LOGGER.warn("This is warn log.");
 		LOGGER.error("This is error log.");
 		
-		return "This is log test.";
+		return "This is log test1111111.";
 	}
 	
-	@RequestMapping("/test/config")
+	@RequestMapping("/config")
 	@ResponseBody
 	public String configInfo() {
 		StringBuffer sb = new StringBuffer();
@@ -58,9 +101,9 @@ public class TestController {
 		return sb.toString();
 	}
 
-	@RequestMapping("/test/info")
+	@RequestMapping("/info")
 	@ResponseBody
 	public String appInfo() {
-		return "This is spring boot shiro demo.";
+		return "This is spring boot shiro demo.aaaaaaaaaaaa";
 	}
 }
