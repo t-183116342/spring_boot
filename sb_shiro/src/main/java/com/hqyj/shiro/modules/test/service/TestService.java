@@ -12,4 +12,10 @@ public interface TestService {
 	Country getCountry(int countryId);
 	
 	Country getCountryByName(String countryName);
+	
+	void insertCity(City city);
+	
+	void updateCity(City city);
+	
+	int deleteCity(int cityId);
 }

@@ -5,7 +5,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 /**
- * 对应配置文件applicationTest.properties
+ * @Component ---- 注册为bean
+ * @PropertySource ---- 指定其他配置文件位置
+ * @ConfigurationProperties ---- 指定属性公有前缀
  */
 @Component
 @PropertySource("classpath:config/applicationTest.properties")
