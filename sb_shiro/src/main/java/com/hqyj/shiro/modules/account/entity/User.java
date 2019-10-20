@@ -1,6 +1,7 @@
-package com.hqyj.shiro.modules.account;
+package com.hqyj.shiro.modules.account.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,20 +9,21 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "m_user")
 public class User {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int userId;
 	@Column(name = "user_name")
 	private String userName;
-	@Column(name = "password")
 	private String password;
-	@Column(name = "create_date")
 	private Date createDate;
+	
+	@Transient
+	private List<Role> roles;
 
 	public int getUserId() {
 		return userId;
@@ -54,4 +56,13 @@ public class User {
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
 }

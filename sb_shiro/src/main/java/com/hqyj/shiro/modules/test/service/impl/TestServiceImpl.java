@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.hqyj.shiro.modules.test.dao.TestDao;
 import com.hqyj.shiro.modules.test.entity.City;
 import com.hqyj.shiro.modules.test.entity.Country;
@@ -20,21 +22,28 @@ public class TestServiceImpl implements TestService {
 	
 	@Override
 	public List<City> getCities(int countryId) {
-//		return testDao.getcities(countryId);
-		return testDao.getcities2(countryId);
+//		return testDao.getCities(countryId);
+		return testDao.getCities2(countryId);
 	}
 
 	@Override
 	public Country getCountry(int countryId) {
-		Country country = testDao.getCountry(countryId);
-		List<City> cities = testDao.getcities(country.getCountryId());
-		country.setCities(cities);
-		return country;
+		return testDao.getCountry(countryId);
 	}
 
 	@Override
 	public Country getCountryByName(String countryName) {
 		return testDao.getCountryByName(countryName);
+	}
+
+	/* 
+	 * 分页查询
+	 */
+	@Override
+	public PageInfo<City> getCitiesByPage(int currentPage, int pageSize) {
+		PageHelper.startPage(currentPage, pageSize);
+		List<City> cities = testDao.getCitiesByPage();
+		return new PageInfo<>(cities);
 	}
 
 	@Override
@@ -46,7 +55,7 @@ public class TestServiceImpl implements TestService {
 	 * 添加事务，并设置其属性
 	 */
 	@Override
-	@Transactional(propagation=Propagation.REQUIRED)
+	@Transactional(noRollbackFor=ArithmeticException.class,propagation=Propagation.REQUIRED)
 	public void updateCity(City city) {
 		testDao.updateCity(city);
 //		int i = 1/0;
