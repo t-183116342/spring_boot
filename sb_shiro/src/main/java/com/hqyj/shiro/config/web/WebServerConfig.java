@@ -1,4 +1,4 @@
-package com.hqyj.shiro.config;
+package com.hqyj.shiro.config.web;
 
 
 import org.apache.catalina.Context;
