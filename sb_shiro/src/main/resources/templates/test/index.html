@@ -1,6 +1,25 @@
 <section>
 	This is test page.
-
+	
+	<h3>file upload and downlod</h3>
+	<a href="/test/download?fileName=QQ截图20191020205923.png">download file</a>
+	<p>==================================================================</p>
+	
+	<p th:text="${message}"></p>
+	<form action="/test/uploadBatchFile" method="post" enctype="multipart/form-data">
+	<input type="file" name="files">
+	<input type="file" name="files">
+	<button type="submit">上传</button>
+	</form>
+	<p>==================================================================</p>
+	
+	<p>上传文件，使用multipart/form-data类型</p>
+	<form action="/test/upload" method="post" enctype="multipart/form-data">
+	<input type="file" name="file">
+	<button type="submit">上传</button>
+	</form>
+	<p>==================================================================</p>
+	
 	<h3>th:text</h3>
 	<h1 th:text="${thymeleafTitle}">this is thymeleaf title</h1>
 	<p th:text="${thymeleafTitle}">this is the thymeleaf ti-tle</p>

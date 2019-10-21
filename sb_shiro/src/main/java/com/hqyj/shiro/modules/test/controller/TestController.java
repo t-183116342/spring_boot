@@ -1,12 +1,20 @@
 package com.hqyj.shiro.modules.test.controller;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +26,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.pagehelper.PageInfo;
 import com.hqyj.shiro.modules.test.entity.City;
@@ -50,7 +60,87 @@ public class TestController {
 	private TestService testService;
 	
 	/**
-	 * thymeleaf 
+	 * 下载文件
+	 * 响应头信息
+	 * 'Content-Type': 'application/octet-stream',
+	 * 'Content-Disposition': 'attachment;filename=req_get_download.js'
+	 * @return ResponseEntity ---- spring专门包装响应信息的类
+	 */
+	@RequestMapping("/download")
+	@ResponseBody
+	public ResponseEntity<Resource> downloadFile(@RequestParam String fileName) {
+		try {
+			// 使用resource来包装下载文件
+			Resource resource = new UrlResource(Paths.get("D:/upload/" + fileName).toUri());
+			return ResponseEntity.ok()
+					.header(HttpHeaders.CONTENT_TYPE, "application/octet-stream")
+					.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=\"" 
+							+ fileName + "\"")
+					.body(resource);
+		} catch (Exception e) {
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * 上传多个文件
+	 */
+	@PostMapping(value="/uploadBatchFile",consumes="multipart/form-data")
+	public String uploadBatchFile(@RequestParam MultipartFile[] files, 
+			RedirectAttributes redirectAttributes) {
+		boolean empty = true;
+		for (MultipartFile file : files) {
+			if (file.isEmpty()) {
+				continue;
+			}
+			
+			try {
+				String destPath = "D:/upload" + File.separator + file.getOriginalFilename();
+				File destFile = new File(destPath);
+				file.transferTo(destFile);
+				
+				empty = false;
+			} catch (Exception e) {
+				redirectAttributes.addFlashAttribute("message", "Upload file fail.");
+				return "redirect:/test/index";
+			}
+		}
+		
+		if (empty) {
+			redirectAttributes.addFlashAttribute("message", "Please select file.");
+		} else {
+			redirectAttributes.addFlashAttribute("message", "Upload file success.");
+		}
+		return "redirect:/test/index";
+	}
+	
+	/**
+	 * 上传单个文件，虽然是form表单，但file是以参数的形式传递的，采用requestParam注解接收MultipartFile
+	 */
+	@PostMapping(value="/upload",consumes="multipart/form-data")
+	public String uploadFile(@RequestParam MultipartFile file, RedirectAttributes redirectAttributes) {
+		
+		if (file.isEmpty()) {
+			redirectAttributes.addFlashAttribute("message", "Please select file.");
+			return "redirect:/test/index";
+		}
+		
+		try {
+			String destPath = "D:/upload" + File.separator + file.getOriginalFilename();
+			File destFile = new File(destPath);
+			file.transferTo(destFile);
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("message", "Upload file fail.");
+			return "redirect:/test/index";
+		}
+		
+		redirectAttributes.addFlashAttribute("message", "Upload file success.");
+		return "redirect:/test/index";
+	}
+	
+	/**
+	 * thymeleaf 页面
 	 */
 	@RequestMapping("/index")
 	public String testIndex(ModelMap modelMap) {
@@ -69,7 +159,8 @@ public class TestController {
 		modelMap.addAttribute("cities", cities);
 		modelMap.addAttribute("city", cities.get(0));
 		modelMap.addAttribute("updateCityUri", "/test/city2");
-		modelMap.addAttribute("template", "test/index");
+		
+//		modelMap.addAttribute("template", "test/index");
 		
 		return "index";
 	}
@@ -80,6 +171,10 @@ public class TestController {
 		return testService.deleteCity(cityId);
 	}
 	
+	/**
+	 * redirect:test/index ---- 错误跳转/test/test/index
+	 * redirect:/test/index ---- 正常跳转/test/index
+	 */
 	@PutMapping(value="/city2",consumes="application/x-www-form-urlencoded")
 	public String updateCity2(@ModelAttribute City city) {
 		testService.updateCity(city);
@@ -183,7 +278,7 @@ public class TestController {
 
 	@RequestMapping("/info")
 	@ResponseBody
-	public String appInfo() {
-		return "This is spring boot shiro demo.aaaaaaaaaaaa";
+	public String appInfo(HttpServletRequest request) {
+		return "This is spring boot shiro demo." + request.getParameter("key");
 	}
 }
