@@ -278,7 +278,7 @@ public class TestController {
 
 	@RequestMapping("/info")
 	@ResponseBody
-	public String appInfo(HttpServletRequest request) {
-		return "This is spring boot shiro demo." + request.getParameter("key");
+	public String appInfo(@RequestParam String key, HttpServletRequest request) {
+		return "This is spring boot shiro demo." + key + "---" + request.getParameter("key");
 	}
 }

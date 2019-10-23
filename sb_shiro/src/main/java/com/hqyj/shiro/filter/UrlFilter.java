@@ -1,6 +1,8 @@
 package com.hqyj.shiro.filter;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -11,6 +13,10 @@ import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * 自定义过滤器，过滤掉url查询参数中的某些字符
@@ -54,6 +60,35 @@ public class UrlFilter implements Filter {
 				
 				return super.getParameter(name);
 			}
+
+			/* 
+			 * 过滤 @RequestParam
+			 * HandlerMethodInvoker ---- resolveRequestParam
+			 */
+			@Override
+			public String[] getParameterValues(String name) {
+				String[] values = super.getParameterValues(name);
+				if (values != null && values.length > 0) {
+					values[0] = values[0].replace("fuck", "***");
+					return values;
+				}
+				
+				return super.getParameterValues(name);
+			}
+
+//			@Override
+//			public Map<String, String[]> getParameterMap() {
+//				Map<String, String[]> paraMap = httpRequest.getParameterMap();
+//				if (!paraMap.isEmpty()) {
+//					Iterator<String> iterator = paraMap.keySet().iterator();
+//					while(iterator.hasNext()) {
+//						String key = iterator.next();
+//						String[] values = paraMap.get(key);
+//						values[0] = values[0].replace("fuck", "***");
+//					}
+//				}
+//				return paraMap;
+//			}
 		};
 		
 		chain.doFilter(warpper, response);

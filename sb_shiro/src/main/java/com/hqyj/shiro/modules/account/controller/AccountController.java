@@ -11,6 +11,8 @@ import org.apache.shiro.authz.annotation.Logical;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,6 +31,8 @@ import com.hqyj.shiro.modules.account.service.AccountService;
 @Controller
 @RequestMapping("/account")
 public class AccountController {
+	
+	private final static Logger LOGGER = LoggerFactory.getLogger(AccountController.class);
 	
 	@Autowired
 	private AccountService accountService;
@@ -113,7 +117,7 @@ public class AccountController {
 	 * 跳转user页面
 	 */
 	@RequestMapping("/users")
-	//@RequiresRoles(value={"admin", "manager"}, logical=Logical.OR)
+	@RequiresRoles(value={"admin", "manager"}, logical=Logical.OR)
 	public String usersPage(ModelMap modelMap) {
 		
 		modelMap.put("roles", accountService.getRoles());

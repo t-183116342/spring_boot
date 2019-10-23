@@ -19,18 +19,12 @@ import com.hqyj.shiro.modules.account.entity.Role;
 import com.hqyj.shiro.modules.account.entity.User;
 import com.hqyj.shiro.modules.account.service.AccountService;
 
-/**
- * shiro核心组件MyRealm
- */
 @Component
 public class MyRealm extends AuthorizingRealm {
 	
 	@Autowired
 	private AccountService accountService;
 
-	/* 
-	 * 授权
-	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		// 授权类
@@ -56,9 +50,6 @@ public class MyRealm extends AuthorizingRealm {
 		return authorizationInfo;
 	}
 
-	/* 
-	 * 身份验证
-	 */
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		String userName = (String) token.getPrincipal();

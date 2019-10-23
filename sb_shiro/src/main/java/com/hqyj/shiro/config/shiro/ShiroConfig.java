@@ -14,18 +14,12 @@ import org.springframework.context.annotation.DependsOn;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 
-/**
- * shiro配置类
- */
 @Configuration
 public class ShiroConfig {
 
 	@Autowired
 	private MyRealm myRealm;
 	
-	/**
-	 * 配置shiro安全管理器
-	 */
 	@Bean
 	public DefaultWebSecurityManager securityManager() {
 		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
@@ -58,7 +52,7 @@ public class ShiroConfig {
 		filterFactory.setSuccessUrl("/account/dashboard");
 //		filterFactory.setUnauthorizedUrl("/error/403");
 		
-		Map<String, String> map = new LinkedHashMap<>();
+		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("/static/**", "anon");
 		map.put("/js/**", "anon");
 		map.put("/css/**", "anon");
