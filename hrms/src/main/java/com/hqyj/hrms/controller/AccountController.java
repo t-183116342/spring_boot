@@ -9,7 +9,7 @@ public class AccountController {
 
 	@RequestMapping("/login")
 	public String login() {
-		return "/login";
+		return "/main";
 	}
 	
 	@RequestMapping("/register")

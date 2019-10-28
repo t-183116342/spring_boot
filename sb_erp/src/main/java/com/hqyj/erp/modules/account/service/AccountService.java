@@ -6,4 +6,6 @@ import com.hqyj.erp.modules.account.entity.User;
 public interface AccountService {
 
 	Result insertUser(User user);
+	
+	Result getUserResult(User user);
 }

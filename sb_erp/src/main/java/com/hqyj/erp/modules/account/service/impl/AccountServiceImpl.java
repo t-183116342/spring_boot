@@ -34,4 +34,17 @@ public class AccountServiceImpl implements AccountService {
 		return result;
 	}
 
+	@Override
+	public Result getUserResult(User user) {
+		User userTemp = accountDao.getUserByName(user.getAccount());
+		if (userTemp == null) {
+			return new Result(500, "没有该用户");
+		}
+		if (!user.getPassword().equals(userTemp.getPassword())) {
+			return new Result(500, "用户名和密码错误");
+		}
+		
+		return new Result(200, "success");
+	}
+
 }
