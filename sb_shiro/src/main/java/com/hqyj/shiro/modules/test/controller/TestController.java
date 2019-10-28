@@ -165,6 +165,29 @@ public class TestController {
 		return "index";
 	}
 	
+	@RequestMapping("/page")
+	public String testPage(ModelMap modelMap) {
+		int countryId = 522;
+		Country country = testService.getCountry(countryId);
+		List<City> cities = testService.getCities(countryId);
+		cities = cities.stream().limit(10).collect(Collectors.toList());
+		
+		modelMap.addAttribute("thymeleafTitle", "wellcome thymeleaf");
+		modelMap.addAttribute("checked", true);
+		modelMap.addAttribute("currentNumber", 111);
+		modelMap.addAttribute("changeType", "checkbox");
+		modelMap.addAttribute("baiduUrl", "www.baidu.com");
+//		modelMap.addAttribute("shopLogo", "https://cdn.duitang.com/uploads/item/201308/13/20130813115619_EJCWm.thumb.700_0.jpeg");
+		modelMap.addAttribute("country", country);
+		modelMap.addAttribute("cities", cities);
+		modelMap.addAttribute("city", cities.get(0));
+		modelMap.addAttribute("updateCityUri", "/test/city2");
+		
+//		modelMap.addAttribute("template", "test/index");
+		
+		return "test";
+	}
+	
 	@DeleteMapping("/city/{cityId}")
 	@ResponseBody
 	public int deleteCity(@PathVariable int cityId) {
