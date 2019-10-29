@@ -5,10 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hqyj.erp.common.Result;
 import com.hqyj.erp.modules.account.dao.AccountDao;
 import com.hqyj.erp.modules.account.entity.User;
 import com.hqyj.erp.modules.account.service.AccountService;
+import com.hqyj.erp.modules.common.entity.Result;
 
 @Service
 public class AccountServiceImpl implements AccountService {

@@ -8,45 +8,35 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.hqyj.erp.common.Result;
 import com.hqyj.erp.modules.account.entity.User;
 import com.hqyj.erp.modules.account.service.AccountService;
+import com.hqyj.erp.modules.common.entity.Result;
 
+/**
+ * 账户相关控制器
+ * @author: HymanHu
+ * @date: 2019年10月29日
+ */
 @Controller
+@RequestMapping("/account")
 public class AccountController {
 	
 	@Autowired
 	private AccountService accountService;
 
-	@RequestMapping("/login")
-	public String loginPage() {
-		return "account/login";
-	}
-	
-	@RequestMapping("/register")
-	public String registerPage() {
-		return "account/register";
-	}
-	
-	@RequestMapping("/index")
-	public String indexPage(ModelMap modelMap) {
-		modelMap.addAttribute("template", "common/wellcome");
-		return "index";
-	}
-	
-	@PostMapping(value="/account/doRegister", consumes="application/json")
+	@PostMapping(value="/doRegister", consumes="application/json")
 	@ResponseBody
 	public Result doRegister(@RequestBody User user) {
 		return accountService.insertUser(user);
 	}
 	
-	@PostMapping(value="/account/doLogin", consumes="application/json")
+	@PostMapping(value="/doLogin", consumes="application/json")
 	@ResponseBody
 	public Result doLogin(@RequestBody User user) {
 		return accountService.getUserResult(user);
 	}
 	
-	@RequestMapping("/account/userList")
+	@RequestMapping("/userList")
 	public String userList(ModelMap modelMap) {
 		modelMap.addAttribute("template", "account/userList");
 		return "indexSimple";

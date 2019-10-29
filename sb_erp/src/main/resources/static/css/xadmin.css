@@ -481,5 +481,14 @@ table th, table td {
 	-webkit-text-stroke-width: 0.2px;
 	-moz-osx-font-smoothing: grayscale;
 }
+#panel2 {
+	display: none;
+}
+#panel4 {
+	display: none;
+}
+#panel6 {
+	display: none;
+}
 
 

@@ -26,42 +26,6 @@
 	<div class="left-nav">
 		<div id="side-nav">
 			<ul id="nav">
-				<!-- <shiro:hasRole name="eme"> -->
-				<li>
-					<a href="javascript:;">
-						<i class="iconfont">&#xe6b8;</i>
-						<cite>职工管理</cite>
-						<i class="iconfont nav_right">&#xe697;</i>
-					</a>
-					<ul class="sub-menu">
-						<li>
-							<a _href="/account/userList">
-								<i class="iconfont">&#xe6a7;</i>
-								<cite>用户管理</cite>
-							</a>
-						</li>
-						<li>
-							<a _href="/organization/organizationPage">
-								<i class="iconfont">&#xe6a7;</i>
-								<cite>组织结构</cite>
-							</a>
-						</li>
-						<li>
-							<a _href="manageEmeController/toDepartList.do">
-								<i class="iconfont">&#xe6a7;</i>
-								<cite>部门管理</cite>
-							</a>
-						</li>
-						<li>
-							<a _href="manageEmeController/toDepartList.do">
-								<i class="iconfont">&#xe6a7;</i>
-								<cite>部门管理111</cite>
-							</a>
-						</li>
-					</ul>
-				</li>
-				<!-- </shiro:hasRole> -->
-				
 				<!-- <shiro:hasRole name="authr"> -->
 				<li>
 					<a href="javascript:;">
@@ -71,15 +35,45 @@
 					</a>
 					<ul class="sub-menu">
 						<li>
-							<a _href="roleController/toUserRole.do">
+							<a _href="/authority/roleAuthPage">
 								<i class="iconfont">&#xe6a7;</i>
 								<cite>职工权限分配</cite>
 							</a>
 						</li>
 						<li>
-							<a _href="roleController/toDepart.do">
+							<a _href="/authority/departmentAuthPage">
 								<i class="iconfont">&#xe6a7;</i>
 								<cite>部门权限分配</cite>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<!-- </shiro:hasRole> -->
+			
+				<!-- <shiro:hasRole name="eme"> -->
+				<li>
+					<a href="javascript:;">
+						<i class="iconfont">&#xe6b8;</i>
+						<cite>组织管理</cite>
+						<i class="iconfont nav_right">&#xe697;</i>
+					</a>
+					<ul class="sub-menu">
+						<li>
+							<a _href="/account/userList">
+								<i class="iconfont">&#xe6a7;</i>
+								<cite>用户信息</cite>
+							</a>
+						</li>
+						<li>
+							<a _href="/organization/structurePage">
+								<i class="iconfont">&#xe6a7;</i>
+								<cite>组织结构</cite>
+							</a>
+						</li>
+						<li>
+							<a _href="/organization/departmentPage">
+								<i class="iconfont">&#xe6a7;</i>
+								<cite>部门管理</cite>
 							</a>
 						</li>
 					</ul>
@@ -90,26 +84,32 @@
 				<li>
 					<a href="javascript:;"> 
 						<i class="iconfont">&#xe607;</i> 
-						<cite>我的资产</cite>
+						<cite>资产管理</cite>
 						<i class="iconfont nav_right">&#xe697;</i>
 					</a>
 					<ul class="sub-menu">
 						<li>
-							<a _href="applyController/showApplyByUserName.do">
+							<a _href="/property/userProperty">
 								<i class="iconfont">&#xe6a7;</i>
 								<cite>在用资产</cite>
 							</a>
 						</li>
 						<li>
-							<a _href="applyController/addApply.do">
+							<a _href="/property/propertyApply">
 								<i class="iconfont">&#xe6a7;</i>
 								<cite>资产申请</cite>
 							</a>
 						</li>
 						<li>
-							<a _href="porchaseController/showPorchaseByUserName.do">
+							<a _href="/property/propertyPurchase">
 								<i class="iconfont">&#xe6a7;</i>
-								<cite>采购资产</cite>
+								<cite>资产采购</cite>
+							</a>
+						</li>
+						<li>
+							<a _href="/property/propertyDiscard">
+								<i class="iconfont">&#xe6a7;</i>
+								<cite>资产报废</cite>
 							</a>
 						</li>
 					</ul>
@@ -125,21 +125,21 @@
 					</a>
 					<ul class="sub-menu">
 						<li>
-							<a _href="porchaseController/showPorchase.do">
+							<a _href="/property/purchaseFlow">
 								<i class="iconfont">&#xe6a7;</i>
-								<cite>采购批准</cite>
+								<cite>资产采购批准</cite>
 							</a>
 						</li>
 						<li>
-							<a _href="applyController/showAllapply.do">
+							<a _href="/property/applyFlow">
 								<i class="iconfont">&#xe6a7;</i>
-								<cite>申请批准</cite>
+								<cite>资产申请批准</cite>
 							</a>
 						</li>
 						<li>
-							<a _href="maintainController/showallmaintain.do">
+							<a _href="/property/discardFlow">
 								<i class="iconfont">&#xe6a7;</i>
-								<cite>申请报废批准</cite>
+								<cite>资产报废批准</cite>
 							</a>
 						</li>
 					</ul>
@@ -155,13 +155,13 @@
 					</a>
 					<ul class="sub-menu">
 						<li>
-							<a _href="propertyController/showAllProperty.do">
+							<a _href="/property/propertyList">
 								<i class="iconfont">&#xe6a7;</i>
-								<cite>库存资产</cite>
+								<cite>资产库存</cite>
 							</a>
 						</li>
 						<li>
-							<a _href="propertyController/showBorrowreturn.do">
+							<a _href="/property/propertyRecord">
 								<i class="iconfont">&#xe6a7;</i>
 								<cite>资产流动记录</cite>
 							</a>
