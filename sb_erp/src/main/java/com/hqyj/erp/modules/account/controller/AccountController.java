@@ -45,4 +45,10 @@ public class AccountController {
 	public Result doLogin(@RequestBody User user) {
 		return accountService.getUserResult(user);
 	}
+	
+	@RequestMapping("/account/userList")
+	public String userList(ModelMap modelMap) {
+		modelMap.addAttribute("template", "account/userList");
+		return "indexSimple";
+	}
 }
