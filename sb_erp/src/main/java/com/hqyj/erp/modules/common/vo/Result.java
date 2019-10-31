@@ -1,4 +1,4 @@
-package com.hqyj.erp.modules.common.entity;
+package com.hqyj.erp.modules.common.vo;
 
 /**
  * 返回结果封装类

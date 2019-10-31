@@ -3,14 +3,18 @@ package com.hqyj.erp.modules.account.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageInfo;
 import com.hqyj.erp.modules.account.entity.User;
 import com.hqyj.erp.modules.account.service.AccountService;
-import com.hqyj.erp.modules.common.entity.Result;
+import com.hqyj.erp.modules.account.vo.UserSearch;
+import com.hqyj.erp.modules.common.vo.Result;
 
 /**
  * 账户相关控制器
@@ -37,8 +41,36 @@ public class AccountController {
 	}
 	
 	@RequestMapping("/userList")
-	public String userList(ModelMap modelMap) {
-		modelMap.addAttribute("template", "account/userList");
-		return "indexSimple";
+	public String userListPage(ModelMap modelMap) {
+//		modelMap.addAttribute("template", "account/userList");
+		return "account/userList1";
+//		return "indexSimple";
+	}
+	
+	@PostMapping(value="/searchUser", consumes="application/json")
+	@ResponseBody
+	public PageInfo<User> searchUser(@RequestBody UserSearch userSearch) {
+		PageInfo<User> users = accountService.getUserList(userSearch);
+		return users;
+	}
+	
+	@PostMapping(value="/searchUser1", consumes="application/x-www-form-urlencoded")
+	@ResponseBody
+	public PageInfo<User> searchUser1(@ModelAttribute UserSearch userSearch) {
+		PageInfo<User> users = accountService.getUserList(userSearch);
+		return users;
+	}
+	
+	@RequestMapping("/userEdit")
+	public String userEditPage(@RequestParam int userId, ModelMap modelMap) {
+		User user = accountService.getUserById(userId);
+		modelMap.addAttribute("user", user);
+		return "account/userEdit";
+	}
+	
+	@PostMapping(value="/doUserEdit",consumes="application/x-www-form-urlencoded")
+	@ResponseBody
+	public Result doUserEdit(@ModelAttribute User user) {
+		return accountService.updateUserById(user);
 	}
 }

@@ -3,8 +3,11 @@ package com.hqyj.erp.config;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.servlet.Filter;
+
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.filter.authc.FormAuthenticationFilter;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +54,12 @@ public class ShiroConfig {
 		filterFactory.setLoginUrl("/account/login");
 		filterFactory.setSuccessUrl("/account/dashboard");
 //		filterFactory.setUnauthorizedUrl("/error/403");
+		
+		Map<String, Filter> filters = new LinkedHashMap<String, Filter>();
+		FormAuthenticationFilter formAuthenticationFilter = new FormAuthenticationFilter();
+		formAuthenticationFilter.setUsernameParam("account");
+		filters.put("authc", formAuthenticationFilter);
+		filterFactory.setFilters(filters);
 		
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		map.put("/static/**", "anon");

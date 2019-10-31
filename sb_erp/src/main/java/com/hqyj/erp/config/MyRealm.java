@@ -4,17 +4,22 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.hqyj.erp.modules.account.entity.User;
+import com.hqyj.erp.modules.account.service.AccountService;
 
 @Component
 public class MyRealm extends AuthorizingRealm {
 	
-//	@Autowired
-//	private AccountService accountService;
+	@Autowired
+	private AccountService accountService;
 
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
@@ -43,15 +48,14 @@ public class MyRealm extends AuthorizingRealm {
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-//		String userName = (String) token.getPrincipal();
-//		User user = accountService.getUserByName(userName);
-//		if (user == null) {
-//			throw new UnknownAccountException("The account do not exist.");
-//		}
+		String account = (String) token.getPrincipal();
+		User user = accountService.getUserByName(account);
+		if (user == null) {
+			throw new UnknownAccountException("The account do not exist.");
+		}
 		
 		// realmName: 当前 realm 对象的唯一名字. 调用父类的 getName() 方法
-//		return new SimpleAuthenticationInfo(userName, user.getPassword(), getName());
-		return new SimpleAuthenticationInfo("admin", "admin", getName());
+		return new SimpleAuthenticationInfo(account, user.getPassword(), getName());
 	}
 
 }

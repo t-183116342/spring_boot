@@ -2,11 +2,16 @@ package com.hqyj.erp.modules.account.entity;
 
 import java.sql.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import com.hqyj.erp.modules.organization.entity.Department;
+import com.hqyj.erp.modules.organization.entity.Position;
 
 /**
  * 用户表
@@ -31,9 +36,15 @@ public class User {
 	private String userDiploma;
 	// 入职时间
 	private Date userEntrytime;
-	private int positionId;
 	// 用户状态，0-不可用，1-可用
-	private int userStatus;
+	private Integer userStatus;
+	
+	private String userPosition;
+	private String userDepartement;
+	@Transient
+	private Position position;
+	@Transient
+	private Department department;
 
 	public int getUserId() {
 		return userId;
@@ -123,19 +134,43 @@ public class User {
 		this.userEntrytime = userEntrytime;
 	}
 
-	public int getPositionId() {
-		return positionId;
-	}
-
-	public void setPositionId(int positionId) {
-		this.positionId = positionId;
-	}
-
-	public int getUserStatus() {
+	public Integer getUserStatus() {
 		return userStatus;
 	}
 
-	public void setUserStatus(int userStatus) {
+	public void setUserStatus(Integer userStatus) {
 		this.userStatus = userStatus;
+	}
+
+	public Position getPosition() {
+		return position;
+	}
+
+	public void setPosition(Position position) {
+		this.position = position;
+	}
+
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
+	public String getUserPosition() {
+		return userPosition;
+	}
+
+	public void setUserPosition(String userPosition) {
+		this.userPosition = userPosition;
+	}
+
+	public String getUserDepartement() {
+		return userDepartement;
+	}
+
+	public void setUserDepartement(String userDepartement) {
+		this.userDepartement = userDepartement;
 	}
 }
