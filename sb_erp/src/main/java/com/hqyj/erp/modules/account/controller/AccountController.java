@@ -41,22 +41,13 @@ public class AccountController {
 	}
 	
 	@RequestMapping("/userList")
-	public String userListPage(ModelMap modelMap) {
-//		modelMap.addAttribute("template", "account/userList");
-		return "account/userList1";
-//		return "indexSimple";
+	public String userListPage() {
+		return "account/userList";
 	}
 	
-	@PostMapping(value="/searchUser", consumes="application/json")
+	@PostMapping(value="/searchUser", consumes="application/x-www-form-urlencoded")
 	@ResponseBody
-	public PageInfo<User> searchUser(@RequestBody UserSearch userSearch) {
-		PageInfo<User> users = accountService.getUserList(userSearch);
-		return users;
-	}
-	
-	@PostMapping(value="/searchUser1", consumes="application/x-www-form-urlencoded")
-	@ResponseBody
-	public PageInfo<User> searchUser1(@ModelAttribute UserSearch userSearch) {
+	public PageInfo<User> searchUser(@ModelAttribute UserSearch userSearch) {
 		PageInfo<User> users = accountService.getUserList(userSearch);
 		return users;
 	}

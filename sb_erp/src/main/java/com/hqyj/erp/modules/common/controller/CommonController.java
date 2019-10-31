@@ -4,7 +4,6 @@ import java.net.InetAddress;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.hqyj.erp.modules.account.entity.User;
 import com.hqyj.erp.modules.account.service.AccountService;
-import com.hqyj.erp.modules.common.vo.SystemConstant;
 
 /**
  * 公共页面控制器
@@ -27,19 +25,19 @@ public class CommonController {
 
 	@RequestMapping("/login")
 	public String loginPage() {
-		return "account/login";
+		return "common/login";
 	}
 	
 	@RequestMapping("/register")
 	public String registerPage() {
-		return "account/register";
+		return "common/register";
 	}
 	
 	@RequestMapping("/index")
 	public String indexPage(HttpServletRequest request, ModelMap modelMap) {
 		User user = accountService.getUserBySession();
 		if (user == null) {
-			return "account/login";
+			return "common/login";
 		}
 		
 		String ipAddress = null;
