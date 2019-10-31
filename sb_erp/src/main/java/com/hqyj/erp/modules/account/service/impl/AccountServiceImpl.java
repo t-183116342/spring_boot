@@ -93,14 +93,14 @@ public class AccountServiceImpl implements AccountService {
 	public PageInfo<User> getUserList(UserSearch userSearch) {
 		List<User> users = new ArrayList<>();
 		
-		if (userSearch == null) {
-			User user = getUserBySession();
-			users.add(user);
-		} else {
-			userSearch.setCurrentPage(userSearch.getCurrentPage() > 0 ? userSearch.getCurrentPage() : SystemConstant.DEFAULT_CURRENT_PAGE);
-			userSearch.setPageSize(SystemConstant.DEFAULT_PAGE_SIZE);
-			PageHelper.startPage(userSearch.getCurrentPage(), userSearch.getPageSize());
+		userSearch.setCurrentPage(userSearch.getCurrentPage() > 0 ? 
+				userSearch.getCurrentPage() : SystemConstant.DEFAULT_CURRENT_PAGE);
+		userSearch.setPageSize(SystemConstant.DEFAULT_PAGE_SIZE);
+		PageHelper.startPage(userSearch.getCurrentPage(), userSearch.getPageSize());
+		try {
 			users = accountDao.getUserListBySearch(userSearch);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		return new PageInfo<>(users);

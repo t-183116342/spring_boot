@@ -53,51 +53,29 @@ public interface AccountDao {
 	@ResultMap(value="userResult")
 	User getUserById(int userId);
 	
-//	@Select("<script>" + 
-//			"select * from user u "
-//			+ "left join user_position up on u.user_id = up.user_id "
-//			+ "left join position p on p.position_id = up.position_id "
-//			+ "left join department d on d.depart_id = p.depart_id "
-//			+ "<where> "
-//				+ " 1=1 "
-//				+ "<if test='userDepart != null and userDepart != '''>"
-//				+ "and d.depart_name = #{userDepart} "
-//				+ "</if>"
-//				+ "<if test='entryStart!=null and entryStart!='''>"
-//				+ "and u.user_entrytime >= #{entryEnd} "
-//				+ "</if>"
-//				+ "<if test='birthRange!=null and birthRange!='''>"
-//				+ "AND DATE_FORMAT(`user`.user_birthday,'%m%d') "
-//					+ "BETWEEN DATE_FORMAT(NOW(),'%m%d') AND "
-//					+ "DATE_FORMAT(DATE_ADD(NOW(),INTERVAL #{birthRange,jdbcType=VARCHAR} DAY),'%m%d')"
-//				+ "</if>"
-//				+ "<if test='userName!=null and userName!='''>"
-//				+ "and u..user_name LIKE '%${userName}% "
-//				+ "</if>"
-//			+ "</where>"
-//			+ "</script>")
-	@Select("select * from user")
-	@ResultMap(value="userResult")
+	@Select("<script>" + 
+			"select * from user u "
+			+ "left join user_position up on u.user_id = up.user_id "
+			+ "left join position p on p.position_id = up.position_id "
+			+ "left join department d on d.depart_id = p.depart_id "
+			+ "<where> "
+			+ "<if test='userDepart != \"\" and userDepart != null'>"
+			+ "and d.depart_name = #{userDepart} "
+			+ "</if>"
+			+ "<if test='entryStart!=\"\" and entryStart!=null'>"
+			+ "and u.user_entrytime >= #{entryEnd} "
+			+ "</if>"
+			+ "<if test='birthRange!=\"\" and birthRange!=null'>"
+			+ "AND DATE_FORMAT(`user`.user_birthday,'%m%d') "
+				+ "BETWEEN DATE_FORMAT(NOW(),'%m%d') AND "
+				+ "DATE_FORMAT(DATE_ADD(NOW(),INTERVAL #{birthRange,jdbcType=VARCHAR} DAY),'%m%d')"
+			+ "</if>"
+			+ "<if test='userName!=\"\" and userName!=null'>"
+			+ "and u.user_name LIKE '%${userName}%' "
+			+ "</if>"
+			+ "</where>"
+			+ "</script>")
 	List<User> getUserListBySearch(UserSearch userSearch);
-	
-	@Update("<script> " +
-	        "select * from user " +
-	        "<if test='password!=null'> password = #{password},</if>" +
-	        "user_name=#{userName}," + 
-	        "user_sex=#{userSex}," + 
-	        "user_telephone=#{userTelephone}," + 
-	        "user_email=#{userEmail}," + 
-	        "user_address=#{userAddress}," + 
-	        "user_birthday=#{userBirthday}," + 
-	        "user_diploma=#{userDiploma}," + 
-	        "user_entrytime=#{userEntrytime}," + 
-	        "user_status=#{userStatus}," + 
-	        "user_position=#{userPosition}," + 
-	        "user_departement=#{userDepartement} " + 
-	        "where user_id = #{userId} " +
-	        "</script>")
-	@ResultMap(value="userResult")
-	List<User> getUserListBySearch1(UserSearch userSearch);
 	
 	@Update("<script> " +
         "update user set " +
