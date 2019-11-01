@@ -90,7 +90,6 @@
 	</div>
 </body>
 <script type="text/javascript">
-
 var userDepart=null;
 var EntryStart=null;
 var EntryEnd=null;
@@ -128,20 +127,20 @@ function delUser(userId){
 					}
 				});
 		  }
-		});
+	});
 }
 layui.use(['form', 'laypage', 'laydate'], function(){
-  var form = layui.form
-  ,layer = layui.layer
- ,laypage = layui.laypage
-  ,laydate = layui.laydate;
+	var form = layui.form,
+	layer = layui.layer,
+	laypage = layui.laypage,
+	laydate = layui.laydate;
   
-  //日期
- var start=null;
- var end=null;
- laydate.render({
-  elem: '#entry'
-  ,range:true
+	//日期
+	var start=null;
+	var end=null;
+	laydate.render({
+		elem: '#entry',
+		range:true
   ,done: function(value, startDate, endDate){
     console.log(value); //得到日期生成的值，如：2017-08-18
     start=startDate.year+"-"+startDate.month+"-"+startDate.date;

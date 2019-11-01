@@ -43,6 +43,7 @@ public class AccountServiceImpl implements AccountService {
 		}
 		
 		try {
+			user.initUser(user);
 			accountDao.insertUser(user);
 			return new Result(200, "insert User success.", user);
 		} catch (Exception e) {
