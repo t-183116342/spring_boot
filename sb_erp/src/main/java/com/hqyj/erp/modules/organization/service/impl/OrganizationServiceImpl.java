@@ -34,14 +34,17 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Override
 	public Result insertOrUpdateDepartment(Department department) {
 		Department departmentTemp = organizationDao.getDepartmentByName(department.getDepartName());
-		if (departmentTemp != null) {
-			return new Result(500, "部门名称已经存在。");
-		}
 		
 		try {
 			if (department.getDepartId() > 0) {
+				if (departmentTemp != null && departmentTemp.getDepartId() != department.getDepartId()) {
+					return new Result(500, "部门名称已经存在。");
+				}
 				organizationDao.updateDepartment(department);
 			} else {
+				if (departmentTemp != null) {
+					return new Result(500, "部门名称已经存在。");
+				}
 				organizationDao.insertDepartment(department);
 			}
 			return new Result(200, "Edit success.");
