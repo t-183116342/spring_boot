@@ -22,7 +22,12 @@ import com.hqyj.erp.modules.organization.entity.Position;
 @Mapper
 public interface AccountDao {
 	
-	@Insert("insert user(account, password) values(#{account}, #{password})")
+	@Insert("insert user(account, password, user_name, user_sex, "
+			+ "user_telephone, user_email, user_address, user_birthday, "
+			+ "user_diploma, user_entrytime, user_position, user_departement, user_status) "
+			+ "values(#{account}, #{password}, #{userName}, #{userSex}, "
+			+ "#{userTelephone}, #{userEmail}, #{userAddress}, #{userBirthday}, #{userDiploma}, "
+			+ "#{userEntrytime}, #{userPosition}, #{userDepartement}, #{userStatus})")
 	@Options(useGeneratedKeys=true,keyColumn="user_id",keyProperty="userId")
 	void insertUser(User user);
 	

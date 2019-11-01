@@ -2,16 +2,13 @@ package com.hqyj.erp.modules.account.entity;
 
 import java.sql.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import com.hqyj.erp.modules.organization.entity.Department;
-import com.hqyj.erp.modules.organization.entity.Position;
+import com.hqyj.erp.util.MD5Util;
 
 /**
  * 用户表
@@ -36,15 +33,15 @@ public class User {
 	private String userDiploma;
 	// 入职时间
 	private Date userEntrytime;
+	private String userPosition;
+	private String userDepartement;
 	// 用户状态，0-不可用，1-可用
 	private Integer userStatus;
 	
-	private String userPosition;
-	private String userDepartement;
-	@Transient
-	private Position position;
-	@Transient
-	private Department department;
+	public void initUser(User user) {
+		user.setPassword(MD5Util.getMD5(user.getPassword()));
+		user.setUserStatus(1);
+	}
 
 	public int getUserId() {
 		return userId;
@@ -140,22 +137,6 @@ public class User {
 
 	public void setUserStatus(Integer userStatus) {
 		this.userStatus = userStatus;
-	}
-
-	public Position getPosition() {
-		return position;
-	}
-
-	public void setPosition(Position position) {
-		this.position = position;
-	}
-
-	public Department getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(Department department) {
-		this.department = department;
 	}
 
 	public String getUserPosition() {

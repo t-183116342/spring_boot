@@ -84,6 +84,7 @@ $(document).ready(function() {
 	getOrganization();
 });
 
+
 function getOrganization(){
 	  $.ajax({
   		type : "POST",
@@ -99,7 +100,7 @@ function getOrganization(){
   		$.fn.zTree.init($("#companytree"), setting, nodes);//激活ztree
   		},
   		error : function() {
-  			layer.msg('无法连接服务器', {icon: 2});
+//  			layer.msg('无法连接服务器', {icon: 2});
   		}
   	});
 }
@@ -117,7 +118,7 @@ function saveChanges(staffNode){
   		 console.log("after changed:"+result);
   		},
   		error : function() {
-  			layer.msg('无法连接服务器', {icon: 2});
+//  			layer.msg('无法连接服务器', {icon: 2});
   		}
   	});
 }
@@ -144,7 +145,7 @@ function getUserInfo(staffNode,departName){
   		 }
   		},
   		error : function() {
-  			layer.msg('无法连接服务器', {icon: 2});
+//  			layer.msg('无法连接服务器', {icon: 2});
   		}
   	});
 }
@@ -180,7 +181,7 @@ function bDrop(reeId, treeNodes, targetNode, moveType) {//reeId被拖动的Id,tr
 	}
 		
 	} else {
-		layer.msg("仅允许调动员工",{icon:2});
+//		layer.msg("仅允许调动员工",{icon:2});
 		return false;
 	}
 	

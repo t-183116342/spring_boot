@@ -43,7 +43,6 @@ public class AccountServiceImpl implements AccountService {
 		}
 		
 		try {
-			user.setPassword(MD5Util.getMD5(user.getPassword()));
 			accountDao.insertUser(user);
 			return new Result(200, "insert User success.", user);
 		} catch (Exception e) {

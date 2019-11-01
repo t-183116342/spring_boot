@@ -15,144 +15,6 @@
 		<link th:href="${'/css/font.css'}" rel="stylesheet">
 		<link th:href="${'/css/xadmin.css'}" rel="stylesheet">
 	</head>
-	<script type="text/javascript">
-		$(function(){
-			if($("#date2").val()!=""){
-				$("#date2").val(new Date($("#date2").val()).format("yyyy-MM-dd"));
-			}
-			$("div [name='pwd']").hide();
-			if($("#date1").val()!=""){
-				$("#date1").val(new Date($("#date1").val()).format("yyyy-MM-dd"))	
-			}
-		})
-		
-		function onlyUser(doms){
-    		if($("#userAccount").val().length<3){
-    			$("#userAccount").select();
-    			$("#account").html("至少3个字符");
-    		}else{
-    			AccountAjax();
-    		}			
-		};
-		
-		function safePW(){
-			if($('#L_pass').val().length>5){
-				$("#password").html("<i class=\"layui-icon layui-anim layui-anim-scale \" style=\"color: #1E9FFF;\">&#xe618;</i>")
-			}
-		};
-		
-		function confirm(){
-			if($('#L_pass').val()==$('#L_repass').val()){
-                  $("#confire").html("<i class=\"layui-icon layui-anim layui-anim-scale \" style=\"color: #1E9FFF;\">&#xe618;</i>") 
-                }
-		};
-		
-		function AccountAjax(){
-			$.ajax({
-				type : "POST",
-				async:false,
-				data : {
-					account:$("#userAccount").val()
-				},
-				dataType : "text",
-				url : "manageEmeController//isRepeat.ajax",
-				success : function(result) {
-					console.log(result);
-					if(result=="NO"){
-						$("#account").html("<i class=\"layui-icon layui-anim  layui-anim-scale\" style=\"color: #1E9FFF;\">&#xe618;</i>  ")
-					}else{
-						$("#userAccount").select();
-						$("#account").html("<span style=\"color: #FF5722\" class=\"layui-anim layui-anim-scale\">账号已存在!</span>")
-					}
-				},
-				error : function() {
-					$("#userAccount").select();
-					$("#account").html("<span style=\"color: #FF5722\" class=\"layui-anim layui-anim-scale\">无法连接服务器!</span>")
-					layer.msg('无法连接服务器', {icon: 2});
-				}
-			});
-		}
-		
-		layui.use(['form','layer','laydate'], function(){
-			$ = layui.jquery;
-			var form = layui.form,
-				layer = layui.layer,
-				laydate=layui.laydate;
-			
-			laydate.render({
-	    		elem: '#date1'
-	  		});
-	        laydate.render({
-	    		elem: '#date2'
-	  		});
-	        
-			//自定义验证规则
-			form.verify({
-				nikename: function(value){
-					if(value.length < 5){
-						return '昵称至少得5个字符啊';
-					}
-				},
-				pass: [/(.+){6,12}$/, '密码必须6到12位'],
-				repass: function(value){
-	                if($('#L_pass').val()!=$('#L_repass').val()){
-	                    return '两次密码不一致';
-	                }
-				}
-			});
-	      
-	        //switch
-			form.on('switch(filter)', function(data){
-	  			console.log(data.elem.checked); //开关是否开启，true或者false
-	  			if(!data.elem.checked){
-	  				$("#L_pass").removeAttr("lay-verify");
-	  				$("#L_repass").removeAttr("lay-verify");
-	  				$("#L_repass").removeAttr("name");
-	  			}else{
-	  				$("#L_pass").attr("lay-verify","pass");
-	  				$("#L_repass").attr("lay-verify","repass");
-	  				$("#L_repass").attr("name","password");
-	          		console.log("ssss"+$("#L_repass").prop("name")+"///"+$("#L_repass").attr("name"));
-	  			}
-	  			$("div [name='pwd']").toggle(300);
-			});
-	        
-			//监听提交
-			form.on('submit(add)', function(data){
-	            console.log(data);
-	            //发异步，把数据提交给php
-	            console.log(data);
-	            $.ajax({
-	        		type : "POST",
-	        		data : $('#form1').serialize(),
-	        		dataType : "text",
-	        		url :"/account/doUserEdit",
-	        		success : function(data) {
-	        			var result = eval("(" + data + ")");
-	        			if (result.status == 200) {
-	        				//发异步，把数据提交给php
-							layer.msg("修改成功",{
-								icon : 1,
-								time: 500,
-							},function () {
-								// 获得frame索引
-								var index = parent.layer.getFrameIndex(window.name);
-								//关闭当前frame
-								parent.location.reload();
-								parent.layer.close(index);
-							});
-	    				} else {
-	    					layer.msg(result.message, {icon: 0});
-	    				}
-	        		},
-	        		error : function() {
-	        			layer.msg('无法连接服务器', {icon: 2});
-	        		}
-	        	});   
-	            return false;
-	          });
-		});
-	</script>
 	<body>
 		<div class="x-body">
 			<form id="form1" class="layui-form" th:object="${user}">
@@ -319,4 +181,142 @@
 			</form>
 		</div>
 	</body>
+	<script type="text/javascript">
+		$(function(){
+			if($("#date2").val()!=""){
+				$("#date2").val(new Date($("#date2").val()).format("yyyy-MM-dd"));
+			}
+			$("div [name='pwd']").hide();
+			if($("#date1").val()!=""){
+				$("#date1").val(new Date($("#date1").val()).format("yyyy-MM-dd"))	
+			}
+		})
+		
+		function onlyUser(doms){
+    		if($("#userAccount").val().length<3){
+    			$("#userAccount").select();
+    			$("#account").html("至少3个字符");
+    		}else{
+    			AccountAjax();
+    		}			
+		};
+		
+		function safePW(){
+			if($('#L_pass').val().length>5){
+				$("#password").html("<i class=\"layui-icon layui-anim layui-anim-scale \" style=\"color: #1E9FFF;\">&#xe618;</i>")
+			}
+		};
+		
+		function confirm(){
+			if($('#L_pass').val()==$('#L_repass').val()){
+                  $("#confire").html("<i class=\"layui-icon layui-anim layui-anim-scale \" style=\"color: #1E9FFF;\">&#xe618;</i>") 
+                }
+		};
+		
+		function AccountAjax(){
+			$.ajax({
+				type : "POST",
+				async:false,
+				data : {
+					account:$("#userAccount").val()
+				},
+				dataType : "text",
+				url : "manageEmeController//isRepeat.ajax",
+				success : function(result) {
+					console.log(result);
+					if(result=="NO"){
+						$("#account").html("<i class=\"layui-icon layui-anim  layui-anim-scale\" style=\"color: #1E9FFF;\">&#xe618;</i>  ")
+					}else{
+						$("#userAccount").select();
+						$("#account").html("<span style=\"color: #FF5722\" class=\"layui-anim layui-anim-scale\">账号已存在!</span>")
+					}
+				},
+				error : function() {
+					$("#userAccount").select();
+					$("#account").html("<span style=\"color: #FF5722\" class=\"layui-anim layui-anim-scale\">无法连接服务器!</span>")
+					layer.msg('无法连接服务器', {icon: 2});
+				}
+			});
+		}
+		
+		layui.use(['form','layer','laydate'], function(){
+			$ = layui.jquery;
+			var form = layui.form,
+				layer = layui.layer,
+				laydate=layui.laydate;
+			
+			laydate.render({
+	    		elem: '#date1'
+	  		});
+	        laydate.render({
+	    		elem: '#date2'
+	  		});
+	        
+			//自定义验证规则
+			form.verify({
+				nikename: function(value){
+					if(value.length < 5){
+						return '昵称至少得5个字符啊';
+					}
+				},
+				pass: [/(.+){6,12}$/, '密码必须6到12位'],
+				repass: function(value){
+	                if($('#L_pass').val()!=$('#L_repass').val()){
+	                    return '两次密码不一致';
+	                }
+				}
+			});
+	      
+	        //switch
+			form.on('switch(filter)', function(data){
+	  			console.log(data.elem.checked); //开关是否开启，true或者false
+	  			if(!data.elem.checked){
+	  				$("#L_pass").removeAttr("lay-verify");
+	  				$("#L_repass").removeAttr("lay-verify");
+	  				$("#L_repass").removeAttr("name");
+	  			}else{
+	  				$("#L_pass").attr("lay-verify","pass");
+	  				$("#L_repass").attr("lay-verify","repass");
+	  				$("#L_repass").attr("name","password");
+	          		console.log("ssss"+$("#L_repass").prop("name")+"///"+$("#L_repass").attr("name"));
+	  			}
+	  			$("div [name='pwd']").toggle(300);
+			});
+	        
+			//监听提交
+			form.on('submit(add)', function(data){
+	            console.log(data);
+	            //发异步，把数据提交给php
+	            console.log(data);
+	            $.ajax({
+	        		type : "POST",
+	        		data : $('#form1').serialize(),
+	        		dataType : "text",
+	        		url :"/account/doUserEdit",
+	        		success : function(data) {
+	        			var result = eval("(" + data + ")");
+	        			if (result.status == 200) {
+	        				//发异步，把数据提交给php
+							layer.msg("修改成功",{
+								icon : 1,
+								time: 500,
+							},function () {
+								// 获得frame索引
+								var index = parent.layer.getFrameIndex(window.name);
+								//关闭当前frame
+								parent.location.reload();
+								parent.layer.close(index);
+							});
+	    				} else {
+	    					layer.msg(result.message, {icon: 0});
+	    				}
+	        		},
+	        		error : function() {
+	        			layer.msg('无法连接服务器', {icon: 2});
+	        		}
+	        	});   
+	            return false;
+	          });
+		});
+	</script>
 </html>

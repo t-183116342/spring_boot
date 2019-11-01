@@ -64,4 +64,15 @@ public class AccountController {
 	public Result doUserEdit(@ModelAttribute User user) {
 		return accountService.updateUserById(user);
 	}
+	
+	@RequestMapping("/userAdd")
+	public String userAddPage() {
+		return "account/userAdd";
+	}
+	
+	@PostMapping(value="/doUserAdd",consumes="application/x-www-form-urlencoded")
+	@ResponseBody
+	public Result doUserAdd(@ModelAttribute User user) {
+		return accountService.insertUser(user);
+	}
 }
