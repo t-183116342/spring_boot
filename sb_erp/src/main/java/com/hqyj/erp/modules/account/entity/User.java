@@ -1,13 +1,16 @@
 package com.hqyj.erp.modules.account.entity;
 
 import java.sql.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import com.hqyj.erp.modules.authority.entity.Role;
 import com.hqyj.erp.util.MD5Util;
 
 /**
@@ -35,12 +38,14 @@ public class User {
 	private Date userEntrytime;
 	private String userPosition;
 	private String userDepartement;
-	// 用户状态，0-不可用，1-可用
-	private Integer userStatus;
+	
+	@Transient
+	private List<Role> roles;
+	@Transient
+	private Integer[] userRoles;
 	
 	public void initUser(User user) {
 		user.setPassword(MD5Util.getMD5(user.getPassword()));
-		user.setUserStatus(1);
 	}
 
 	public int getUserId() {
@@ -131,14 +136,6 @@ public class User {
 		this.userEntrytime = userEntrytime;
 	}
 
-	public Integer getUserStatus() {
-		return userStatus;
-	}
-
-	public void setUserStatus(Integer userStatus) {
-		this.userStatus = userStatus;
-	}
-
 	public String getUserPosition() {
 		return userPosition;
 	}
@@ -153,5 +150,21 @@ public class User {
 
 	public void setUserDepartement(String userDepartement) {
 		this.userDepartement = userDepartement;
+	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
+
+	public Integer[] getUserRoles() {
+		return userRoles;
+	}
+
+	public void setUserRoles(Integer[] userRoles) {
+		this.userRoles = userRoles;
 	}
 }

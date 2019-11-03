@@ -17,6 +17,8 @@ import com.github.pagehelper.PageInfo;
 import com.hqyj.erp.modules.account.dao.AccountDao;
 import com.hqyj.erp.modules.account.entity.User;
 import com.hqyj.erp.modules.account.service.AccountService;
+import com.hqyj.erp.modules.authority.dao.AuthorityDao;
+import com.hqyj.erp.modules.authority.entity.UserRole;
 import com.hqyj.erp.modules.common.vo.Result;
 import com.hqyj.erp.modules.common.vo.SearchVo;
 import com.hqyj.erp.modules.common.vo.SystemConstant;
@@ -29,22 +31,36 @@ public class AccountServiceImpl implements AccountService {
 	
 	@Autowired
 	private AccountDao accountDao;
+	@Autowired
+	private AuthorityDao authorityDao;
 
 	@Override
-	public Result insertUser(User user) {
-		if (user == null || StringUtils.isBlank(user.getAccount()) 
-				|| StringUtils.isBlank(user.getPassword())) {
-			return new Result(500, "User name or password is null.");
-		}
+	public Result inserOrUpdatetUser(User user) {
+//		if (user == null || StringUtils.isBlank(user.getAccount()) 
+//				|| StringUtils.isBlank(user.getPassword())) {
+//			return new Result(500, "User name or password is null.");
+//		}
 		
 		User existUser = accountDao.getUserByName(user.getAccount());
-		if (existUser != null) {
+		if (existUser != null && 
+				((existUser.getUserId() != user.getUserId()) || user.getUserId() <= 0)) {
 			return new Result(500, "User is exist.");
 		}
 		
 		try {
 			user.initUser(user);
-			accountDao.insertUser(user);
+			if (user.getUserId() > 0) {
+				accountDao.updateUserById(user);
+			} else {
+				accountDao.insertUser(user);
+			}
+			
+			authorityDao.deleteUserRole(user.getUserId());
+			Integer[] userRoles = user.getUserRoles();
+			for (Integer roleId : userRoles) {
+				authorityDao.insertUserRole(new UserRole(user.getUserId(), roleId));
+			}
+			
 			return new Result(200, "insert User success.", user);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -105,18 +121,13 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public Result updateUserById(User user) {
-		if (StringUtils.isNoneBlank(user.getPassword())) {
-			user.setPassword(MD5Util.getMD5(user.getPassword()));
-		}
-		
+	public Result deleteUserById(int userId) {
 		try {
-			accountDao.updateUserById(user);
-			return new Result(200, "修改成功。");
+			accountDao.deleteUserById(userId);
+			return Result.getResult(1);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new Result(500, "修改失败。");
+			return Result.getResult(-1);
 		}
 	}
-
 }

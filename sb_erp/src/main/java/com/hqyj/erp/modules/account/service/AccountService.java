@@ -7,7 +7,7 @@ import com.hqyj.erp.modules.common.vo.SearchVo;
 
 public interface AccountService {
 
-	Result insertUser(User user);
+	Result inserOrUpdatetUser(User user);
 	
 	Result getUserResult(User user);
 	
@@ -19,6 +19,6 @@ public interface AccountService {
 	
 	PageInfo<User> getUserList(SearchVo userSearch);
 	
-	Result updateUserById(User user);
+	Result deleteUserById(int userId);
 	
 }

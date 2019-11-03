@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 import com.hqyj.erp.modules.account.entity.User;
 import com.hqyj.erp.modules.account.service.AccountService;
+import com.hqyj.erp.modules.authority.entity.Role;
+import com.hqyj.erp.modules.authority.service.AuthorityService;
 import com.hqyj.erp.modules.common.vo.Result;
 import com.hqyj.erp.modules.common.vo.SearchVo;
 import com.hqyj.erp.modules.organization.service.OrganizationService;
@@ -30,11 +32,13 @@ public class AccountController {
 	private AccountService accountService;
 	@Autowired
 	private OrganizationService organizationService;
+	@Autowired
+	private AuthorityService authorityService;
 
 	@PostMapping(value="/doRegister", consumes="application/json")
 	@ResponseBody
 	public Result doRegister(@RequestBody User user) {
-		return accountService.insertUser(user);
+		return accountService.inserOrUpdatetUser(user);
 	}
 	
 	@PostMapping(value="/doLogin", consumes="application/json")
@@ -63,13 +67,14 @@ public class AccountController {
 		modelMap.addAttribute("departments", organizationService.getDepartments());
 		modelMap.addAttribute("positions", 
 				organizationService.getPositionsByDepartName(user.getUserDepartement()));
+		modelMap.addAttribute("roles", Role.composeRoleList(authorityService.getRoles(), user.getRoles()));
 		return "account/userEdit";
 	}
 	
 	@PostMapping(value="/doUserEdit",consumes="application/x-www-form-urlencoded")
 	@ResponseBody
 	public Result doUserEdit(@ModelAttribute User user) {
-		return accountService.updateUserById(user);
+		return accountService.inserOrUpdatetUser(user);
 	}
 	
 	@RequestMapping("/userAdd")
@@ -80,6 +85,12 @@ public class AccountController {
 	@PostMapping(value="/doUserAdd",consumes="application/x-www-form-urlencoded")
 	@ResponseBody
 	public Result doUserAdd(@ModelAttribute User user) {
-		return accountService.insertUser(user);
+		return accountService.inserOrUpdatetUser(user);
+	}
+	
+	@PostMapping(value="/doUserDelete",consumes="application/x-www-form-urlencoded")
+	@ResponseBody
+	public Result doUserDelete(@ModelAttribute User user) {
+		return accountService.deleteUserById(user.getUserId());
 	}
 }

@@ -92,37 +92,32 @@
 	var birthRange=null;
 	var userName=null;
 	var total=0;
+	
 	//删除操作
 	function delUser(userId){
-		layer.msg('确定删除吗？', {
-			  time: 0 //不自动关闭
-			  ,btn: ['确定删除','取消返回']
-			  ,yes: function(index){
-				  $.ajax({
-						type : "POST",
-						async:false,
-						data : {
-							userId:userId
-						},
-						dataType : "text",
-						url : "manageEmeController/userDel.ajax",
-						success : function(result) {
-							console.log(result);
-							layer.msg("删除成功",{
-			              		icon : 1,
-			               		time: 500,
-			               	},function () {
-			               		location.replace(location.href)
-			                    
-			                 });
-							
-						},
-						error : function() {
-							
-							layer.msg('无法连接服务器', {icon: 2});
-						}
-					});
-			  }
+		layer.confirm('你确定要删除吗?', {icon: 3, title:'提示'}, function(index){
+			$.ajax({
+				type : "POST",
+				async:false,
+				data : {
+					userId:userId
+				},
+				dataType : "text",
+				url : "/account/doUserDelete",
+				success : function(result) {
+					console.log(result);
+					layer.msg("删除成功",{
+	              		icon : 1,
+	               		time: 500,
+	               	},function () {
+	               		location.replace(location.href)
+	                 });
+				},
+				error : function() {
+					layer.msg('无法连接服务器', {icon: 2});
+				}
+			});
+		    layer.close(index);
 		});
 	}
 	

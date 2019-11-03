@@ -2,14 +2,20 @@ package com.hqyj.erp.modules.account.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import com.hqyj.erp.modules.account.entity.User;
+import com.hqyj.erp.modules.authority.entity.Role;
 import com.hqyj.erp.modules.common.vo.SearchVo;
 
 @Repository
@@ -18,18 +24,30 @@ public interface AccountDao {
 	
 	@Insert("insert user(account, password, user_name, user_sex, "
 			+ "user_telephone, user_email, user_address, user_birthday, "
-			+ "user_diploma, user_entrytime, user_position, user_departement, user_status) "
+			+ "user_diploma, user_entrytime, user_position, user_departement) "
 			+ "values(#{account}, #{password}, #{userName}, #{userSex}, "
 			+ "#{userTelephone}, #{userEmail}, #{userAddress}, #{userBirthday}, #{userDiploma}, "
-			+ "#{userEntrytime}, #{userPosition}, #{userDepartement}, #{userStatus})")
+			+ "#{userEntrytime}, #{userPosition}, #{userDepartement}")
 	@Options(useGeneratedKeys=true,keyColumn="user_id",keyProperty="userId")
 	void insertUser(User user);
 	
-	@Select("select * from user where account = #{account}")
-	User getUserByName(String account);
+	@Select("select * from role r "
+			+ "left join user_role ur on r.role_id = ur.role_id "
+			+ "where ur.user_id = #{userId}")
+	List<Role> getRolesByUserId(int userId);
 	
 	@Select("select * from user where user_id = #{userId}")
+	@Results(id="userResult", value={
+		@Result(column="user_id", property="userId"),
+		@Result(column="user_id",property="roles",
+				javaType=List.class,
+				many=@Many(select="com.hqyj.erp.modules.account.dao.AccountDao.getRolesByUserId"))
+	})
 	User getUserById(int userId);
+	
+	@Select("select * from user where account = #{account}")
+	@ResultMap(value="userResult")
+	User getUserByName(String account);
 	
 	@Select("<script>" + 
 			"select * from user u "
@@ -63,11 +81,13 @@ public interface AccountDao {
         "user_birthday=#{userBirthday}," + 
         "user_diploma=#{userDiploma}," + 
         "user_entrytime=#{userEntrytime}," + 
-        "user_status=#{userStatus}," + 
         "user_position=#{userPosition}," + 
         "user_departement=#{userDepartement} " + 
         "where user_id = #{userId} " +
         "</script>")
 	void updateUserById(User user);
+	
+	@Delete("delete from user where user_id = #{userId}")
+	void deleteUserById(int userId);
 
 }

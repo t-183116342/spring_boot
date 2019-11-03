@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 import com.hqyj.erp.modules.authority.entity.Resource;
 import com.hqyj.erp.modules.authority.entity.Role;
 import com.hqyj.erp.modules.authority.entity.RoleResource;
+import com.hqyj.erp.modules.authority.entity.UserRole;
 
 @Repository
 @Mapper
@@ -79,4 +80,10 @@ public interface AuthorityDao {
 	
 	@Insert("insert into role_resource(role_id, resource_id) values(#{roleId}, #{resourceId})")
 	void insertRoleResource(RoleResource roleResource);
+	
+	@Delete("delete from user_role where user_id=#{userId}")
+	void deleteUserRole(int userId);
+	
+	@Insert("insert into user_role(role_id, user_id) values(#{roleId}, #{userId})")
+	void insertUserRole(UserRole userRole);
 }

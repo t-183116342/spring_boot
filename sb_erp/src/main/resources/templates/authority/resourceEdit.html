@@ -63,7 +63,7 @@
 							<td>资源角色设置</td>
 							<td>
 								<div class="layui-input-block">
-									<input type="checkbox" name="roleCheckbox" lay-skin="primary" 
+									<input type="checkbox" name="roles" lay-skin="primary" 
 										th:each="role,status : ${roles}" 
 										th:checked="${role.selected} == true" 
 										th:title="${role.roleName}" th:value="${role.roleId}">
@@ -120,7 +120,7 @@
 			resource.resourceUrl = $("[name=resourceUrl]").val();
 			resource.resourceDescription = $("[name=resourceDescription]").val();
 			var roles = new Array();
-			$.each($("input[name='roleCheckbox']"), function(){
+			$.each($("input[name='roles']"), function(){
 	   			if(this.checked){
 	   				var role = {};
 	   				role.roleId = $(this).val();
