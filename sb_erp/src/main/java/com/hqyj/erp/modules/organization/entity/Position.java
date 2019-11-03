@@ -19,7 +19,7 @@ public class Position {
 	private int positionId;
 	private String positionName;
 	private String positionDescription;
-	private int departId;
+	private String departName;
 
 	public int getPositionId() {
 		return positionId;
@@ -45,12 +45,12 @@ public class Position {
 		this.positionDescription = positionDescription;
 	}
 
-	public int getDepartId() {
-		return departId;
+	public String getDepartName() {
+		return departName;
 	}
 
-	public void setDepartId(int departId) {
-		this.departId = departId;
+	public void setDepartName(String departName) {
+		this.departName = departName;
 	}
 
 }

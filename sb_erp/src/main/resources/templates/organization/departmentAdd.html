@@ -53,13 +53,12 @@
 				</div>
 			</div>
 			<div class="layui-form-item layui-form-text">
-				<label class="layui-form-label"> 权限信息 </label>
+				<label class="layui-form-label">权限信息 </label>
 				<table class="layui-table layui-input-block">
 					<tbody>
 						<tr>
 							<td>部门权限设置</td>
 							<td>
-
 								<div class="layui-input-block">
 									<c:forEach items="${AllAuthrs}" var="AllAuthr">
 										<input name="roles" type="checkbox"
@@ -69,12 +68,9 @@
 										</c:forEach>
                                     	lay-skin="primary" title="${AllAuthr.authorityDescription }">
                                     </c:forEach>
-
-
 								</div>
 							</td>
 						</tr>
-
 					</tbody>
 				</table>
 			</div>

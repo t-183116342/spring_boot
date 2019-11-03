@@ -37,11 +37,11 @@
 						<span th:text="${role.roleName}"></span>
 						<input type="hidden" th:value="${role.roleId}"/>
 						<div style="float: right;">
-						<a><i th:onclick="x_admin_show('修改','/authority/roleUpdate?roleId=[[${role.roleId}]]')" class="layui-icon">&#xe642;</i></a>
-						<a th:onclick="delUser(1,1)" name="close" ><i class="layui-icon">&#xe640;</i></a>
+						<a><i th:onclick="x_admin_show('修改','/authority/roleEdit?roleId=[[${role.roleId}]]')" class="layui-icon">&#xe642;</i></a>
+						<a th:onclick="del([[${role.roleId}]],[[${role.roleName}]])" name="close" ><i class="layui-icon">&#xe640;</i></a>
 					</div>
 					</div>
-						<div class="panel-body">
+						<div class="panel-body"  style="height: 110px;">
 						<span class="message-title"><span th:text="${role.roleDesc}"></span></span>
 						</div>
 					</div>
@@ -65,21 +65,21 @@
 		</div>
 	</body>
 	<script type="text/javascript">
-		function delUser(departId,departName){
-			layer.confirm('你确定要删除该广告吗?', {icon: 3, title:'提示'}, function(index){
+		function del(id,name){
+			layer.confirm('你确定要删除吗?', {icon: 3, title:'提示'}, function(index){
 				$.ajax({
 					type : "POST",
 					async:false,
 					data : {
-						departId:departId
+						roleId:id
 					},
 					dataType : "text",
-					url : "/organization/doDepartmentDelete",
+					url : "/authority/doRoleDelete",
 					success : function(data) {
 						var result = eval("(" + data + ")");
 		    			if (result.status == 200) {
 							console.log(result);
-							layer.msg(departName+"已解散",{
+							layer.msg(name+"已删除",{
 								icon : 1,
 								time: 500,
 							},function () {

@@ -1,10 +1,13 @@
-package com.hqyj.erp.modules.organization.entity;
+package com.hqyj.erp.modules.authority.entity;
+
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * 角色表
@@ -19,6 +22,20 @@ public class Role {
 	private int roleId;
 	private String roleName;
 	private String roleDesc;
+	
+	@Transient
+	private boolean selected;
+	
+	public static List<Role> composeRoleList(List<Role> allRoles, List<Role> selectedRoles) {
+		allRoles.stream().forEach(item -> {
+			selectedRoles.stream().forEach(itemTemp -> {
+				if (itemTemp.getRoleId() == item.getRoleId()) {
+					item.setSelected(true);
+				}
+			});
+		});
+		return allRoles;
+	}
 
 	public int getRoleId() {
 		return roleId;
@@ -42,5 +59,13 @@ public class Role {
 
 	public void setRoleDesc(String roleDesc) {
 		this.roleDesc = roleDesc;
+	}
+
+	public boolean isSelected() {
+		return selected;
+	}
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
 	}
 }

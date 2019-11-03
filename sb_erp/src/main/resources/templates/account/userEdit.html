@@ -119,12 +119,10 @@
 						class="x-red">*</span>部门安排
 					</label>
 					<div class="layui-input-inline">
-						<select name="userDepartement">
-							<c:forEach items="${departs}" var="depart">
-								<option ${user.userDepartement==depart.departId?
-									'selected':'' } value="${depart.departId }">${depart.departName}
-								</option>
-							</c:forEach>
+						<select name="userDepartement" lay-filter="departSelect">
+							<option th:each="depart:${departments}" 
+								th:select="${depart.departName} == ${user.userDepartement}" 
+								th:value="${depart.departName}" th:text="${depart.departName}"/>
 						</select>
 					</div>
 				</div>
@@ -133,9 +131,11 @@
 						class="x-red">*</span>职位
 					</label>
 					<div class="layui-input-inline">
-						<input type="text" id="L_email" value="${user.userPosition }"
-							name="userPosition" required="" lay-verify="" autocomplete="off"
-							class="layui-input">
+						<select name="userPosition" lay-filter="positionSelect">
+							<option th:each="position:${positions}" 
+								th:select="${position.positionName} == ${user.userPosition}" 
+								th:value="${position.positionName}" th:text="${position.positionName}"/>
+						</select>
 					</div>
 				</div>
 				
@@ -153,7 +153,7 @@
 						class="x-red">*</span>新密码
 					</label>
 					<div class="layui-input-inline">
-						<input onchange="safePW()" type="password" id="L_pass"
+						<input type="password" id="L_pass"
 							autocomplete="off" class="layui-input">
 					</div>
 					<div id="password" class="layui-form-mid layui-word-aux ">
@@ -190,7 +190,7 @@
 			if($("#date1").val()!=""){
 				$("#date1").val(new Date($("#date1").val()).format("yyyy-MM-dd"))	
 			}
-		})
+		});
 		
 		function onlyUser(doms){
     		if($("#userAccount").val().length<3){
@@ -237,7 +237,7 @@
 					layer.msg('无法连接服务器', {icon: 2});
 				}
 			});
-		}
+		};
 		
 		layui.use(['form','layer','laydate'], function(){
 			$ = layui.jquery;
@@ -246,11 +246,15 @@
 				laydate=layui.laydate;
 			
 			laydate.render({
-	    		elem: '#date1'
+	    		elem: '#date1',
+	    		trigger: 'click'
 	  		});
 	        laydate.render({
-	    		elem: '#date2'
+	    		elem: '#date2',
+	    		trigger: 'click'
 	  		});
+	        
+	        //alert($("[name=userDepartement]").val());
 	        
 			//自定义验证规则
 			form.verify({
@@ -316,7 +320,26 @@
 	        		}
 	        	});   
 	            return false;
-	          });
+			});
+			
+			form.on('select(departSelect)', function(data){
+				$.ajax({
+					url : "/organization/positionsByDepart?departName=" + $("[name=userDepartement]").val(),
+					type : "get",
+					contentType: "application/json",
+					success : function (data) {
+						$("[name=userPosition]").empty();
+						$.each(data, function(i, item){
+							$("[name=userPosition]").append("<option value="+
+									item.positionName+">"+item.positionName+"</option>");
+						});
+						form.render('select');
+					},
+					error : function (data) {
+						layer.msg(data.message, {icon: 0});
+					}
+				});
+			});
 		});
 	</script>
 </html>

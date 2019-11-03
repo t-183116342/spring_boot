@@ -1,4 +1,4 @@
-package com.hqyj.erp.modules.account.entity;
+package com.hqyj.erp.modules.authority.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -10,6 +10,16 @@ public class Result {
 	private int status;
 	private String message;
 	private Object object;
+	
+	public static Result getResult(int code) {
+		if (code == 1) {
+			return new Result(200, "操作成功。");
+		} else if (code == -1) {
+			return new Result(500, "操作失败，重名。");
+		} else {
+			return new Result(500, "操作失败。");
+		}
+	}
 
 	public Result() {
 	}

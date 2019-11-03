@@ -1,12 +1,12 @@
-package com.hqyj.erp.modules.account.vo;
+package com.hqyj.erp.modules.common.vo;
 
 /**
- * 用户查询参数
+ * 查询参数
  * 
  * @author: HymanHu
  * @date: 2019年10月30日
  */
-public class UserSearch {
+public class SearchVo {
 
 	private String userDepart;
 	private String entryStart;
@@ -15,6 +15,12 @@ public class UserSearch {
 	private String userName;
 	private int currentPage;
 	private int pageSize;
+	
+	public static void initSearchVo(SearchVo searchVo) {
+		searchVo.setCurrentPage(searchVo.getCurrentPage() > 0 ? 
+				searchVo.getCurrentPage() : SystemConstant.DEFAULT_CURRENT_PAGE);
+		searchVo.setPageSize(SystemConstant.DEFAULT_PAGE_SIZE);
+	}
 
 	public String getUserDepart() {
 		return userDepart;

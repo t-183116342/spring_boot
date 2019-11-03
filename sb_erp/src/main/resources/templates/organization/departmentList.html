@@ -45,7 +45,6 @@
 						<span class="message-title"><span th:text="${department.departDesc}"></span></span>
 						<hr/>
 						<table>
-							
 							<tr>
 								<th width="100px">部门权限 </th>
 						 		<td>
@@ -76,7 +75,7 @@
 	</body>
 	<script type="text/javascript">
 		function delUser(departId,departName){
-			layer.confirm('你确定要删除该广告吗?', {icon: 3, title:'提示'}, function(index){
+			layer.confirm('你确定要删除吗?', {icon: 3, title:'提示'}, function(index){
 				$.ajax({
 					type : "POST",
 					async:false,

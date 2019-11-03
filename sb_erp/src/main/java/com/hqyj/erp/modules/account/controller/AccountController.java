@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 import com.hqyj.erp.modules.account.entity.User;
 import com.hqyj.erp.modules.account.service.AccountService;
-import com.hqyj.erp.modules.account.vo.UserSearch;
 import com.hqyj.erp.modules.common.vo.Result;
+import com.hqyj.erp.modules.common.vo.SearchVo;
+import com.hqyj.erp.modules.organization.service.OrganizationService;
 
 /**
  * 账户相关控制器
@@ -27,6 +28,8 @@ public class AccountController {
 	
 	@Autowired
 	private AccountService accountService;
+	@Autowired
+	private OrganizationService organizationService;
 
 	@PostMapping(value="/doRegister", consumes="application/json")
 	@ResponseBody
@@ -41,13 +44,14 @@ public class AccountController {
 	}
 	
 	@RequestMapping("/userList")
-	public String userListPage() {
+	public String userListPage(ModelMap modelMap) {
+		modelMap.addAttribute("departments", organizationService.getDepartments());
 		return "account/userList";
 	}
 	
-	@PostMapping(value="/searchUser", consumes="application/x-www-form-urlencoded")
+	@PostMapping(value="/userListForPage", consumes="application/x-www-form-urlencoded")
 	@ResponseBody
-	public PageInfo<User> searchUser(@ModelAttribute UserSearch userSearch) {
+	public PageInfo<User> userListForPage(@ModelAttribute SearchVo userSearch) {
 		PageInfo<User> users = accountService.getUserList(userSearch);
 		return users;
 	}
@@ -56,6 +60,9 @@ public class AccountController {
 	public String userEditPage(@RequestParam int userId, ModelMap modelMap) {
 		User user = accountService.getUserById(userId);
 		modelMap.addAttribute("user", user);
+		modelMap.addAttribute("departments", organizationService.getDepartments());
+		modelMap.addAttribute("positions", 
+				organizationService.getPositionsByDepartName(user.getUserDepartement()));
 		return "account/userEdit";
 	}
 	

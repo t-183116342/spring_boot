@@ -1,5 +1,7 @@
 package com.hqyj.erp.modules.organization.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -9,9 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.hqyj.erp.modules.organization.entity.Department;
-import com.hqyj.erp.modules.organization.service.OrganizationService;
+import com.github.pagehelper.PageInfo;
 import com.hqyj.erp.modules.common.vo.Result;
+import com.hqyj.erp.modules.common.vo.SearchVo;
+import com.hqyj.erp.modules.organization.entity.Department;
+import com.hqyj.erp.modules.organization.entity.Position;
+import com.hqyj.erp.modules.organization.service.OrganizationService;
 
 /**
  * 公司组织控制器
@@ -32,7 +37,7 @@ public class OrganizationController {
 	
 	@RequestMapping("/departmentList")
 	public String departmentList(ModelMap modelMap) {
-		modelMap.addAttribute("departments", organizationService.geDepartments());
+		modelMap.addAttribute("departments", organizationService.getDepartments());
 		return "organization/departmentList";
 	}
 	
@@ -65,5 +70,40 @@ public class OrganizationController {
 		return organizationService.deleteDepartment(department.getDepartId());
 	}
 	
+	@RequestMapping("/positionList")
+	public String positionList(ModelMap modelMap) {
+		modelMap.addAttribute("positions", organizationService.getPositions());
+		return "organization/positionList";
+	}
+	
+	@PostMapping(value="/positionsByPage", consumes="application/x-www-form-urlencoded")
+	@ResponseBody
+	public PageInfo<Position> positionsByPage(@ModelAttribute SearchVo userSearch) {
+		return organizationService.getPositionsByPage(userSearch);
+	}
+	
+	@RequestMapping("/positionAdd")
+	public String positionAdd(ModelMap modelMap) {
+		modelMap.addAttribute("departments", organizationService.getDepartments());
+		return "organization/positionAdd";
+	}
+	
+	@PostMapping(value="/doPositionAdd",consumes="application/x-www-form-urlencoded")
+	@ResponseBody
+	public Result doPositionAdd(@ModelAttribute Position position) {
+		return organizationService.insertOrUpdatePosition(position);
+	}
+	
+	@PostMapping(value="/doPositionDelete",consumes="application/x-www-form-urlencoded")
+	@ResponseBody
+	public Result doPositionDelete(@ModelAttribute Position position) {
+		return organizationService.deletePosition(position.getPositionId());
+	}
+	
+	@RequestMapping(value="/positionsByDepart", consumes="application/json")
+	@ResponseBody
+	public List<Position> getPositionsByDepartName(@RequestParam String departName) {
+		return organizationService.getPositionsByDepartName(departName);
+	}
 	
 }

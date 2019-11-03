@@ -15,27 +15,28 @@
 		<!-- 引入内部js或css -->
 		<script th:src="${'/lib/layui/layui.js'}" charset="utf-8"></script>
 		<script th:src="${'/js/xadmin.js'}" type="text/javascript"></script>
-		<script th:src="${'/js/jquery.ztree.all.js'}" type="text/javascript"></script>
+		<!-- <script th:src="${'/js/jquery.ztree.all.js'}" type="text/javascript"></script>
 		<script th:src="${'/js/bootstrap.js'}" type="text/javascript"></script>
-		<!-- <script th:src="${'/js/organization-list.js'}" type="text/javascript"></script> -->
+		<script th:src="${'/js/organization-list.js'}" type="text/javascript"></script> -->
 		<script th:src="${'/js/kkpager.min.js'}" type="text/javascript"></script>
 		<link th:href="${'/css/font.css'}" rel="stylesheet">
 		<link th:href="${'/css/xadmin.css'}" rel="stylesheet">
-		<link th:href="${'/css/cutsom-style.css'}" rel="stylesheet">
+		<!-- <link th:href="${'/css/cutsom-style.css'}" rel="stylesheet">
 		<link th:href="${'/css/zTreeStyle/zTreeStyle.css'}" rel="stylesheet">
 		<link th:href="${'/css/bootstrap.css'}" rel="stylesheet">
 		<link th:href="${'/css/kkpager_orange.css'}" rel="stylesheet">
-		<link th:href="${'/lib/layui/css/layui.css'}" rel="stylesheet">
+		<link th:href="${'/lib/layui/css/layui.css'}" rel="stylesheet"> -->
 	</head>
 <body>
 	<div class="x-body">
-		<form id="form1" class="layui-form layui-form-pane">
+		<form id="form1" class="layui-form layui-form-pane" th:object="${role}">
+			<input type="hidden" name="roleId" th:value="${role.roleId}"/>
 			<div class="layui-form-item">
 				<label for="name" class="layui-form-label"> <span
 					class="x-red">*</span>角色名称
 				</label>
 				<div class="layui-input-inline">
-					<input id="roleName" type="text" name="roleName"
+					<input id="roleName" type="text" name="roleName" th:value="${role.roleName}" 
 						required="" lay-verify="required|repeat" autocomplete="off"
 						class="layui-input">
 				</div>
@@ -47,36 +48,10 @@
 					class="x-red">*</span>部门描述
 				</label>
 				<div class="layui-input-inline">
-					<input type="text" name="roleDesc"
+					<input type="text" name="roleDesc" th:value="${role.roleDesc}" 
 						required="" lay-verify="required" autocomplete="off"
 						class="layui-input">
 				</div>
-			</div>
-			<div class="layui-form-item layui-form-text">
-				<label class="layui-form-label"> 权限信息 </label>
-				<table class="layui-table layui-input-block">
-					<tbody>
-						<tr>
-							<td>部门权限设置</td>
-							<td>
-
-								<div class="layui-input-block">
-									<c:forEach items="${AllAuthrs}" var="AllAuthr">
-										<input name="roles" type="checkbox"
-											value="${AllAuthr.authorityId }"
-										<c:forEach items="${authrs}" var="authr">
-											<c:if test="${authr.authorityId==AllAuthr.authorityId }">checked</c:if>
-										</c:forEach>
-                                    	lay-skin="primary" title="${AllAuthr.authorityDescription }">
-                                    </c:forEach>
-
-
-								</div>
-							</td>
-						</tr>
-
-					</tbody>
-				</table>
 			</div>
 			<div class="layui-form-item" style="text-align: center;">
 
@@ -194,7 +169,7 @@ form.verify({
        		type : "POST",
        		data : $('#form1').serialize(),
        		dataType : "text",
-       		url :"/organization/doDepartmentAdd",
+       		url :"/authority/doRoleEdit",
        		success : function(data) {
        			var result = eval("(" + data + ")");
     			if (result.status == 200) {

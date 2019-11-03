@@ -17,8 +17,8 @@ import com.github.pagehelper.PageInfo;
 import com.hqyj.erp.modules.account.dao.AccountDao;
 import com.hqyj.erp.modules.account.entity.User;
 import com.hqyj.erp.modules.account.service.AccountService;
-import com.hqyj.erp.modules.account.vo.UserSearch;
 import com.hqyj.erp.modules.common.vo.Result;
+import com.hqyj.erp.modules.common.vo.SearchVo;
 import com.hqyj.erp.modules.common.vo.SystemConstant;
 import com.hqyj.erp.util.MD5Util;
 
@@ -90,12 +90,10 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public PageInfo<User> getUserList(UserSearch userSearch) {
+	public PageInfo<User> getUserList(SearchVo userSearch) {
 		List<User> users = new ArrayList<>();
 		
-		userSearch.setCurrentPage(userSearch.getCurrentPage() > 0 ? 
-				userSearch.getCurrentPage() : SystemConstant.DEFAULT_CURRENT_PAGE);
-		userSearch.setPageSize(SystemConstant.DEFAULT_PAGE_SIZE);
+		SearchVo.initSearchVo(userSearch);
 		PageHelper.startPage(userSearch.getCurrentPage(), userSearch.getPageSize());
 		try {
 			users = accountDao.getUserListBySearch(userSearch);

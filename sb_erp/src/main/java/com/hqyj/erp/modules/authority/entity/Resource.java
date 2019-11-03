@@ -1,10 +1,13 @@
-package com.hqyj.erp.modules.organization.entity;
+package com.hqyj.erp.modules.authority.entity;
+
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * 资源表
@@ -18,8 +21,11 @@ public class Resource {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int resourceId;
 	private String resourceName;
-	private String resourceDescription;
 	private String resourceUrl;
+	private String resourceDescription;
+	
+	@Transient
+	private List<Role> roles;
 
 	public int getResourceId() {
 		return resourceId;
@@ -51,5 +57,13 @@ public class Resource {
 
 	public void setResourceUrl(String resourceUrl) {
 		this.resourceUrl = resourceUrl;
+	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 }

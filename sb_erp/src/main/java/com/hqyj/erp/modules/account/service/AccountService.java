@@ -2,8 +2,8 @@ package com.hqyj.erp.modules.account.service;
 
 import com.github.pagehelper.PageInfo;
 import com.hqyj.erp.modules.account.entity.User;
-import com.hqyj.erp.modules.account.vo.UserSearch;
 import com.hqyj.erp.modules.common.vo.Result;
+import com.hqyj.erp.modules.common.vo.SearchVo;
 
 public interface AccountService {
 
@@ -17,7 +17,7 @@ public interface AccountService {
 	
 	User getUserById(int userId);
 	
-	PageInfo<User> getUserList(UserSearch userSearch);
+	PageInfo<User> getUserList(SearchVo userSearch);
 	
 	Result updateUserById(User user);
 	
