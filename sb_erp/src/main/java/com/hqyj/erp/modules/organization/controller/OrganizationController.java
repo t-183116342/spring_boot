@@ -17,6 +17,7 @@ import com.hqyj.erp.modules.common.vo.SearchVo;
 import com.hqyj.erp.modules.organization.entity.Department;
 import com.hqyj.erp.modules.organization.entity.Position;
 import com.hqyj.erp.modules.organization.service.OrganizationService;
+import com.hqyj.erp.modules.organization.vo.ZtreeModel;
 
 /**
  * 公司组织控制器
@@ -82,6 +83,19 @@ public class OrganizationController {
 		return organizationService.getPositionsByPage(userSearch);
 	}
 	
+	@RequestMapping("/positionEdit")
+	public String positionEditPage(@RequestParam int positionId, ModelMap modelMap) {
+		modelMap.addAttribute("position", organizationService.getPositionById(positionId));
+		modelMap.addAttribute("departments", organizationService.getDepartments());
+		return "organization/positionEdit";
+	}
+	
+	@PostMapping(value="/doPositionEdit",consumes="application/x-www-form-urlencoded")
+	@ResponseBody
+	public Result doPositionEdit(@ModelAttribute Position position) {
+		return organizationService.insertOrUpdatePosition(position);
+	}
+	
 	@RequestMapping("/positionAdd")
 	public String positionAdd(ModelMap modelMap) {
 		modelMap.addAttribute("departments", organizationService.getDepartments());
@@ -104,6 +118,12 @@ public class OrganizationController {
 	@ResponseBody
 	public List<Position> getPositionsByDepartName(@RequestParam String departName) {
 		return organizationService.getPositionsByDepartName(departName);
+	}
+	
+	@PostMapping(value="/getOrgTree")
+	@ResponseBody
+	public List<ZtreeModel> getOrgTree(@ModelAttribute Position position) {
+		return organizationService.getOrgTree();
 	}
 	
 }

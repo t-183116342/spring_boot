@@ -119,7 +119,7 @@
 						    str+="<td>"+val.positionName+"</td>"
 						    str+="<td>"+val.departName+"</td>"
 						    str+="<td>"+val.positionDescription+"</td>"
-						    str+="<td><a class=\"layui-btn layui-btn-mini\" onclick=\"x_admin_show('修改','/account/userEdit?positionId="+val.positionId+"')\" ><i class=\"layui-icon\">&#xe642;</i>编辑</a> <button onclick=\"delPosition('"+val.positionId+"')\" class=\"layui-btn layui-btn-mini layui-btn-danger\"><i class=\"layui-icon\">&#xe640;</i>删除</button></td>"
+						    str+="<td><a class=\"layui-btn layui-btn-mini\" onclick=\"x_admin_show('修改','/organization/positionEdit?positionId="+val.positionId+"')\" ><i class=\"layui-icon\">&#xe642;</i>编辑</a> <button onclick=\"delPosition('"+val.positionId+"')\" class=\"layui-btn layui-btn-mini layui-btn-danger\"><i class=\"layui-icon\">&#xe640;</i>删除</button></td>"
 						    str+="</tr>";
 							$("#positions").append(str);
 						})

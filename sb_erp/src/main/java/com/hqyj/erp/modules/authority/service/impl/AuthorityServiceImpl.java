@@ -66,6 +66,11 @@ public class AuthorityServiceImpl implements AuthorityService {
 	}
 
 	@Override
+	public List<Resource> getResourcesByRoleId(int roleId) {
+		return authorityDao.getResourcesByRoleId(roleId);
+	}
+
+	@Override
 	public PageInfo<Resource> getResource(SearchVo resarchVo) {
 		try {
 			SearchVo.initSearchVo(resarchVo);
@@ -125,6 +130,11 @@ public class AuthorityServiceImpl implements AuthorityService {
 			e.printStackTrace();
 			return Result.getResult(0);
 		}
+	}
+
+	@Override
+	public List<Role> getRolesByUserId(int userId) {
+		return authorityDao.getRolesByUserId(userId);
 	}
 
 }

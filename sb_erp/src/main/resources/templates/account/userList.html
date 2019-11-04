@@ -104,14 +104,18 @@
 				},
 				dataType : "text",
 				url : "/account/doUserDelete",
-				success : function(result) {
-					console.log(result);
-					layer.msg("删除成功",{
-	              		icon : 1,
-	               		time: 500,
-	               	},function () {
-	               		location.replace(location.href)
-	                 });
+				success : function(data) {
+					var result = eval("(" + data + ")");
+	    			if (result.status == 200) {
+						layer.msg("修改成功",{
+							icon : 1,
+							time: 500,
+						},function () {
+							location.replace(location.href)
+						});
+					} else {
+						layer.msg(result.message, {icon: 0});
+					}
 				},
 				error : function() {
 					layer.msg('无法连接服务器', {icon: 2});
@@ -222,7 +226,7 @@
 						    str+="<td>"+new Date(val.userBirthday).format("yyyy-MM-dd hh:mm")+"</td>"
 						    str+="<td>"+val.userTelephone+"</td>"
 						    str+="<td>"+val.userEmail+"</td>"
-						    str+="<td><a class=\"layui-btn  layui-btn-mini\" onclick=\"x_admin_show('修改','/account/userEdit?userId="+val.userId+"')\" ><i class=\"layui-icon\">&#xe642;</i>编辑</a> <button onclick=\"delUser('"+val.userId+"')\" class=\"layui-btn  layui-btn-mini layui-btn-danger\"><i class=\"layui-icon\">&#xe640;</i>删除</button></td>"
+						    str+="<td><a class=\"layui-btn  layui-btn-mini\" onclick=\"x_admin_show('修改','/account/userEdit?userId="+val.userId+"')\" ><i class=\"layui-icon\">&#xe642;</i>编辑</a><button onclick=\"delUser('"+val.userId+"')\" class=\"layui-btn  layui-btn-mini layui-btn-danger\"><i class=\"layui-icon\">&#xe640;</i>删除</button></td>"
 						    str+="</tr>";
 							$("#users").append(str);
 						})

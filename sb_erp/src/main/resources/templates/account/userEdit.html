@@ -21,6 +21,17 @@
 				<input type="hidden" name="userId" th:value="${user.userId}" />
 				<div class="layui-form-item">
 					<label for="L_username" class="layui-form-label"> <span
+						class="x-red">*</span>上传图片
+					</label>
+					<div class="layui-input-inline">
+						<img name="testImg" alt="" src="">
+						<button type="button" class="layui-btn" id="uploadFile">
+							<i class="layui-icon">&#xe67c;</i>上传图片
+						</button>
+					</div>
+				</div>
+				<div class="layui-form-item">
+					<label for="L_username" class="layui-form-label"> <span
 						class="x-red">*</span>账号
 					</label>
 					<div class="layui-input-inline">
@@ -265,11 +276,28 @@
 			});
 		};
 		
-		layui.use(['form','layer','laydate'], function(){
+		layui.use(['form','layer','laydate','upload'], function(){
 			$ = layui.jquery;
 			var form = layui.form,
 				layer = layui.layer,
-				laydate=layui.laydate;
+				laydate=layui.laydate,
+				upload = layui.upload;
+			
+			upload.render({
+				elem: '#uploadFile',
+				url: '/account/upload/',
+				done: function(result){
+					//var result = eval("(" + data + ")");
+	    			if (result.status == 200) {
+						layer.msg(result.object, {icon: 0});
+		    			$("[name=testImg]").attr("src", result.object);
+					} else {
+						layer.msg(result.message, {icon: 0});
+					}
+				},
+				error: function(){
+				}
+			});
 			
 			laydate.render({
 	    		elem: '#date1',

@@ -57,8 +57,10 @@ public class AccountServiceImpl implements AccountService {
 			
 			authorityDao.deleteUserRole(user.getUserId());
 			Integer[] userRoles = user.getUserRoles();
-			for (Integer roleId : userRoles) {
-				authorityDao.insertUserRole(new UserRole(user.getUserId(), roleId));
+			if (userRoles != null) {
+				for (Integer roleId : userRoles) {
+					authorityDao.insertUserRole(new UserRole(user.getUserId(), roleId));
+				}
 			}
 			
 			return new Result(200, "insert User success.", user);
@@ -73,13 +75,15 @@ public class AccountServiceImpl implements AccountService {
 	public Result getUserResult(User user) {
 		Subject subject = SecurityUtils.getSubject();
 		try {
+			UsernamePasswordToken usernamePasswordToken = 
+					new UsernamePasswordToken(user.getAccount(), MD5Util.getMD5(user.getPassword()));
+			usernamePasswordToken.setRememberMe(user.getRememberMe());
+			
 			// 登录验证，调用MyRealm中doGetAuthenticationInfo方法
-			subject.login(new UsernamePasswordToken(user.getAccount(), MD5Util.getMD5(user.getPassword())));
+			subject.login(usernamePasswordToken);
 			
 			// 授权，调用MyRealm中doGetAuthorizationInfo方法
-//			subject.checkRoles();
-			
-			subject.getSession().setAttribute(SystemConstant.USER_KEY, user);
+			subject.checkRoles();
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new Result(500, e.getMessage());
@@ -91,8 +95,13 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public User getUserBySession() {
 		Subject subject = SecurityUtils.getSubject();
-		User user = (User) subject.getSession().getAttribute(SystemConstant.USER_KEY);
-		return user;
+		Integer userId = (Integer) subject.getSession().getAttribute(SystemConstant.USER_KEY);
+		subject.getPrincipal();
+		if (userId != null) {
+			return accountDao.getUserById(userId);
+		} else {
+			return null;
+		}
 	}
 
 	@Override

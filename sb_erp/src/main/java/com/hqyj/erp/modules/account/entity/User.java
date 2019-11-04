@@ -40,6 +40,9 @@ public class User {
 	private String userDepartement;
 	
 	@Transient
+	private boolean rememberMe;
+	
+	@Transient
 	private List<Role> roles;
 	@Transient
 	private Integer[] userRoles;
@@ -166,5 +169,13 @@ public class User {
 
 	public void setUserRoles(Integer[] userRoles) {
 		this.userRoles = userRoles;
+	}
+
+	public boolean getRememberMe() {
+		return rememberMe;
+	}
+
+	public void setRememberMe(boolean rememberMe) {
+		this.rememberMe = rememberMe;
 	}
 }

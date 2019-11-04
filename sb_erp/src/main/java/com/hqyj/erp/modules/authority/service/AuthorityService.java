@@ -18,6 +18,8 @@ public interface AuthorityService {
 	
 	Result deleteRole(int roleId);
 	
+	List<Resource> getResourcesByRoleId(int roleId);
+	
 	PageInfo<Resource> getResource(SearchVo resarchVo);
 	
 	Resource getResourceById(int resourceId);
@@ -25,4 +27,6 @@ public interface AuthorityService {
 	Result insertOrUpdateResource(Resource resource);
 	
 	Result deleteResource(int resourceId);
+	
+	List<Role> getRolesByUserId(int userId);
 }

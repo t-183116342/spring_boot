@@ -15,8 +15,8 @@ import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import com.hqyj.erp.modules.account.entity.User;
-import com.hqyj.erp.modules.authority.entity.Role;
 import com.hqyj.erp.modules.common.vo.SearchVo;
+import com.hqyj.erp.modules.organization.vo.ZtreeModel;
 
 @Repository
 @Mapper
@@ -31,17 +31,12 @@ public interface AccountDao {
 	@Options(useGeneratedKeys=true,keyColumn="user_id",keyProperty="userId")
 	void insertUser(User user);
 	
-	@Select("select * from role r "
-			+ "left join user_role ur on r.role_id = ur.role_id "
-			+ "where ur.user_id = #{userId}")
-	List<Role> getRolesByUserId(int userId);
-	
 	@Select("select * from user where user_id = #{userId}")
 	@Results(id="userResult", value={
 		@Result(column="user_id", property="userId"),
 		@Result(column="user_id",property="roles",
 				javaType=List.class,
-				many=@Many(select="com.hqyj.erp.modules.account.dao.AccountDao.getRolesByUserId"))
+				many=@Many(select="com.hqyj.erp.modules.authority.dao.AuthorityDao.getRolesByUserId"))
 	})
 	User getUserById(int userId);
 	
@@ -89,5 +84,8 @@ public interface AccountDao {
 	
 	@Delete("delete from user where user_id = #{userId}")
 	void deleteUserById(int userId);
+	
+	@Select("select user_id as id, user_name as name, user_departement as pId from user")
+	List<ZtreeModel> getOrgTree();
 
 }

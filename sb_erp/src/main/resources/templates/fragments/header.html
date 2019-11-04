@@ -8,17 +8,17 @@
 			<i title="展开左侧栏" class="iconfont">&#xe699;</i>
 		</div>
 		<ul class="layui-nav right">
-			<li class="layui-nav-item"><a href="javascript:;">${userName}</a>
+			<li class="layui-nav-item"><a href="javascript:;"><span th:text="${user.userName == null ? '???' : user.userName}"></span></a>
 				<dl class="layui-nav-child">
 					<!-- 二级菜单 -->
 					<dd>
 						<a onclick="x_admin_show('个人信息','http://www.baidu.com')">个人中心</a>
 					</dd>
 					<dd>
-						<a href="indexController/exitLogin.do">退出登录</a>
+						<a href="/loginOut">退出登录</a>
 					</dd>
 				</dl></li>
-			<li class="layui-nav-item to-index"><a href="index.jsp">系统首页</a></li>
+			<li class="layui-nav-item to-index"><a href="/index">系统首页</a></li>
 		</ul>
 	</div>
 	
@@ -26,7 +26,6 @@
 	<div class="left-nav">
 		<div id="side-nav">
 			<ul id="nav">
-				<!-- <shiro:hasRole name="eme"> -->
 				<li>
 					<a href="javascript:;">
 						<i class="iconfont">&#xe6b8;</i>
@@ -34,10 +33,16 @@
 						<i class="iconfont nav_right">&#xe697;</i>
 					</a>
 					<ul class="sub-menu">
-						<li>
-							<a _href="/organization/structure">
+						<li shiro:hasAnyRoles="admin,manager">
+							<a _href="/organization/departmentList">
 								<i class="iconfont">&#xe6a7;</i>
-								<cite>组织结构</cite>
+								<cite>部门信息</cite>
+							</a>
+						</li>
+						<li shiro:hasAnyRoles="admin,manager">
+							<a _href="/organization/positionList">
+								<i class="iconfont">&#xe6a7;</i>
+								<cite>职位信息</cite>
 							</a>
 						</li>
 						<li>
@@ -47,23 +52,15 @@
 							</a>
 						</li>
 						<li>
-							<a _href="/organization/departmentList">
+							<a _href="/organization/structure">
 								<i class="iconfont">&#xe6a7;</i>
-								<cite>部门信息</cite>
-							</a>
-						</li>
-						<li>
-							<a _href="/organization/positionList">
-								<i class="iconfont">&#xe6a7;</i>
-								<cite>职位信息</cite>
+								<cite>组织结构</cite>
 							</a>
 						</li>
 					</ul>
 				</li>
-				<!-- </shiro:hasRole> -->
 				
-				<!-- <shiro:hasRole name="authr"> -->
-				<li>
+				<li shiro:hasAnyRoles="admin,manager">
 					<a href="javascript:;">
 						<i class="iconfont">&#xe629;</i> 
 						<cite>权限管理</cite>
@@ -82,23 +79,9 @@
 								<cite>资源信息</cite>
 							</a>
 						</li>
-						<li>
-							<a _href="/authority/roleAuthPage">
-								<i class="iconfont">&#xe6a7;</i>
-								<cite>用户角色</cite>
-							</a>
-						</li>
-						<li>
-							<a _href="/authority/departmentAuthPage">
-								<i class="iconfont">&#xe6a7;</i>
-								<cite>角色资源</cite>
-							</a>
-						</li>
 					</ul>
 				</li>
-				<!-- </shiro:hasRole> -->
 				
-				<!-- <shiro:hasRole name="asset"> -->
 				<li>
 					<a href="javascript:;"> 
 						<i class="iconfont">&#xe607;</i> 
@@ -132,10 +115,8 @@
 						</li>
 					</ul>
 				</li>
-				<!-- </shiro:hasRole> -->
 				
-				<!-- <shiro:hasRole name="process"> -->
-				<li>
+				<li shiro:hasAnyRoles="admin,manager">
 					<a href="javascript:;"> 
 						<i class="iconfont">&#xe602;</i> 
 					 	<cite>流程管理</cite>
@@ -162,10 +143,8 @@
 						</li>
 					</ul>
 				</li>
-				<!-- </shiro:hasRole> -->
 				
-				<!-- <shiro:hasRole name="storehourse"> -->
-				<li>
+				<li shiro:hasAnyRoles="admin,manager">
 					<a href="javascript:;"> 
 						<i class="iconfont">&#xe613;</i> 
 						<cite>库存管理</cite>
@@ -186,7 +165,6 @@
 						</li>
 					</ul>
 				</li>
-				<!-- </shiro:hasRole> -->
 			</ul>
 		</div>
 	</div>

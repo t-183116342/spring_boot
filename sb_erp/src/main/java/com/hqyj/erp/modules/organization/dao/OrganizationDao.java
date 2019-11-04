@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.hqyj.erp.modules.organization.entity.Department;
 import com.hqyj.erp.modules.organization.entity.Position;
+import com.hqyj.erp.modules.organization.vo.ZtreeModel;
 
 @Repository
 @Mapper
@@ -58,4 +59,7 @@ public interface OrganizationDao {
 	
 	@Delete("delete from position where position_id=#{positionId}")
 	void deletePosition(int positionId);
+	
+	@Select("select depart_name as id, depart_name as name from department")
+	List<ZtreeModel> getOrgTree();
 }

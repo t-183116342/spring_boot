@@ -9,6 +9,7 @@ import com.hqyj.erp.modules.common.vo.Result;
 import com.hqyj.erp.modules.common.vo.SearchVo;
 import com.hqyj.erp.modules.organization.entity.Department;
 import com.hqyj.erp.modules.organization.entity.Position;
+import com.hqyj.erp.modules.organization.vo.ZtreeModel;
 
 public interface OrganizationService {
 
@@ -24,6 +25,8 @@ public interface OrganizationService {
 	
 	List<Position> getPositions();
 	
+	Position getPositionById(int positionId);
+	
 	Result insertOrUpdatePosition(Position position);
 	
 	PageInfo<Position> getPositionsByPage(SearchVo searchVo);
@@ -31,4 +34,6 @@ public interface OrganizationService {
 	Result deletePosition(int positionId);
 	
 	List<Position> getPositionsByDepartName(@RequestParam String departName);
+	
+	List<ZtreeModel> getOrgTree();
 }

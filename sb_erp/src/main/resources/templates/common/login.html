@@ -30,15 +30,38 @@
 				<input name="password" placeholder="密码" type="password"
 					class="layui-input">
 				<hr class="hr15">
+				<input type="text" value="" placeholder="请输入验证码（不区分大小写）" class="input-val">
+            	<canvas id="canvas" width="100" height="43"></canvas>
+				<hr class="hr15">
 				<input lay-submit lay-filter="login" style="width: 100%;" id="loginButton" 
 					type="button" value="登录" />
 				<hr class="hr20">
 				<div class="layui-form-item">
 				<div class="layui-form-item" pane="">
-					<input type="checkbox" lay-filter="filter"  id="memoryuser" lay-skin="primary" title="30天内自动登录" >
+					<input type="checkbox" lay-filter="filter" name="rememberMe" 
+						id="rememberMe" lay-skin="primary" title="30天内自动登录" >
 					<div style="float:right;margin-top: 10px;"><a href="/register">注册</a></div>
 				</div>
 			</form>
 		</div>
 	</body>
+	<style>
+		.input-val {
+	        width: 230px!important;;
+	        background: #ffffff;
+	        height: 45px!important;;
+	        padding: 0 2%;
+	        border-radius: 5px;
+	        border: none;
+	        border: 1px solid rgba(0,0,0,.2);
+	        font-size: 1.0625rem;
+	    }
+		#canvas {
+	        float: right;
+	        display: inline-block;
+	        border: 1px solid #ccc;
+	        border-radius: 5px;
+	        cursor: pointer;
+	    }
+	</style>
 </html>

@@ -30,44 +30,44 @@ var nodes = [ {
 	'pId' : '0',
 	'name' : '公司',
 	'open' : 'true',
-	'icon' : 'images/company.png',
+	'icon' : '/images/company.png',
 	'type' : 'company'
 }, {
 	'id' : '2',
 	'pId' : '1',
 	'name' : '后勤部门',
-	'icon' : 'images/department.png',
+	'icon' : '/images/department.png',
 	'type' : 'department'
 }, {
 	'id' : '3',
 	'pId' : '1',
 	'name' : '人力资源部门',
-	'icon' : 'images/department.png',
+	'icon' : '/images/department.png',
 	'type' : 'department'
 }, {
 	'id' : '4',
 	'pId' : '1',
 	'name' : '研发部门',
-	'icon' : 'images/department.png',
+	'icon' : '/images/department.png',
 	'type' : 'department'
 }, {
 	'id' : '5',
 	'pId' : '2',
 	'name' : '市场部门',
-	'icon' : 'images/department.png',
+	'icon' : '/images/department.png',
 	'type' : 'department'
 }, {
 	'id' : '6',
 	'pId' : '3',
 	'name' : '张三',
-	'icon' : 'images/staff.png',
+	'icon' : '/images/staff.png',
 	'type' : 'staff'
 },
 {
 	'id' : '7',
 	'pId' : '3',
 	'name' : '李四',
-	'icon' : 'images/staff.png',
+	'icon' : '/images/staff.png',
 	'type' : 'staff'
 }];
 
@@ -76,7 +76,7 @@ var AjaxNode=[{
 	'pId' : '-1',
 	'name' : '公司',
 	'open' : 'true',
-	'icon' : 'images/company.png',
+	'icon' : '/images/company.png',
 	'type' : 'company'
 }];
 // 使用ajax生成树
@@ -86,18 +86,18 @@ $(document).ready(function() {
 
 
 function getOrganization(){
-	  $.ajax({
-  		type : "POST",
+	$.ajax({
+		type : "POST",
   		data :{	
   		},
   		dataType : "text",
-  		url :"manageEmeController/getOrg.ajax",
+  		url :"/organization/getOrgTree",
   		success : function(result) {
-  		 console.log(result);
-  		 var ztreeJson=JSON.parse(result);//将json字符串转换成json对象
-  		nodes=convertTree(ztreeJson);//组装后台数据
-  		console.log(JSON.stringify(nodes));
-  		$.fn.zTree.init($("#companytree"), setting, nodes);//激活ztree
+  			console.log(result);
+  			var ztreeJson=JSON.parse(result);//将json字符串转换成json对象
+  			nodes=convertTree(ztreeJson);//组装后台数据
+  			console.log(JSON.stringify(nodes));
+  			$.fn.zTree.init($("#companytree"), setting, nodes);//激活ztree
   		},
   		error : function() {
 //  			layer.msg('无法连接服务器', {icon: 2});
@@ -129,7 +129,7 @@ function getUserInfo(staffNode,departName){
   			userId:staffNode.id, //staffNode.id用户id
   		},
   		dataType : "text",
-  		url :"manageEmeController/getUserInfo.ajax",
+  		url :"/account/getUserById",
   		success : function(result) {
   		 console.log("getUserInfo:"+result);
   		 var user=JSON.parse(result);//转换成json对象
@@ -153,10 +153,10 @@ function convertTree(tree){
 	for(var i=0,l=tree.length;i<l;i++){
 			if(tree[i].pId=="0"){
 				tree[i].type="department";
-				tree[i].icon='images/department.png';			
+				tree[i].icon='/images/department.png';			
 			}else{
 				tree[i].type="staff";
-				tree[i].icon='images/staff.png';
+				tree[i].icon='/images/staff.png';
 			}
 			AjaxNode.push(tree[i]);
 		}

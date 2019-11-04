@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.hqyj.erp.modules.account.dao.AccountDao;
 import com.hqyj.erp.modules.common.vo.Result;
 import com.hqyj.erp.modules.common.vo.SearchVo;
 import com.hqyj.erp.modules.common.vo.SystemConstant;
@@ -16,12 +17,15 @@ import com.hqyj.erp.modules.organization.dao.OrganizationDao;
 import com.hqyj.erp.modules.organization.entity.Department;
 import com.hqyj.erp.modules.organization.entity.Position;
 import com.hqyj.erp.modules.organization.service.OrganizationService;
+import com.hqyj.erp.modules.organization.vo.ZtreeModel;
 
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
 	
 	@Autowired
 	private OrganizationDao organizationDao;
+	@Autowired
+	private AccountDao accountDao;
 
 	@Override
 	public List<Department> getDepartments() {
@@ -77,6 +81,11 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
+	public Position getPositionById(int positionId) {
+		return organizationDao.getPositionById(positionId);
+	}
+
+	@Override
 	public Result insertOrUpdatePosition(Position position) {
 		Position positionTemp = organizationDao.getPositionByName(position.getPositionName());
 		if (positionTemp != null && 
@@ -121,5 +130,12 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Override
 	public List<Position> getPositionsByDepartName(String departName) {
 		return organizationDao.getPositionsByDepartName(departName);
+	}
+
+	@Override
+	public List<ZtreeModel> getOrgTree() {
+		List<ZtreeModel> zTreeModel = accountDao.getOrgTree();
+		zTreeModel.addAll(organizationDao.getOrgTree());
+		return zTreeModel;
 	}
 }

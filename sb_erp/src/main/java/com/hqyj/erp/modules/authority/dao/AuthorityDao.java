@@ -46,8 +46,18 @@ public interface AuthorityDao {
 			+ "where rr.resource_id = #{resourceId}")
 	List<Role> getRolesByResourceId(int resourceId);
 	
+	@Select("select * from role r "
+			+ "left join user_role ur on r.role_id = ur.role_id "
+			+ "where ur.user_id = #{userId}")
+	List<Role> getRolesByUserId(int userId);
+	
 	@Select("select * from resource")
 	List<Resource> getResources();
+	
+	@Select("select * from resource r "
+			+ "left join role_resource rr on r.resource_id = rr.resource_id "
+			+ "where rr.role_id = #{roleId}")
+	List<Resource> getResourcesByRoleId(int roleId);
 	
 	@Select("select * from resource where resource_id=#{resourceId}")
 	@Results(id="resourceResult", value={
