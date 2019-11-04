@@ -1,5 +1,9 @@
 package com.hqyj.erp.modules.account.controller;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,6 +21,7 @@ import com.hqyj.erp.modules.authority.entity.Role;
 import com.hqyj.erp.modules.authority.service.AuthorityService;
 import com.hqyj.erp.modules.common.vo.Result;
 import com.hqyj.erp.modules.common.vo.SearchVo;
+import com.hqyj.erp.modules.organization.entity.Department;
 import com.hqyj.erp.modules.organization.service.OrganizationService;
 
 /**
@@ -78,7 +83,15 @@ public class AccountController {
 	}
 	
 	@RequestMapping("/userAdd")
-	public String userAddPage() {
+	public String userAddPage(ModelMap modelMap) {
+		List<Department> departments = Optional.ofNullable(
+				organizationService.getDepartments()).orElse(Collections.emptyList());
+		modelMap.addAttribute("departments", departments);
+		if (departments.size() > 0) {
+			modelMap.addAttribute("positions", 
+					organizationService.getPositionsByDepartName(departments.get(0).getDepartName()));
+		}
+		modelMap.addAttribute("roles", authorityService.getRoles());
 		return "account/userAdd";
 	}
 	

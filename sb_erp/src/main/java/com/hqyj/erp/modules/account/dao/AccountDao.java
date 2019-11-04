@@ -27,7 +27,7 @@ public interface AccountDao {
 			+ "user_diploma, user_entrytime, user_position, user_departement) "
 			+ "values(#{account}, #{password}, #{userName}, #{userSex}, "
 			+ "#{userTelephone}, #{userEmail}, #{userAddress}, #{userBirthday}, #{userDiploma}, "
-			+ "#{userEntrytime}, #{userPosition}, #{userDepartement}")
+			+ "#{userEntrytime}, #{userPosition}, #{userDepartement})")
 	@Options(useGeneratedKeys=true,keyColumn="user_id",keyProperty="userId")
 	void insertUser(User user);
 	

@@ -3,20 +3,19 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<TITLE>SpringDemo</TITLE>
-<META name="description" content="THORNBIRD.COM" />
-
-<!-- 引入外部js或css -->
-<script th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
-
-<!-- 引入内部js或css -->
-<link th:href="${'/css/font.css'}" rel="stylesheet">
-<link th:href="${'/css/xadmin.css'}" rel="stylesheet">
-<script th:src="${'/lib/layui/layui.js'}" charset="utf-8"></script>
-<script th:src="${'/js/xadmin.js'}" type="text/javascript"></script>
-</head>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<TITLE>SpringDemo</TITLE>
+		<META name="description" content="THORNBIRD.COM" />
+		
+		<!-- 引入外部js或css -->
+		<script th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
+		<!-- 引入内部js或css -->
+		<script th:src="${'/lib/layui/layui.js'}" charset="utf-8"></script>
+		<script th:src="${'/js/xadmin.js'}" type="text/javascript"></script>
+		<link th:href="${'/css/font.css'}" rel="stylesheet">
+		<link th:href="${'/css/xadmin.css'}" rel="stylesheet">
+	</head>
 <body>
 	<div class="x-body">
 		<form id="form1" class="layui-form">
@@ -71,8 +70,9 @@
 					class="x-red">*</span>出生日期
 				</label>
 				<div class="layui-input-inline">
-					<input type="text" id="date1" name="userBirthday" required=""
-						lay-verify="required" autocomplete="off" class="layui-input">
+					<input type="text" id="date1" 
+						name="userBirthday" required="" lay-verify="required"
+						autocomplete="off" class="layui-input">
 				</div>
 			</div>
 			<div class="layui-form-item">
@@ -80,8 +80,9 @@
 					class="x-red">*</span>入职时间
 				</label>
 				<div class="layui-input-inline">
-					<input type="text" id="date2" name="userEntrytime" required=""
-						lay-verify="required" autocomplete="off" class="layui-input">
+					<input type="text" id="date2" 
+						name="userEntrytime" required="" lay-verify="required"
+						autocomplete="off" class="layui-input">
 				</div>
 			</div>
 			<div class="layui-form-item">
@@ -98,15 +99,13 @@
 				</div>
 			</div>
 			<div class="layui-form-item">
-				<label for="username" class="layui-form-label"> <span
-					class="x-red">*</span>部门安排
+				<label for="username" class="layui-form-label">
+					<span class="x-red">*</span>部门安排
 				</label>
 				<div class="layui-input-inline">
-					<select name="userDepartement">
-						<c:forEach items="${departs}" var="depart">
-							<option value="${depart.departId }">${depart.departName}
-							</option>
-						</c:forEach>
+					<select name="userDepartement" lay-filter="departSelect">
+						<option th:each="depart:${departments}" 
+							th:value="${depart.departName}" th:text="${depart.departName}"/>
 					</select>
 				</div>
 			</div>
@@ -115,8 +114,20 @@
 					class="x-red">*</span>职位
 				</label>
 				<div class="layui-input-inline">
-					<input type="text" id="L_email" name="userPosition" required=""
-						lay-verify="" autocomplete="off" class="layui-input">
+					<select name="userPosition" lay-filter="positionSelect">
+						<option th:each="position:${positions}" 
+							th:value="${position.positionName}" th:text="${position.positionName}"/>
+					</select>
+				</div>
+			</div>
+			<div class="layui-form-item">
+				<label class="layui-form-label">
+					指定角色
+				</label>
+				<div class="layui-input-block">
+					<input type="checkbox" name="userRoles" lay-skin="primary" 
+						th:each="role,status : ${roles}" 
+						th:title="${role.roleName}" th:value="${role.roleId}">
 				</div>
 			</div>
 			<div class="layui-form-item">
@@ -209,68 +220,91 @@
 			}
 		});
 	}
+	
 	layui.use(['form','layer','laydate'], function(){
-           $ = layui.jquery;
-         var form = layui.form
-         ,layer = layui.layer
-         ,laydate=layui.laydate;
+		$ = layui.jquery;
+		var form = layui.form,
+		layer = layui.layer,
+		laydate=layui.laydate;
        	
-       	
-         //日期
-         laydate.render({
-   		elem: '#date1'
- 		});
-       laydate.render({
-   		elem: '#date2'
- 		});
-         //自定义验证规则
-         form.verify({
-           nikename: function(value){
-             if(value.length < 3){
-               return '至少得3个字符啊';
-             }
-           }
-           ,pass: [/(.+){6,12}$/, '密码必须6到12位']
-           ,repass: function(value){
-               if($('#L_pass').val()!=$('#L_repass').val()){
-                   return '两次密码不一致';
-               }
-           }
-         });
-         //监听提交
-         form.on('submit(add)', function(data){
-           console.log(data);
-           //发异步，把数据提交给php
-           console.log(data);
-           $.ajax({
-       		type : "POST",
-       		data : $('#form1').serialize(),
-       		dataType : "text",
-       		url :"/account/doUserAdd",
-       		success : function(data) {
-       			var result = eval("(" + data + ")");
-    			if (result.status == 200) {
-    				//发异步，把数据提交给php
-					layer.msg("修改成功",{
-						icon : 1,
-						time: 500,
-					},function () {
-						// 获得frame索引
-						var index = parent.layer.getFrameIndex(window.name);
-						//关闭当前frame
-						parent.location.reload();
-						parent.layer.close(index);
-					});
-				} else {
-					layer.msg(result.message, {icon: 0});
+		//日期
+		laydate.render({
+			elem: '#date1',
+    		trigger: 'click'
+		});
+		laydate.render({
+			elem: '#date2',
+    		trigger: 'click'
+		});
+		
+		//自定义验证规则
+		form.verify({
+			nikename: function(value){
+				if(value.length < 3){
+					return '至少得3个字符啊';
 				}
-       		},
-       		error : function() {
-       			layer.msg('无法连接服务器', {icon: 2});
-       		}
-       	});   
-           return false;
-         });
+			},
+			pass: [/(.+){6,12}$/, '密码必须6到12位'],
+			repass: function(value){
+				if($('#L_pass').val()!=$('#L_repass').val()){
+					return '两次密码不一致';
+				}
+			}
+		});
+		
+		//监听提交
+		form.on('submit(add)', function(data){
+            console.log(data);
+            //发异步，把数据提交给php
+            console.log(data);
+            $.ajax({
+        		url :"/account/doUserAdd",
+        		type : "POST",
+        		data : $('#form1').serialize(),
+        		dataType : "text",
+        		success : function(data) {
+        			var result = eval("(" + data + ")");
+        			if (result.status == 200) {
+        				//发异步，把数据提交给php
+						layer.msg("修改成功",{
+							icon : 1,
+							time: 500,
+						},function () {
+							// 获得frame索引
+							var index = parent.layer.getFrameIndex(window.name);
+							//关闭当前frame
+							parent.location.reload();
+							parent.layer.close(index);
+						});
+    				} else {
+    					layer.msg(result.message, {icon: 0});
+    				}
+        		},
+        		error : function() {
+        			layer.msg('无法连接服务器', {icon: 2});
+        		}
+        	});   
+            return false;
+		});
+		
+		form.on('select(departSelect)', function(data){
+			$.ajax({
+				url : "/organization/positionsByDepart?departName=" + $("[name=userDepartement]").val(),
+				type : "get",
+				contentType: "application/json",
+				success : function (data) {
+					$("[name=userPosition]").empty();
+					$.each(data, function(i, item){
+						$("[name=userPosition]").append("<option value="+
+								item.positionName+">"+item.positionName+"</option>");
+					});
+					form.render('select');
+				},
+				error : function (data) {
+					layer.msg(data.message, {icon: 0});
+				}
+			});
+		});
 	});
 </script>
 </html>
