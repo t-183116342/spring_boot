@@ -36,10 +36,10 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public Result inserOrUpdatetUser(User user) {
-//		if (user == null || StringUtils.isBlank(user.getAccount()) 
-//				|| StringUtils.isBlank(user.getPassword())) {
-//			return new Result(500, "User name or password is null.");
-//		}
+		if (user == null || StringUtils.isBlank(user.getAccount()) 
+				|| (StringUtils.isBlank(user.getPassword()) && user.getUserId() <= 0)) {
+			return new Result(500, "User name or password is null.");
+		}
 		
 		User existUser = accountDao.getUserByName(user.getAccount());
 		if (existUser != null && 
