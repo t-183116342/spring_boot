@@ -66,8 +66,8 @@ public class CommonController {
 	public String indexPage(HttpServletRequest request, ModelMap modelMap) {
 		
 	    Subject subject = SecurityUtils.getSubject();
-	    LOGGER.debug("------------------" + SecurityUtils.getSubject().isRemembered());
-	    LOGGER.debug("------------------" + SecurityUtils.getSubject().isAuthenticated());
+	    LOGGER.debug("------------------" + subject.isRemembered());
+	    LOGGER.debug("------------------" + subject.isAuthenticated());
 	    
 		User user = accountService.getUserByName((String)subject.getPrincipal());
 		if (user == null) {

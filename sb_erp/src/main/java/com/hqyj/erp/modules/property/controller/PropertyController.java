@@ -57,8 +57,7 @@ public class PropertyController {
 	
 	@RequestMapping("/propertyList")
 	public String propertyListPage(ModelMap modelMap) {
-		modelMap.addAttribute("template", "property/propertyList");
-		return "indexSimple";
+		return "property/propertyList";
 	}
 	
 	@RequestMapping("/propertyRecord")
