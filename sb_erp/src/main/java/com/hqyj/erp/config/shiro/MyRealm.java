@@ -21,7 +21,7 @@ import com.hqyj.erp.modules.account.service.AccountService;
 import com.hqyj.erp.modules.authority.entity.Resource;
 import com.hqyj.erp.modules.authority.entity.Role;
 import com.hqyj.erp.modules.authority.service.AuthorityService;
-import com.hqyj.erp.modules.common.vo.SystemConstant;
+import com.hqyj.erp.modules.common.constant.SystemConstant;
 
 @Component
 public class MyRealm extends AuthorizingRealm {

@@ -1,4 +1,4 @@
-package com.hqyj.erp.modules.common.vo;
+package com.hqyj.erp.modules.common.constant;
 
 /**
  * erp 系统常量池

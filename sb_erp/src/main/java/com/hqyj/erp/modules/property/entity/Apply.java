@@ -7,32 +7,40 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * （资产、采购、报废）申请
+ * 
  * @author: HymanHu
  * @date: 2019年10月27日
  */
 @Entity
 @Table(name = "apply")
 public class Apply {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int applyId;
-	// 申请类别，1-资产申请；2-采购申请；3-报废申请
+	// 申请类别，1-领用申请；2-采购申请；3-报废申请
 	private int applyType;
+	// 申请状态，0-申请状态；1-同意；-1-拒绝
+	private int applyStatus;
 	private String propertyName;
+	private String propertyType;
 	private String propertyModel;
-	private int propertyNum;
-	private double propertyPrice;
-	private double propertyTotalPrice;
+	private Integer propertyNum;
+	private Double unitPrice;
+	private Double totalPrice;
 	private String approveState;
-	// 申请人
-	private int applyUser;
-	// 批准人
-	private int purchaseUser;
-	private Date applyTime;
-	private Date purchaseTime;
+	private Integer applyUserId;
+	private Integer approveUserId;
+	private Date applyDate;
+	private Date approveDate;
+	@Transient
+	private String applyUserName;
+	@Transient
+	private String approveUserName;
 
 	public int getApplyId() {
 		return applyId;
@@ -50,12 +58,28 @@ public class Apply {
 		this.applyType = applyType;
 	}
 
+	public int getApplyStatus() {
+		return applyStatus;
+	}
+
+	public void setApplyStatus(int applyStatus) {
+		this.applyStatus = applyStatus;
+	}
+
 	public String getPropertyName() {
 		return propertyName;
 	}
 
 	public void setPropertyName(String propertyName) {
 		this.propertyName = propertyName;
+	}
+
+	public String getPropertyType() {
+		return propertyType;
+	}
+
+	public void setPropertyType(String propertyType) {
+		this.propertyType = propertyType;
 	}
 
 	public String getPropertyModel() {
@@ -66,28 +90,28 @@ public class Apply {
 		this.propertyModel = propertyModel;
 	}
 
-	public int getPropertyNum() {
+	public Integer getPropertyNum() {
 		return propertyNum;
 	}
 
-	public void setPropertyNum(int propertyNum) {
+	public void setPropertyNum(Integer propertyNum) {
 		this.propertyNum = propertyNum;
 	}
 
-	public double getPropertyPrice() {
-		return propertyPrice;
+	public Double getUnitPrice() {
+		return unitPrice;
 	}
 
-	public void setPropertyPrice(double propertyPrice) {
-		this.propertyPrice = propertyPrice;
+	public void setUnitPrice(Double unitPrice) {
+		this.unitPrice = unitPrice;
 	}
 
-	public double getPropertyTotalPrice() {
-		return propertyTotalPrice;
+	public Double getTotalPrice() {
+		return totalPrice;
 	}
 
-	public void setPropertyTotalPrice(double propertyTotalPrice) {
-		this.propertyTotalPrice = propertyTotalPrice;
+	public void setTotalPrice(Double totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 
 	public String getApproveState() {
@@ -98,35 +122,52 @@ public class Apply {
 		this.approveState = approveState;
 	}
 
-	public int getApplyUser() {
-		return applyUser;
+	public Integer getApplyUserId() {
+		return applyUserId;
 	}
 
-	public void setApplyUser(int applyUser) {
-		this.applyUser = applyUser;
+	public void setApplyUserId(Integer applyUserId) {
+		this.applyUserId = applyUserId;
 	}
 
-	public int getPurchaseUser() {
-		return purchaseUser;
+	public Integer getApproveUserId() {
+		return approveUserId;
 	}
 
-	public void setPurchaseUser(int purchaseUser) {
-		this.purchaseUser = purchaseUser;
+	public void setApproveUserId(Integer approveUserId) {
+		this.approveUserId = approveUserId;
 	}
 
-	public Date getApplyTime() {
-		return applyTime;
+	public Date getApplyDate() {
+		return applyDate;
 	}
 
-	public void setApplyTime(Date applyTime) {
-		this.applyTime = applyTime;
+	public void setApplyDate(Date applyDate) {
+		this.applyDate = applyDate;
 	}
 
-	public Date getPurchaseTime() {
-		return purchaseTime;
+	public Date getApproveDate() {
+		return approveDate;
 	}
 
-	public void setPurchaseTime(Date purchaseTime) {
-		this.purchaseTime = purchaseTime;
+	public void setApproveDate(Date approveDate) {
+		this.approveDate = approveDate;
 	}
+
+	public String getApplyUserName() {
+		return applyUserName;
+	}
+
+	public void setApplyUserName(String applyUserName) {
+		this.applyUserName = applyUserName;
+	}
+
+	public String getApproveUserName() {
+		return approveUserName;
+	}
+
+	public void setApproveUserName(String approveUserName) {
+		this.approveUserName = approveUserName;
+	}
+
 }

@@ -8,6 +8,7 @@
 			<i title="展开左侧栏" class="iconfont">&#xe699;</i>
 		</div>
 		<ul class="layui-nav right">
+			<input type="hidden" id="userId" th:value="${user.userId}"/>
 			<li class="layui-nav-item"><a href="javascript:;"><span th:text="${user.userName == null ? '???' : user.userName}"></span></a>
 				<dl class="layui-nav-child">
 					<!-- 二级菜单 -->
@@ -90,7 +91,7 @@
 					</a>
 					<ul class="sub-menu">
 						<li>
-							<a _href="/property/userProperty">
+							<a _href="/property/grantProperty">
 								<i class="iconfont">&#xe6a7;</i>
 								<cite>在用资产</cite>
 							</a>

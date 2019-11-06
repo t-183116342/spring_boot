@@ -1,6 +1,8 @@
 package com.hqyj.erp.modules.common.controller;
 
 import java.net.InetAddress;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -74,17 +76,25 @@ public class CommonController {
 			return "common/login";
 		}
 		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String ipAddress = null;
+		String serverName = null;
+		String loacalUrl = request.getScheme() + "://" + request.getLocalAddr() 
+			+ ":" + request.getServerPort() + request.getServletPath();
 		try {
 			InetAddress inetAddress = InetAddress.getLocalHost();
 			ipAddress = inetAddress.getHostAddress();
+			serverName = inetAddress.getHostName();
 		} catch (Exception e) {
 			ipAddress = "无法获取ip";
 		}
 		
+		modelMap.addAttribute("loginTime", sdf.format(new Date()));
 		modelMap.addAttribute("user", user);
 		modelMap.addAttribute("userIp", ipAddress);
 		modelMap.addAttribute("localIp", ipAddress);
+		modelMap.addAttribute("serverName", serverName);
+		modelMap.addAttribute("loacalUrl", loacalUrl);
 		modelMap.addAttribute("template", "common/wellcome");
 		
 		return "index";

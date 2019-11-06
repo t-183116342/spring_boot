@@ -52,30 +52,7 @@
 						class="layui-input">
 				</div>
 			</div>
-			<div class="layui-form-item layui-form-text">
-				<label class="layui-form-label">权限信息 </label>
-				<table class="layui-table layui-input-block">
-					<tbody>
-						<tr>
-							<td>部门权限设置</td>
-							<td>
-								<div class="layui-input-block">
-									<c:forEach items="${AllAuthrs}" var="AllAuthr">
-										<input name="roles" type="checkbox"
-											value="${AllAuthr.authorityId }"
-										<c:forEach items="${authrs}" var="authr">
-											<c:if test="${authr.authorityId==AllAuthr.authorityId }">checked</c:if>
-										</c:forEach>
-                                    	lay-skin="primary" title="${AllAuthr.authorityDescription }">
-                                    </c:forEach>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
 			<div class="layui-form-item" style="text-align: center;">
-
 				<a class="layui-btn" lay-filter="add" lay-submit=""> 确定 </a> <a
 					class="layui-btn layui-btn-normal"
 					onclick="javascript:history.go(-1);" style="text-align: center">返回</a>

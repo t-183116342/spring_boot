@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * 已发放资产
@@ -13,19 +14,20 @@ import javax.persistence.Table;
  * @date: 2019年10月27日
  */
 @Entity
-@Table(name = "user_property")
+@Table(name = "grant_property")
 public class GrantProperty {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int grantPropertyId;
-	private int userId;
+	private Integer userId;
 	private String propertyName;
-	private String model;
-	private String bigtypeName;
-	private String malltypeName;
-	private int propertyNum;
-	private double price;
-	private double totalPrice;
+	private String propertyType;
+	private String propertyModel;
+	private Integer propertyNum;
+	private Double unitPrice;
+	private Double totalPrice;
+	@Transient
+	private String userName;
 
 	public int getGrantPropertyId() {
 		return grantPropertyId;
@@ -35,11 +37,11 @@ public class GrantProperty {
 		this.grantPropertyId = grantPropertyId;
 	}
 
-	public int getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
@@ -51,51 +53,52 @@ public class GrantProperty {
 		this.propertyName = propertyName;
 	}
 
-	public String getModel() {
-		return model;
+	public String getPropertyType() {
+		return propertyType;
 	}
 
-	public void setModel(String model) {
-		this.model = model;
+	public void setPropertyType(String propertyType) {
+		this.propertyType = propertyType;
 	}
 
-	public String getBigtypeName() {
-		return bigtypeName;
+	public String getPropertyModel() {
+		return propertyModel;
 	}
 
-	public void setBigtypeName(String bigtypeName) {
-		this.bigtypeName = bigtypeName;
+	public void setPropertyModel(String propertyModel) {
+		this.propertyModel = propertyModel;
 	}
 
-	public String getMalltypeName() {
-		return malltypeName;
-	}
-
-	public void setMalltypeName(String malltypeName) {
-		this.malltypeName = malltypeName;
-	}
-
-	public int getPropertyNum() {
+	public Integer getPropertyNum() {
 		return propertyNum;
 	}
 
-	public void setPropertyNum(int propertyNum) {
+	public void setPropertyNum(Integer propertyNum) {
 		this.propertyNum = propertyNum;
 	}
 
-	public double getPrice() {
-		return price;
+	public Double getUnitPrice() {
+		return unitPrice;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public void setUnitPrice(Double unitPrice) {
+		this.unitPrice = unitPrice;
 	}
 
-	public double getTotalPrice() {
+	public Double getTotalPrice() {
 		return totalPrice;
 	}
 
-	public void setTotalPrice(double totalPrice) {
+	public void setTotalPrice(Double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
 }

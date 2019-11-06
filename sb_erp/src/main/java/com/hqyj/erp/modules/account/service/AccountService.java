@@ -11,7 +11,7 @@ public interface AccountService {
 	
 	Result getUserResult(User user);
 	
-	User getUserBySession();
+	User getUserBySubject();
 	
 	User getUserByName(String account);
 	

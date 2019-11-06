@@ -8,6 +8,7 @@ import javax.persistence.Table;
 
 /**
  * 资产表
+ * 
  * @author: HymanHu
  * @date: 2019年10月27日
  */
@@ -18,12 +19,18 @@ public class Property {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int propertyId;
 	private String propertyName;
-	private String model;
-	private String bigtypeName;
-	private String malltypeName;
-	private int propertyNum;
-	private double price;
-	private double totalPrice;
+	private String propertyType;
+	private String propertyModel;
+	private Integer propertyNum;
+	private Double unitPrice;
+	private Double totalPrice;
+
+	public void initProperty(Property existProperty) {
+		if (existProperty != null) {
+			this.setPropertyNum(this.getPropertyNum() + existProperty.getPropertyNum());
+			this.setTotalPrice(this.getUnitPrice() * this.getPropertyNum());
+		}
+	}
 
 	public int getPropertyId() {
 		return propertyId;
@@ -41,51 +48,44 @@ public class Property {
 		this.propertyName = propertyName;
 	}
 
-	public String getModel() {
-		return model;
+	public String getPropertyType() {
+		return propertyType;
 	}
 
-	public void setModel(String model) {
-		this.model = model;
+	public void setPropertyType(String propertyType) {
+		this.propertyType = propertyType;
 	}
 
-	public String getBigtypeName() {
-		return bigtypeName;
+	public String getPropertyModel() {
+		return propertyModel;
 	}
 
-	public void setBigtypeName(String bigtypeName) {
-		this.bigtypeName = bigtypeName;
+	public void setPropertyModel(String propertyModel) {
+		this.propertyModel = propertyModel;
 	}
 
-	public String getMalltypeName() {
-		return malltypeName;
-	}
-
-	public void setMalltypeName(String malltypeName) {
-		this.malltypeName = malltypeName;
-	}
-
-	public int getPropertyNum() {
+	public Integer getPropertyNum() {
 		return propertyNum;
 	}
 
-	public void setPropertyNum(int propertyNum) {
+	public void setPropertyNum(Integer propertyNum) {
 		this.propertyNum = propertyNum;
 	}
 
-	public double getPrice() {
-		return price;
+	public Double getUnitPrice() {
+		return unitPrice;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public void setUnitPrice(Double unitPrice) {
+		this.unitPrice = unitPrice;
 	}
 
-	public double getTotalPrice() {
+	public Double getTotalPrice() {
 		return totalPrice;
 	}
 
-	public void setTotalPrice(double totalPrice) {
+	public void setTotalPrice(Double totalPrice) {
 		this.totalPrice = totalPrice;
 	}
+
 }

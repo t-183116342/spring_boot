@@ -27,6 +27,10 @@ public class Role {
 	private boolean selected;
 	
 	public static List<Role> composeRoleList(List<Role> allRoles, List<Role> selectedRoles) {
+		if (selectedRoles == null) {
+			return allRoles;
+		}
+		
 		allRoles.stream().forEach(item -> {
 			selectedRoles.stream().forEach(itemTemp -> {
 				if (itemTemp.getRoleId() == item.getRoleId()) {
@@ -34,6 +38,7 @@ public class Role {
 				}
 			});
 		});
+		
 		return allRoles;
 	}
 

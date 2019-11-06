@@ -37,21 +37,13 @@
 						<span th:text="${department.departName}"></span>
 						<input type="hidden" th:value="${department.departId}"/>
 						<div style="float: right;">
-						<a><i th:onclick="x_admin_show('修改','/organization/departmentUpdate?departId=[[${department.departId}]]')" class="layui-icon">&#xe642;</i></a>
-						<a th:onclick="delUser([[${department.departId}]],[[${department.departName}]])" name="close" ><i class="layui-icon">&#xe640;</i></a>
+							<a><i th:onclick="x_admin_show('修改','/organization/departmentUpdate?departId=[[${department.departId}]]')" class="layui-icon">&#xe642;</i></a>
+							<a th:onclick="delUser([[${department.departId}]],[[${department.departName}]])" name="close" ><i class="layui-icon">&#xe640;</i></a>
+						</div>
 					</div>
-					</div>
-						<div class="panel-body">
+						<div class="panel-body"  style="height: 110px;">
 						<span class="message-title"><span th:text="${department.departDesc}"></span></span>
 						<hr/>
-						<table>
-							<tr>
-								<th width="100px">部门权限 </th>
-						 		<td>
-									<span> ${DWA.authrs} </span>
-								</td>
-							</tr>	
-						</table>
 						</div>
 					</div>
 				</div>

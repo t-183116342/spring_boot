@@ -1,5 +1,7 @@
 package com.hqyj.erp.modules.common.vo;
 
+import com.hqyj.erp.modules.common.constant.SystemConstant;
+
 /**
  * 查询参数
  * 
@@ -13,6 +15,10 @@ public class SearchVo {
 	private String entryEnd;
 	private String birthRange;
 	private String userName;
+	private int userId;
+	private String propertyType;
+	private String propertyModel;
+	private String propertyName;
 	private int currentPage;
 	private int pageSize;
 	
@@ -76,5 +82,37 @@ public class SearchVo {
 
 	public void setPageSize(int pageSize) {
 		this.pageSize = pageSize;
+	}
+
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	public String getPropertyType() {
+		return propertyType;
+	}
+
+	public void setPropertyType(String propertyType) {
+		this.propertyType = propertyType;
+	}
+
+	public String getPropertyModel() {
+		return propertyModel;
+	}
+
+	public void setPropertyModel(String propertyModel) {
+		this.propertyModel = propertyModel;
+	}
+
+	public String getPropertyName() {
+		return propertyName;
+	}
+
+	public void setPropertyName(String propertyName) {
+		this.propertyName = propertyName;
 	}
 }

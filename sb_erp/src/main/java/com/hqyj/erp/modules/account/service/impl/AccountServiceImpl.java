@@ -21,7 +21,6 @@ import com.hqyj.erp.modules.authority.dao.AuthorityDao;
 import com.hqyj.erp.modules.authority.entity.UserRole;
 import com.hqyj.erp.modules.common.vo.Result;
 import com.hqyj.erp.modules.common.vo.SearchVo;
-import com.hqyj.erp.modules.common.vo.SystemConstant;
 import com.hqyj.erp.util.MD5Util;
 
 @Service
@@ -93,15 +92,9 @@ public class AccountServiceImpl implements AccountService {
 	}
 
 	@Override
-	public User getUserBySession() {
+	public User getUserBySubject() {
 		Subject subject = SecurityUtils.getSubject();
-		Integer userId = (Integer) subject.getSession().getAttribute(SystemConstant.USER_KEY);
-		subject.getPrincipal();
-		if (userId != null) {
-			return accountDao.getUserById(userId);
-		} else {
-			return null;
-		}
+		return getUserByName((String)subject.getPrincipal());
 	}
 
 	@Override
