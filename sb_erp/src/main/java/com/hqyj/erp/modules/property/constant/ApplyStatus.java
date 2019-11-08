@@ -1,7 +1,10 @@
 package com.hqyj.erp.modules.property.constant;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum ApplyStatus {
-	APPLY(0, "申请"), APPROVE(1, "同意"), REJECT(-1, "拒绝");
+	APPLY(0, "审核中"), APPROVE(1, "批准"), REJECT(-1, "拒绝");
 	
 	private int code;
 	private String desc;
@@ -9,6 +12,13 @@ public enum ApplyStatus {
 	private ApplyStatus(int code, String desc) {
 		this.code = code;
 		this.desc = desc;
+	}
+	
+	public static List<String> applyStatus = new ArrayList<String>();
+	static {
+		for (ApplyStatus applyStatu : ApplyStatus.values()) {
+			applyStatus.add(applyStatu.desc);
+		}
 	}
 
 	public int getCode() {

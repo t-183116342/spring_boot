@@ -1,5 +1,8 @@
 package com.hqyj.erp.modules.property.constant;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public enum ApplyType {
 	GRANT(1, "领用"), PURCHASE(2, "采购"), SCRAP(3, "报废");
 
@@ -9,6 +12,13 @@ public enum ApplyType {
 	private ApplyType(int code, String desc) {
 		this.code = code;
 		this.desc = desc;
+	}
+	
+	public static List<String> applyTypes = new ArrayList<String>();
+	static {
+		for (ApplyType applyType : ApplyType.values()) {
+			applyTypes.add(applyType.desc);
+		}
 	}
 
 	public int getCode() {

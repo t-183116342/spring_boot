@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.beans.BeanUtils;
+
 /**
  * 已发放资产
  * 
@@ -28,6 +30,12 @@ public class GrantProperty {
 	private Double totalPrice;
 	@Transient
 	private String userName;
+	
+	public static GrantProperty init(Apply apply) {
+		GrantProperty grantProperty = new GrantProperty();
+		BeanUtils.copyProperties(apply, grantProperty);
+		return grantProperty;
+	}
 
 	public int getGrantPropertyId() {
 		return grantPropertyId;

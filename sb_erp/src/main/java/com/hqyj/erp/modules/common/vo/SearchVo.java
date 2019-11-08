@@ -16,6 +16,7 @@ public class SearchVo {
 	private String birthRange;
 	private String userName;
 	private int userId;
+	private String applyType;
 	private String propertyType;
 	private String propertyModel;
 	private String propertyName;
@@ -114,5 +115,13 @@ public class SearchVo {
 
 	public void setPropertyName(String propertyName) {
 		this.propertyName = propertyName;
+	}
+
+	public String getApplyType() {
+		return applyType;
+	}
+
+	public void setApplyType(String applyType) {
+		this.applyType = applyType;
 	}
 }

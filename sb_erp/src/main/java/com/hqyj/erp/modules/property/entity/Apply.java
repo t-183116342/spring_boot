@@ -1,6 +1,6 @@
 package com.hqyj.erp.modules.property.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,21 +22,19 @@ public class Apply {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int applyId;
-	// 申请类别，1-领用申请；2-采购申请；3-报废申请
-	private int applyType;
-	// 申请状态，0-申请状态；1-同意；-1-拒绝
-	private int applyStatus;
+	private String applyType;
+	private String applyStatus;
 	private String propertyName;
 	private String propertyType;
 	private String propertyModel;
 	private Integer propertyNum;
 	private Double unitPrice;
 	private Double totalPrice;
-	private String approveState;
 	private Integer applyUserId;
 	private Integer approveUserId;
 	private Date applyDate;
 	private Date approveDate;
+	private String approveDesc;
 	@Transient
 	private String applyUserName;
 	@Transient
@@ -50,19 +48,19 @@ public class Apply {
 		this.applyId = applyId;
 	}
 
-	public int getApplyType() {
+	public String getApplyType() {
 		return applyType;
 	}
 
-	public void setApplyType(int applyType) {
+	public void setApplyType(String applyType) {
 		this.applyType = applyType;
 	}
 
-	public int getApplyStatus() {
+	public String getApplyStatus() {
 		return applyStatus;
 	}
 
-	public void setApplyStatus(int applyStatus) {
+	public void setApplyStatus(String applyStatus) {
 		this.applyStatus = applyStatus;
 	}
 
@@ -114,14 +112,6 @@ public class Apply {
 		this.totalPrice = totalPrice;
 	}
 
-	public String getApproveState() {
-		return approveState;
-	}
-
-	public void setApproveState(String approveState) {
-		this.approveState = approveState;
-	}
-
 	public Integer getApplyUserId() {
 		return applyUserId;
 	}
@@ -168,6 +158,14 @@ public class Apply {
 
 	public void setApproveUserName(String approveUserName) {
 		this.approveUserName = approveUserName;
+	}
+
+	public String getApproveDesc() {
+		return approveDesc;
+	}
+
+	public void setApproveDesc(String approveDesc) {
+		this.approveDesc = approveDesc;
 	}
 
 }

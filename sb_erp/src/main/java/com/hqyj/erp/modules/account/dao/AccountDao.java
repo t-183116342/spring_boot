@@ -45,24 +45,24 @@ public interface AccountDao {
 	User getUserByName(String account);
 	
 	@Select("<script>" + 
-			"select * from user u "
-			+ "<where> "
-			+ "<if test='userDepart != \"\" and userDepart != null'>"
-			+ "and u.user_departement = #{userDepart} "
-			+ "</if>"
-			+ "<if test='entryStart!=\"\" and entryStart!=null'>"
-			+ "and u.user_entrytime >= #{entryEnd} "
-			+ "</if>"
-			+ "<if test='birthRange!=\"\" and birthRange!=null'>"
-			+ "AND DATE_FORMAT(`user`.user_birthday,'%m%d') "
-				+ "BETWEEN DATE_FORMAT(NOW(),'%m%d') AND "
-				+ "DATE_FORMAT(DATE_ADD(NOW(),INTERVAL #{birthRange,jdbcType=VARCHAR} DAY),'%m%d')"
-			+ "</if>"
-			+ "<if test='userName!=\"\" and userName!=null'>"
-			+ "and u.user_name LIKE '%${userName}%' "
-			+ "</if>"
-			+ "</where>"
-			+ "</script>")
+		"select * from user u "
+		+ "<where> "
+		+ "<if test='userDepart != \"\" and userDepart != null'>"
+		+ "and u.user_departement = #{userDepart} "
+		+ "</if>"
+		+ "<if test='entryStart!=\"\" and entryStart!=null and entryEnd!=\"\" and entryEnd!=null'>"
+		+ "and u.user_entrytime BETWEEN #{entryStart} and #{entryEnd} "
+		+ "</if>"
+		+ "<if test='birthRange!=\"\" and birthRange!=null'>"
+		+ "AND DATE_FORMAT(u.user_birthday,'%m%d') "
+			+ "BETWEEN DATE_FORMAT(NOW(),'%m%d') AND "
+			+ "DATE_FORMAT(DATE_ADD(NOW(),INTERVAL #{birthRange,jdbcType=VARCHAR} DAY),'%m%d')"
+		+ "</if>"
+		+ "<if test='userName!=\"\" and userName!=null'>"
+		+ "and u.user_name LIKE '%${userName}%' "
+		+ "</if>"
+		+ "</where>"
+		+ "</script>")
 	List<User> getUserListBySearch(SearchVo userSearch);
 	
 	@Update("<script> " +

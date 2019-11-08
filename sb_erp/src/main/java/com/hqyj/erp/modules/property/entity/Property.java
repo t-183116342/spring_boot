@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.beans.BeanUtils;
+
 /**
  * 资产表
  * 
@@ -30,6 +32,24 @@ public class Property {
 			this.setPropertyNum(this.getPropertyNum() + existProperty.getPropertyNum());
 			this.setTotalPrice(this.getUnitPrice() * this.getPropertyNum());
 		}
+	}
+	
+	public static Property initProperty(Apply apply) {
+		Property property = new Property();
+		if (apply != null) {
+			BeanUtils.copyProperties(apply, property);
+			property.setTotalPrice(property.getUnitPrice() * property.getPropertyNum());
+		}
+		return property;
+	}
+
+	public Property() {
+	}
+
+	public Property(String propertyName, String propertyType, String propertyModel) {
+		this.propertyName = propertyName;
+		this.propertyType = propertyType;
+		this.propertyModel = propertyModel;
 	}
 
 	public int getPropertyId() {
