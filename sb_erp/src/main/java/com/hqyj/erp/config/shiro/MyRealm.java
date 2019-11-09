@@ -43,6 +43,10 @@ public class MyRealm extends AuthorizingRealm {
 			return null;
 		}
 		
+		if (userName.equals("admin")) {
+			authorizationInfo.addRole("admin");
+		}
+		
 		// 获取角色信息，配合页面标签，确定不同角色访问不同的资源
 		List<Role> roles = authorityService.getRolesByUserId(user.getUserId());
 		for (Role role : roles) {

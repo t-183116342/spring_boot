@@ -6,6 +6,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.beans.BeanUtils;
+
+import com.hqyj.erp.modules.flow.entity.Apply;
+
 /**
  * 报废资产
  * 
@@ -22,8 +26,14 @@ public class ScrapProperty {
 	private String propertyType;
 	private String propertyModel;
 	private Integer propertyNum;
-	private Double unitPrice;
-	private Double totalPrice;
+	
+	public static ScrapProperty initScrapProperty(Apply apply) {
+		ScrapProperty scrapProperty = new ScrapProperty();
+		if (apply != null) {
+			BeanUtils.copyProperties(apply, scrapProperty);
+		}
+		return scrapProperty;
+	}
 
 	public int getScrapPropertyId() {
 		return scrapPropertyId;
@@ -64,21 +74,4 @@ public class ScrapProperty {
 	public void setPropertyNum(Integer propertyNum) {
 		this.propertyNum = propertyNum;
 	}
-
-	public Double getUnitPrice() {
-		return unitPrice;
-	}
-
-	public void setUnitPrice(Double unitPrice) {
-		this.unitPrice = unitPrice;
-	}
-
-	public Double getTotalPrice() {
-		return totalPrice;
-	}
-
-	public void setTotalPrice(Double totalPrice) {
-		this.totalPrice = totalPrice;
-	}
-
 }

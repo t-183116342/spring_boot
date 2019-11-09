@@ -1,4 +1,4 @@
-package com.hqyj.erp.modules.property.entity;
+package com.hqyj.erp.modules.flow.entity;
 
 import java.util.Date;
 

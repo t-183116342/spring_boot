@@ -9,6 +9,8 @@ import javax.persistence.Transient;
 
 import org.springframework.beans.BeanUtils;
 
+import com.hqyj.erp.modules.flow.entity.Apply;
+
 /**
  * 已发放资产
  * 

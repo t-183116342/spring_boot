@@ -8,6 +8,8 @@ import javax.persistence.Table;
 
 import org.springframework.beans.BeanUtils;
 
+import com.hqyj.erp.modules.flow.entity.Apply;
+
 /**
  * 资产表
  * 
