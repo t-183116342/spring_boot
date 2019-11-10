@@ -80,7 +80,7 @@
 		form.on('submit(add)', function(data){
 			console.log(data);
 			$.ajax({
-				url :"/organization/doDepartmentAdd",
+				url :"/organization/addDepartment",
 				type : "POST",
 				data : $('#form1').serialize(),
 				dataType : "text",

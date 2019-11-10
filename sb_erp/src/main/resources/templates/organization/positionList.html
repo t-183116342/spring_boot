@@ -12,7 +12,6 @@
 		<script th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
 		
 		<!-- 引入内部js或css -->
-		
 		<link th:href="${'/css/font.css'}" rel="stylesheet">
 		<link th:href="${'/css/xadmin.css'}" rel="stylesheet">
 		<script th:src="${'/lib/layui/layui.js'}" charset="utf-8"></script>
@@ -29,18 +28,18 @@
 	<div class="x-body">
 		<xblock>
 		<button class="layui-btn"
-			onclick="x_admin_show('添加职位','/organization/positionAdd')">
+			onclick="x_admin_show('添加职位','/organization/addPositionPage')">
 			<i class="layui-icon"></i>职位添加
 		</button>
 		<span class="x-right" style="line-height: 40px">共有数据：<a
-			id="total">88</a> 条
+			id="total">0</a> 条
 		</span> </xblock>
 		<table class="layui-table">
 			<thead>
 				<tr>
 					<th>职位名称</th>
-					<th>所属部门</th>
 					<th>职位描述</th>
+					<th>所属部门</th>
 					<th>操作</th>
 				</tr>
 			</thead>
@@ -54,7 +53,7 @@
 	</div>
 </body>
 <script type="text/javascript">
-	function delPosition(positionId){
+	function deletePosition(positionId){
 		layer.confirm('你确定要删除吗?', {icon: 3, title:'提示'}, function(index){
 			$.ajax({
 				type : "POST",
@@ -63,7 +62,7 @@
 					positionId:positionId
 				},
 				dataType : "text",
-				url : "/organization/doPositionDelete",
+				url : "/organization/deletePosition",
 				success : function(data) {
 					console.log(data);
 					var result = eval("(" + data + ")");
@@ -101,7 +100,7 @@
 					currentPage:n
 				},
 				dataType : "text",
-				url : "/organization/positionsByPage",
+				url : "/organization/positions",
 				success : function(data) {
 					console.log(data);
 					var result = eval("(" + data + ")");
@@ -117,9 +116,9 @@
 							var str="";
 						    str+="<tr>";
 						    str+="<td>"+val.positionName+"</td>"
-						    str+="<td>"+val.departName+"</td>"
 						    str+="<td>"+val.positionDescription+"</td>"
-						    str+="<td><a class=\"layui-btn layui-btn-mini\" onclick=\"x_admin_show('修改','/organization/positionEdit?positionId="+val.positionId+"')\" ><i class=\"layui-icon\">&#xe642;</i>编辑</a> <button onclick=\"delPosition('"+val.positionId+"')\" class=\"layui-btn layui-btn-mini layui-btn-danger\"><i class=\"layui-icon\">&#xe640;</i>删除</button></td>"
+						    str+="<td>"+val.departName+"</td>"
+						    str+="<td><a class=\"layui-btn layui-btn-mini\" onclick=\"x_admin_show('修改','/organization/editPositionPage?positionId="+val.positionId+"')\" ><i class=\"layui-icon\">&#xe642;</i>编辑</a> <button onclick=\"deletePosition('"+val.positionId+"')\" class=\"layui-btn layui-btn-mini layui-btn-danger\"><i class=\"layui-icon\">&#xe640;</i>删除</button></td>"
 						    str+="</tr>";
 							$("#positions").append(str);
 						})

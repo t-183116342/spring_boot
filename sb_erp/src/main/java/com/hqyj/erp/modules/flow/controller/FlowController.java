@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 import com.hqyj.erp.exception.ErpException;
+import com.hqyj.erp.modules.account.entity.User;
 import com.hqyj.erp.modules.account.service.AccountService;
 import com.hqyj.erp.modules.common.vo.Result;
 import com.hqyj.erp.modules.common.vo.SearchVo;
@@ -44,9 +45,11 @@ public class FlowController {
 	
 	@RequestMapping("/addApplyPage")
 	public String addApplyPage(ModelMap modelMap) {
-		modelMap.addAttribute("user", accountService.getUserBySubject());
+		User user = accountService.getUserBySubject();
+		modelMap.addAttribute("user", user);
 		modelMap.addAttribute("propertyTypes", PropertyType.propertyTypes);
 		modelMap.addAttribute("applyTypes", ApplyType.applyTypes);
+		modelMap.addAttribute("leaders", accountService.getLeadersByCurrentUserId(user.getUserId()));
 		return "flow/applyAdd";
 	}
 	
@@ -58,10 +61,12 @@ public class FlowController {
 	
 	@RequestMapping("/editApplyPage")
 	public String editApplyPage(@RequestParam int applyId, ModelMap modelMap) {
+		User user = accountService.getUserBySubject();
 		modelMap.addAttribute("apply", flowService.getApplyById(applyId));
-		modelMap.addAttribute("user", accountService.getUserBySubject());
+		modelMap.addAttribute("user", user);
 		modelMap.addAttribute("propertyTypes", PropertyType.propertyTypes);
 		modelMap.addAttribute("applyTypes", ApplyType.applyTypes);
+		modelMap.addAttribute("leaders", accountService.getLeadersByCurrentUserId(user.getUserId()));
 		return "flow/applyEdit";
 	}
 	
@@ -78,11 +83,17 @@ public class FlowController {
 	}
 	
 	@RequestMapping("/flowListPage")
-	public String purchaseFlowPage(ModelMap modelMap) {
+	public String flowListPage(ModelMap modelMap) {
 		modelMap.addAttribute("user", accountService.getUserBySubject());
 		modelMap.addAttribute("propertyTypes", PropertyType.propertyTypes);
 		modelMap.addAttribute("applyTypes", ApplyType.applyTypes);
 		return "flow/flowList";
+	}
+	
+	@RequestMapping(value="/applyFlows",consumes="application/x-www-form-urlencoded")
+	@ResponseBody
+	public PageInfo<Apply> applyFlows(@ModelAttribute SearchVo searchVo) {
+		return flowService.applyFlows(searchVo);
 	}
 	
 	@RequestMapping("/editFlowPage")

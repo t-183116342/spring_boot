@@ -47,7 +47,7 @@ public class AccountServiceImpl implements AccountService {
 		}
 		
 		try {
-			user.initUser(user);
+			user.initUserPassword();
 			if (user.getUserId() > 0) {
 				accountDao.updateUserById(user);
 			} else {
@@ -109,12 +109,18 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public PageInfo<User> getUserList(SearchVo userSearch) {
-		List<User> users = new ArrayList<>();
+		Subject subject = SecurityUtils.getSubject();
+		String currentRole = (String) subject.getPrincipal();
 		
+		List<User> users = new ArrayList<>();
 		SearchVo.initSearchVo(userSearch);
 		PageHelper.startPage(userSearch.getCurrentPage(), userSearch.getPageSize());
 		try {
-			users = accountDao.getUserListBySearch(userSearch);
+			if ("staff".equals(currentRole)) {
+				users.add(accountDao.getUserById(getUserBySubject().getUserId()));
+			} else {
+				users = accountDao.getUserListBySearch(userSearch);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -126,10 +132,15 @@ public class AccountServiceImpl implements AccountService {
 	public Result deleteUserById(int userId) {
 		try {
 			accountDao.deleteUserById(userId);
-			return Result.getResult(1);
+			return new Result(200, "删除成功。");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Result.getResult(-1);
+			return new Result(500, "删除失败。");
 		}
+	}
+
+	@Override
+	public List<User> getLeadersByCurrentUserId(int userId) {
+		return accountDao.getLeadersByCurrentUserId(userId);
 	}
 }

@@ -36,88 +36,88 @@ public class OrganizationController {
 		return "organization/structure";
 	}
 	
-	@RequestMapping("/departmentList")
-	public String departmentList(ModelMap modelMap) {
+	@RequestMapping("/departmentListPage")
+	public String departmentListPage(ModelMap modelMap) {
 		modelMap.addAttribute("departments", organizationService.getDepartments());
 		return "organization/departmentList";
 	}
 	
-	@RequestMapping("/departmentAdd")
-	public String departmentAdd() {
+	@RequestMapping("/addDepartmentPage")
+	public String addDepartmentPage() {
 		return "organization/departmentAdd";
 	}
 	
-	@PostMapping(value="/doDepartmentAdd",consumes="application/x-www-form-urlencoded")
+	@PostMapping(value="/addDepartment",consumes="application/x-www-form-urlencoded")
 	@ResponseBody
-	public Result doDepartmentAdd(@ModelAttribute Department department) {
+	public Result addDepartment(@ModelAttribute Department department) {
 		return organizationService.insertOrUpdateDepartment(department);
 	}
 	
-	@RequestMapping("/departmentUpdate")
-	public String departmentEdit(@RequestParam int departId, ModelMap modelMap) {
+	@RequestMapping("/updateDepartmentPage")
+	public String updateDepartmentPage(@RequestParam int departId, ModelMap modelMap) {
 		modelMap.addAttribute("department", organizationService.getDepartmentById(departId));
 		return "organization/departmentEdit";
 	}
 	
-	@PostMapping(value="/doDepartmentUpdate",consumes="application/x-www-form-urlencoded")
+	@PostMapping(value="/updateDepartment",consumes="application/x-www-form-urlencoded")
 	@ResponseBody
-	public Result doDepartmentUpdate(@ModelAttribute Department department) {
+	public Result updateDepartment(@ModelAttribute Department department) {
 		return organizationService.insertOrUpdateDepartment(department);
 	}
 	
-	@PostMapping(value="/doDepartmentDelete",consumes="application/x-www-form-urlencoded")
+	@PostMapping(value="/deleteDepartment",consumes="application/x-www-form-urlencoded")
 	@ResponseBody
-	public Result doDepartmentDelete(@ModelAttribute Department department) {
+	public Result deleteDepartment(@ModelAttribute Department department) {
 		return organizationService.deleteDepartment(department.getDepartId());
 	}
 	
-	@RequestMapping("/positionList")
-	public String positionList(ModelMap modelMap) {
+	@RequestMapping("/positionListPage")
+	public String positionListPage(ModelMap modelMap) {
 		modelMap.addAttribute("positions", organizationService.getPositions());
 		return "organization/positionList";
 	}
 	
-	@PostMapping(value="/positionsByPage", consumes="application/x-www-form-urlencoded")
+	@PostMapping(value="/positions", consumes="application/x-www-form-urlencoded")
 	@ResponseBody
-	public PageInfo<Position> positionsByPage(@ModelAttribute SearchVo userSearch) {
+	public PageInfo<Position> positions(@ModelAttribute SearchVo userSearch) {
 		return organizationService.getPositionsByPage(userSearch);
 	}
 	
-	@RequestMapping("/positionEdit")
-	public String positionEditPage(@RequestParam int positionId, ModelMap modelMap) {
+	@RequestMapping("/editPositionPage")
+	public String editPositionPage(@RequestParam int positionId, ModelMap modelMap) {
 		modelMap.addAttribute("position", organizationService.getPositionById(positionId));
 		modelMap.addAttribute("departments", organizationService.getDepartments());
 		return "organization/positionEdit";
 	}
 	
-	@PostMapping(value="/doPositionEdit",consumes="application/x-www-form-urlencoded")
+	@PostMapping(value="/editPosition",consumes="application/x-www-form-urlencoded")
 	@ResponseBody
-	public Result doPositionEdit(@ModelAttribute Position position) {
+	public Result editPosition(@ModelAttribute Position position) {
 		return organizationService.insertOrUpdatePosition(position);
 	}
 	
-	@RequestMapping("/positionAdd")
-	public String positionAdd(ModelMap modelMap) {
+	@RequestMapping("/addPositionPage")
+	public String addPositionPage(ModelMap modelMap) {
 		modelMap.addAttribute("departments", organizationService.getDepartments());
 		return "organization/positionAdd";
 	}
 	
-	@PostMapping(value="/doPositionAdd",consumes="application/x-www-form-urlencoded")
+	@PostMapping(value="/addPosition",consumes="application/x-www-form-urlencoded")
 	@ResponseBody
-	public Result doPositionAdd(@ModelAttribute Position position) {
+	public Result addPosition(@ModelAttribute Position position) {
 		return organizationService.insertOrUpdatePosition(position);
 	}
 	
-	@PostMapping(value="/doPositionDelete",consumes="application/x-www-form-urlencoded")
+	@PostMapping(value="/deletePosition",consumes="application/x-www-form-urlencoded")
 	@ResponseBody
-	public Result doPositionDelete(@ModelAttribute Position position) {
+	public Result deletePosition(@ModelAttribute Position position) {
 		return organizationService.deletePosition(position.getPositionId());
 	}
 	
 	@RequestMapping(value="/positionsByDepart", consumes="application/json")
 	@ResponseBody
-	public List<Position> getPositionsByDepartName(@RequestParam String departName) {
-		return organizationService.getPositionsByDepartName(departName);
+	public List<Position> positionsByDepart(@RequestParam int departId) {
+		return organizationService.getPositionsByDepartId(departId);
 	}
 	
 	@PostMapping(value="/getOrgTree")

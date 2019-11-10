@@ -128,8 +128,8 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public List<Position> getPositionsByDepartName(String departName) {
-		return organizationDao.getPositionsByDepartName(departName);
+	public List<Position> getPositionsByDepartId(int departId) {
+		return organizationDao.getPositionsByDepartId(departId);
 	}
 
 	@Override

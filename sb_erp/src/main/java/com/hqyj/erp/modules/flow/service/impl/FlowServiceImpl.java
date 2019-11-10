@@ -43,7 +43,6 @@ public class FlowServiceImpl implements FlowService {
 			apply.setApplyDate(new Date());
 			apply.setApplyUserName(user.getUserName());
 			apply.setApplyStatus(ApplyStatus.APPLY.getDesc());
-			apply.setApproveUserId(0);
 			
 			if (apply.getApplyId() > 0) {
 				Apply existApply = flowDao.getApplyById(apply.getApplyId());
@@ -76,6 +75,23 @@ public class FlowServiceImpl implements FlowService {
 			
 			List<Apply> applies = 
 					Optional.ofNullable(flowDao.getApplies(searchVo))
+					.orElse(Collections.emptyList());
+			return new PageInfo<>(applies);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new PageInfo<>();
+	}
+
+	@Override
+	public PageInfo<Apply> applyFlows(SearchVo searchVo) {
+		try {
+			SearchVo.initSearchVo(searchVo);
+			PageHelper.startPage(searchVo.getCurrentPage(), searchVo.getPageSize());
+			
+			List<Apply> applies = 
+					Optional.ofNullable(flowDao.applyFlows(searchVo))
 					.orElse(Collections.emptyList());
 			return new PageInfo<>(applies);
 		} catch (Exception e) {

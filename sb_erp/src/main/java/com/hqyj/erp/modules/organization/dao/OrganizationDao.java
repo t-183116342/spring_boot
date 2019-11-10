@@ -36,30 +36,37 @@ public interface OrganizationDao {
 	@Delete("delete from department where depart_id=#{departId}")
 	void deleteDepartment(int departId);
 	
-	@Select("select * from position")
+	@Select("select *, d.depart_name as departName "
+			+ "from position p left join department d on p.depart_id = d.depart_id ")
 	List<Position> getPositions();
 	
-	@Select("select * from position where depart_name = #{departName}")
-	List<Position> getPositionsByDepartName(String departName);
+	@Select("select *, d.depart_name as departName "
+			+ "from position p left join department d on p.depart_id = d.depart_id "
+			+ "where p.depart_id = #{departId}")
+	List<Position> getPositionsByDepartId(int departId);
 	
-	@Select("select * from position where position_id=#{positionId}")
+	@Select("select *, d.depart_name as departName "
+			+ "from position p left join department d on p.depart_id = d.depart_id "
+			+ "where p.position_id=#{positionId}")
 	Position getPositionById(int positionId);
 	
-	@Select("select * from position where position_name=#{positionName}")
+	@Select("select *, d.depart_name as departName "
+			+ "from position p left join department d on p.depart_id = d.depart_id "
+			+ "where d.depart_name=#{positionName}")
 	Position getPositionByName(String positionName);
 	
-	@Insert("insert into position (position_name, position_description, depart_name) "
-			+ "values (#{positionName},#{positionDescription},#{departName})")
+	@Insert("insert into position (position_name, position_description, depart_id) "
+			+ "values (#{positionName},#{positionDescription},#{departId})")
 	void insertPosition(Position position);
 	
 	@Update("update position set position_name=#{positionName}, "
-			+ "position_description=#{positionDescription}, depart_name=#{departName} "
+			+ "position_description=#{positionDescription}, depart_id=#{departId} "
 			+ "where position_id=#{positionId}")
 	void updatePosition(Position position);
 	
 	@Delete("delete from position where position_id=#{positionId}")
 	void deletePosition(int positionId);
 	
-	@Select("select depart_name as id, depart_name as name from department")
+	@Select("select depart_id as id, depart_name as name from department")
 	List<ZtreeModel> getOrgTree();
 }

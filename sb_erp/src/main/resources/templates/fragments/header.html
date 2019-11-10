@@ -35,19 +35,19 @@
 					</a>
 					<ul class="sub-menu">
 						<li shiro:hasAnyRoles="admin,manager">
-							<a _href="/organization/departmentList">
+							<a _href="/organization/departmentListPage">
 								<i class="iconfont">&#xe6a7;</i>
 								<cite>部门信息</cite>
 							</a>
 						</li>
 						<li shiro:hasAnyRoles="admin,manager">
-							<a _href="/organization/positionList">
+							<a _href="/organization/positionListPage">
 								<i class="iconfont">&#xe6a7;</i>
 								<cite>职位信息</cite>
 							</a>
 						</li>
 						<li>
-							<a _href="/account/userList">
+							<a _href="/account/userListPage">
 								<i class="iconfont">&#xe6a7;</i>
 								<cite>用户信息</cite>
 							</a>
@@ -69,13 +69,13 @@
 					</a>
 					<ul class="sub-menu">
 						<li>
-							<a _href="/authority/roleList">
+							<a _href="/authority/roleListPage">
 								<i class="iconfont">&#xe6a7;</i>
 								<cite>角色信息</cite>
 							</a>
 						</li>
 						<li>
-							<a _href="/authority/resourceList">
+							<a _href="/authority/resourceListPage">
 								<i class="iconfont">&#xe6a7;</i>
 								<cite>资源信息</cite>
 							</a>
@@ -96,13 +96,13 @@
 								<cite>我的资产</cite>
 							</a>
 						</li>
-						<li>
+						<li shiro:hasAnyRoles="admin,manager">
 							<a _href="/property/scrapPropertyListPage">
 								<i class="iconfont">&#xe6a7;</i>
-								<cite>报废库存</cite>
+								<cite>报废资产</cite>
 							</a>
 						</li>
-						<li>
+						<li shiro:hasAnyRoles="admin,manager">
 							<a _href="/property/propertyListPage">
 								<i class="iconfont">&#xe6a7;</i>
 								<cite>资产库存</cite>
@@ -124,7 +124,7 @@
 								<cite>我的申请</cite>
 							</a>
 						</li>
-						<li>
+						<li shiro:hasAnyRoles="admin,manager">
 							<a _href="/flow/flowListPage">
 								<i class="iconfont">&#xe6a7;</i>
 								<cite>申请批准</cite>

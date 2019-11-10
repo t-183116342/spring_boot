@@ -48,12 +48,14 @@ public class CommonController {
 	@PostMapping(value="/doRegister", consumes="application/json")
 	@ResponseBody
 	public Result doRegister(@RequestBody User user) {
+		user.initUserInfo();
 		return accountService.inserOrUpdatetUser(user);
 	}
 	
 	@PostMapping(value="/doLogin", consumes="application/json")
 	@ResponseBody
 	public Result doLogin(@RequestBody User user) {
+		user.initUserInfo();
 		return accountService.getUserResult(user);
 	}
 	

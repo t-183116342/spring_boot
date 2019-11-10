@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * 职位表
@@ -19,6 +20,8 @@ public class Position {
 	private int positionId;
 	private String positionName;
 	private String positionDescription;
+	private Integer departId;
+	@Transient
 	private String departName;
 
 	public int getPositionId() {
@@ -51,6 +54,14 @@ public class Position {
 
 	public void setDepartName(String departName) {
 		this.departName = departName;
+	}
+
+	public Integer getDepartId() {
+		return departId;
+	}
+
+	public void setDepartId(Integer departId) {
+		this.departId = departId;
 	}
 
 }

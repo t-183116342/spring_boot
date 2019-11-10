@@ -11,6 +11,8 @@ public interface FlowService {
 	
 	PageInfo<Apply> getApplies(SearchVo searchVo);
 	
+	PageInfo<Apply> applyFlows(SearchVo searchVo);
+	
 	Apply getApplyById(int applyId);
 	
 	Result deleteApply(int applyId);

@@ -24,14 +24,17 @@ public interface AccountDao {
 	
 	@Insert("insert user(account, password, user_name, user_sex, "
 			+ "user_telephone, user_email, user_address, user_birthday, "
-			+ "user_diploma, user_entrytime, user_position, user_departement) "
+			+ "user_diploma, user_entrytime, position_id, depart_id) "
 			+ "values(#{account}, #{password}, #{userName}, #{userSex}, "
 			+ "#{userTelephone}, #{userEmail}, #{userAddress}, #{userBirthday}, #{userDiploma}, "
-			+ "#{userEntrytime}, #{userPosition}, #{userDepartement})")
+			+ "#{userEntrytime}, #{positionId}, #{departId})")
 	@Options(useGeneratedKeys=true,keyColumn="user_id",keyProperty="userId")
 	void insertUser(User user);
 	
-	@Select("select * from user where user_id = #{userId}")
+	@Select("select *, p.position_name as userPosition, d.depart_name as userDepartement from user u "
+			+ "left join position p on u.position_id = p.position_id "
+			+ "left join department d on u.depart_id = d.depart_id "
+			+ "where user_id = #{userId}")
 	@Results(id="userResult", value={
 		@Result(column="user_id", property="userId"),
 		@Result(column="user_id",property="roles",
@@ -40,15 +43,20 @@ public interface AccountDao {
 	})
 	User getUserById(int userId);
 	
-	@Select("select * from user where account = #{account}")
+	@Select("select *, p.position_name as userPosition, d.depart_name as userDepartement from user u "
+			+ "left join position p on u.position_id = p.position_id "
+			+ "left join department d on u.depart_id = d.depart_id "
+			+ "where account = #{account}")
 	@ResultMap(value="userResult")
 	User getUserByName(String account);
 	
 	@Select("<script>" + 
-		"select * from user u "
+		"select *, p.position_name as userPosition, d.depart_name as userDepartement from user u "
+		+ "left join position p on u.position_id = p.position_id "
+		+ "left join department d on u.depart_id = d.depart_id "
 		+ "<where> "
 		+ "<if test='userDepart != \"\" and userDepart != null'>"
-		+ "and u.user_departement = #{userDepart} "
+		+ "and d.depart_name = #{userDepart} "
 		+ "</if>"
 		+ "<if test='entryStart!=\"\" and entryStart!=null and entryEnd!=\"\" and entryEnd!=null'>"
 		+ "and u.user_entrytime BETWEEN #{entryStart} and #{entryEnd} "
@@ -65,6 +73,18 @@ public interface AccountDao {
 		+ "</script>")
 	List<User> getUserListBySearch(SearchVo userSearch);
 	
+	/**
+	 * 根据当前用户id查询本部门主管以及admin
+	 */
+	@Select("select * from user u "
+			+ "left join department d on u.depart_id = d.depart_id "
+			+ "left join user_role ur on u.user_id = ur.user_id "
+			+ "left join role r on ur.role_id = r.role_id "
+			+ "where r.role_name ='admin' or "
+			+ "(d.depart_id = (select depart_id from user where user_id = #{userId}) "
+			+ "and r.role_name ='manager')")
+	List<User> getLeadersByCurrentUserId(int userId);
+	
 	@Update("<script> " +
         "update user set " +
         "<if test='password!=null'> password = #{password},</if>" +
@@ -76,8 +96,8 @@ public interface AccountDao {
         "user_birthday=#{userBirthday}," + 
         "user_diploma=#{userDiploma}," + 
         "user_entrytime=#{userEntrytime}," + 
-        "user_position=#{userPosition}," + 
-        "user_departement=#{userDepartement} " + 
+        "position_id=#{positionId}," + 
+        "depart_id=#{departId} " + 
         "where user_id = #{userId} " +
         "</script>")
 	void updateUserById(User user);
@@ -85,7 +105,8 @@ public interface AccountDao {
 	@Delete("delete from user where user_id = #{userId}")
 	void deleteUserById(int userId);
 	
-	@Select("select user_id as id, user_name as name, user_departement as pId from user")
+	@Select("select user_id as id, user_name as name, depart_id as pId from user "
+			+ "where depart_id >= 0")
 	List<ZtreeModel> getOrgTree();
 
 }

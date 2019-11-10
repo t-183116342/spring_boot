@@ -12,7 +12,6 @@
 		<script th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
 		
 		<!-- 引入内部js或css -->
-		
 		<link th:href="${'/css/font.css'}" rel="stylesheet">
 		<link th:href="${'/css/xadmin.css'}" rel="stylesheet">
 		<script th:src="${'/lib/layui/layui.js'}" charset="utf-8"></script>
@@ -29,11 +28,11 @@
 	<div class="x-body">
 		<xblock>
 		<button class="layui-btn"
-			onclick="x_admin_show('添加资源','/authority/resourceAdd')">
+			onclick="x_admin_show('添加资源','/authority/addResourcePage')">
 			<i class="layui-icon"></i>添加资源
 		</button>
 		<span class="x-right" style="line-height: 40px">共有数据：<a
-			id="total">88</a> 条
+			id="total">0</a> 条
 		</span> </xblock>
 		<table class="layui-table">
 			<thead>
@@ -57,13 +56,13 @@
 	function delResource(resourceId){
 		layer.confirm('你确定要删除吗?', {icon: 3, title:'提示'}, function(index){
 			$.ajax({
+				url : "/authority/deleteResource",
 				type : "POST",
 				async:false,
 				data : {
 					resourceId:resourceId
 				},
 				dataType : "text",
-				url : "/authority/doResourceDelete",
 				success : function(data) {
 					console.log(data);
 					var result = eval("(" + data + ")");
@@ -95,13 +94,13 @@
 		//分页的ajax
 		function showPage(n) {
 			$.ajax({
+				url : "/authority/resources",
 				type : "POST",
 				async:false,
 				data : {
 					currentPage:n
 				},
 				dataType : "text",
-				url : "/authority/resourcesByPage",
 				success : function(data) {
 					console.log(data);
 					var result = eval("(" + data + ")");
@@ -119,7 +118,7 @@
 						    str+="<td>"+val.resourceName+"</td>"
 						    str+="<td>"+val.resourceUrl+"</td>"
 						    str+="<td>"+val.resourceDescription+"</td>"
-						    str+="<td><a class=\"layui-btn layui-btn-mini\" onclick=\"x_admin_show('修改','/authority/resourceEdit?resourceId="+val.resourceId+"')\" ><i class=\"layui-icon\">&#xe642;</i>编辑</a> <button onclick=\"delResource('"+val.resourceId+"')\" class=\"layui-btn layui-btn-mini layui-btn-danger\"><i class=\"layui-icon\">&#xe640;</i>删除</button></td>"
+						    str+="<td><a class=\"layui-btn layui-btn-mini\" onclick=\"x_admin_show('修改','/authority/editResourcePage?resourceId="+val.resourceId+"')\" ><i class=\"layui-icon\">&#xe642;</i>编辑</a> <button onclick=\"delResource('"+val.resourceId+"')\" class=\"layui-btn layui-btn-mini layui-btn-danger\"><i class=\"layui-icon\">&#xe640;</i>删除</button></td>"
 						    str+="</tr>";
 							$("#resources").append(str);
 						})
@@ -139,9 +138,8 @@
 			count: total,
 			limit:4,
 			jump: function(obj, first){
-			    console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-			    console.log(obj.limit); //得到每页显示的条数
-			    //首次不执行
+			    console.log(obj.curr);
+			    console.log(obj.limit);
 			    if(!first){
 			    	showPage(obj.curr);
 			    }

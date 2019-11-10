@@ -27,7 +27,7 @@
 	</div>
 	<div class="x-body">
 		<div class="layui-row">
-			<form class="layui-form layui-col-md12 x-so">
+			<form class="layui-form layui-col-md12 x-so" shiro:hasAnyRoles="admin,manager">
 				<div class="layui-input-inline">
 					<select id="userDepart">
 						<option value="">员工所在部门</option>
@@ -56,12 +56,12 @@
 			</form>
 		</div>
 		<xblock>
-		<button class="layui-btn"
-			onclick="x_admin_show('添加用户','/account/userAdd')">
+		<button class="layui-btn" shiro:hasAnyRoles="admin,manager" 
+			onclick="x_admin_show('添加用户','/account/addUserPage')">
 			<i class="layui-icon"></i>入职添加
 		</button>
 		<span class="x-right" style="line-height: 40px">共有数据：<a
-			id="total">88</a> 条
+			id="total">0</a> 条
 		</span> </xblock>
 		<table class="layui-table">
 			<thead>
@@ -93,8 +93,7 @@
 	var userName=null;
 	var total=0;
 	
-	//删除操作
-	function delUser(userId){
+	function deleteUser(userId){
 		layer.confirm('你确定要删除吗?', {icon: 3, title:'提示'}, function(index){
 			$.ajax({
 				type : "POST",
@@ -103,7 +102,7 @@
 					userId:userId
 				},
 				dataType : "text",
-				url : "/account/doUserDelete",
+				url : "/account/deleteUser",
 				success : function(data) {
 					var result = eval("(" + data + ")");
 	    			if (result.status == 200) {
@@ -131,26 +130,24 @@
 		laypage = layui.laypage,
 		laydate = layui.laydate;
 	  
-		//日期
 		var start=null;
 		var end=null;
 		laydate.render({
 			elem: '#entry',
 			range:true,
 			done: function(value, startDate, endDate){
-				console.log(value); //得到日期生成的值，如：2017-08-18
+				console.log(value);
 				start=startDate.year+"-"+startDate.month+"-"+startDate.date;
 				end=endDate.year+"-"+endDate.month+"-"+endDate.date;
-				console.log(start) //得到间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
-				console.log(end); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+				console.log(start);
+				console.log(end);
 			}
 		});
 	
-		//自定义验证规则
 		form.verify({
 			title: function(value){
-				if(value.length < 5){
-					return '标题至少得5个字符啊';
+				if(value.length < 2){
+					return '标题至少得2个字符啊';
 				}
 			},
 			pass: [/(.+){6,12}$/, '密码必须6到12位'],
@@ -182,7 +179,6 @@
 			return false;
 	    });
 	  
-		//监听提交
 		form.on('submit(demo1)', function(data){
 			layer.alert(JSON.stringify(data.field), {
 				title: '最终的提交信息'
@@ -190,7 +186,6 @@
 			return false;
 		});
 		
-		//分页的ajax
 		function showPage(n) {
 			$.ajax({
 				type : "POST",
@@ -204,7 +199,7 @@
 					currentPage:n
 				},
 				dataType : "text",
-				url : "/account/userListForPage",
+				url : "/account/users",
 				success : function(result) {
 					console.log(result);
 					var tl = eval("(" + result + ")");
@@ -213,20 +208,19 @@
 						$("#total").text(total);
 					}
 					$("#users").html("");
-					//json遍历
 					if(tl.list.length>0){
 						$.each(tl.list, function(n,val){
 							console.log(n);
 							var str="";
 						    str+="<tr>";
-						    str+="<td>"+val.userName+"</td>"
-						    str+="<td>"+val.userDepartement+"</td>"
-						    str+="<td>"+val.userPosition+"</td>"
+						    str+="<td>"+getDefaultString(val.userName)+"</td>"
+						    str+="<td>"+getDefaultString(val.userDepartement)+"</td>"
+						    str+="<td>"+getDefaultString(val.userPosition)+"</td>"
 						    str+="<td>"+new Date(val.userEntrytime).format("yyyy-MM-dd")+"</td>"
 						    str+="<td>"+new Date(val.userBirthday).format("yyyy-MM-dd")+"</td>"
-						    str+="<td>"+val.userTelephone+"</td>"
-						    str+="<td>"+val.userEmail+"</td>"
-						    str+="<td><a class=\"layui-btn  layui-btn-mini\" onclick=\"x_admin_show('修改','/account/userEdit?userId="+val.userId+"')\" ><i class=\"layui-icon\">&#xe642;</i>编辑</a><button onclick=\"delUser('"+val.userId+"')\" class=\"layui-btn  layui-btn-mini layui-btn-danger\"><i class=\"layui-icon\">&#xe640;</i>删除</button></td>"
+						    str+="<td>"+getDefaultString(val.userTelephone)+"</td>"
+						    str+="<td>"+getDefaultString(val.userEmail)+"</td>"
+						    str+="<td><a class=\"layui-btn  layui-btn-mini\" onclick=\"x_admin_show('修改','/account/editUserPage?userId="+val.userId+"')\" ><i class=\"layui-icon\">&#xe642;</i>编辑</a><button onclick=\"deleteUser('"+val.userId+"')\" class=\"layui-btn  layui-btn-mini layui-btn-danger\"><i class=\"layui-icon\">&#xe640;</i>删除</button></td>"
 						    str+="</tr>";
 							$("#users").append(str);
 						})
@@ -241,42 +235,20 @@
 			});
 		}
 		
-		//分页
 		showPage(-1);
 		laypage.render({
 			elem: 'test1',
 			count: total,
 			limit:4,
 			jump: function(obj, first){
-				//obj包含了当前分页的所有参数，比如：
-				console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
-				console.log(obj.limit); //得到每页显示的条数
+				console.log(obj.curr);
+				console.log(obj.limit);
 		    
-				//首次不执行
 				if(!first){
 					showPage(obj.curr);
 				}
 			}
 		});
 	});
-	
-	function test() {
-		$.ajax({
-			type : "POST",
-			async:false,
-			data : {
-				index:null
-			},
-			dataType : "text",
-			url : "roleController/getUserRole.ajax",
-			success : function(result) {
-				alert(result);
-				console.log(result);
-			},
-			error : function() {
-				layer.msg('无法连接服务器', {icon: 2});
-			}
-		});
-	}
 </script>
 </html>

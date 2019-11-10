@@ -49,6 +49,31 @@ public interface FlowDao {
 		+ "</script>")
 	List<Apply> getApplies(SearchVo searchVo);
 	
+	@Select("<script>" + 
+			"select *, ua.user_name as applyUserName, up.user_name as approveUserName from apply a "
+			+ "left join user ua on a.apply_user_id = ua.user_id "
+			+ "left join user up on a.approve_user_id = up.user_id "
+			+ "<where> "
+			+ "<if test='userId > 0'>"
+			+ "and a.approve_user_id = #{userId} "
+			+ "</if>"
+			+ "<if test='applyType != \"\" and applyType != null'>"
+			+ "and a.apply_type = #{applyType} "
+			+ "</if>"
+			+ "<if test='propertyType != \"\" and propertyType != null'>"
+			+ "and a.property_type = #{propertyType} "
+			+ "</if>"
+			+ "<if test='propertyModel != \"\" and propertyModel != null'>"
+			+ "and a.property_model = #{propertyModel} "
+			+ "</if>"
+			+ "<if test='propertyName != \"\" and propertyName != null'>"
+			+ "and a.property_name = #{propertyName} "
+			+ "</if>"
+			+ "</where>"
+			+ " order by apply_date desc"
+			+ "</script>")
+	List<Apply> applyFlows(SearchVo searchVo);
+	
 	@Select("select *, ua.user_name as applyUserName, up.user_name as approveUserName from apply a "
 		+ "left join user ua on a.apply_user_id = ua.user_id "
 		+ "left join user up on a.approve_user_id = up.user_id "

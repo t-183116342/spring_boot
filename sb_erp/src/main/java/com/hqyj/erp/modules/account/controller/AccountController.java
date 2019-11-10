@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,7 +42,7 @@ public class AccountController {
 	@Autowired
 	private AuthorityService authorityService;
 
-	@RequestMapping("/userList")
+	@RequestMapping("/userListPage")
 	public String userListPage(ModelMap modelMap) {
 		modelMap.addAttribute("departments", organizationService.getDepartments());
 		return "account/userList";
@@ -55,57 +54,56 @@ public class AccountController {
 		return accountService.getUserById(user.getUserId());
 	}
 	
-	@PostMapping(value="/userListForPage", consumes="application/x-www-form-urlencoded")
+	@PostMapping(value="/users", consumes="application/x-www-form-urlencoded")
 	@ResponseBody
-	public PageInfo<User> userListForPage(@ModelAttribute SearchVo userSearch) {
-		PageInfo<User> users = accountService.getUserList(userSearch);
-		return users;
+	public PageInfo<User> users(@ModelAttribute SearchVo userSearch) {
+		return accountService.getUserList(userSearch);
 	}
 	
-	@RequestMapping("/userEdit")
-	public String userEditPage(@RequestParam int userId, ModelMap modelMap) {
+	@RequestMapping("/editUserPage")
+	public String editUserPage(@RequestParam int userId, ModelMap modelMap) {
 		User user = accountService.getUserById(userId);
 		List<Department> departments = Optional.ofNullable(
 				organizationService.getDepartments()).orElse(Collections.emptyList());
-		String departName = StringUtils.isBlank(user.getUserDepartement()) ? 
-				departments.get(0).getDepartName() : user.getUserDepartement();
+		int departId = user.getDepartId() == null || user.getDepartId() == 0 ? 
+				departments.get(0).getDepartId() : user.getDepartId();
 		modelMap.addAttribute("user", user);
 		modelMap.addAttribute("departments", departments);
 		modelMap.addAttribute("positions", 
-				organizationService.getPositionsByDepartName(departName));
+				organizationService.getPositionsByDepartId(departId));
 		modelMap.addAttribute("roles", Role.composeRoleList(authorityService.getRoles(), user.getRoles()));
 		return "account/userEdit";
 	}
 	
-	@PostMapping(value="/doUserEdit",consumes="application/x-www-form-urlencoded")
+	@PostMapping(value="/editUser",consumes="application/x-www-form-urlencoded")
 	@ResponseBody
-	public Result doUserEdit(@ModelAttribute User user) {
+	public Result editUser(@ModelAttribute User user) {
 		return accountService.inserOrUpdatetUser(user);
 	}
 	
-	@RequestMapping("/userAdd")
-	public String userAddPage(ModelMap modelMap) {
+	@RequestMapping("/addUserPage")
+	public String addUserPage(ModelMap modelMap) {
 		List<Department> departments = Optional.ofNullable(
 				organizationService.getDepartments()).orElse(Collections.emptyList());
 		modelMap.addAttribute("departments", departments);
 		if (departments.size() > 0) {
 			modelMap.addAttribute("positions", 
-					organizationService.getPositionsByDepartName(departments.get(0).getDepartName()));
+					organizationService.getPositionsByDepartId(departments.get(0).getDepartId()));
 		}
 		modelMap.addAttribute("roles", authorityService.getRoles());
 		return "account/userAdd";
 	}
 	
-	@PostMapping(value="/doUserAdd",consumes="application/x-www-form-urlencoded")
+	@PostMapping(value="/addUser",consumes="application/x-www-form-urlencoded")
 	@ResponseBody
-	public Result doUserAdd(@ModelAttribute User user) {
+	public Result addUser(@ModelAttribute User user) {
 		return accountService.inserOrUpdatetUser(user);
 	}
 	
-	@PostMapping(value="/doUserDelete",consumes="application/x-www-form-urlencoded")
+	@PostMapping(value="/deleteUser",consumes="application/x-www-form-urlencoded")
 	@ResponseBody
 	@RequiresPermissions("deleteUser")
-	public Result doUserDelete(@ModelAttribute User user) {
+	public Result deleteUser(@ModelAttribute User user) {
 		return accountService.deleteUserById(user.getUserId());
 	}
 	

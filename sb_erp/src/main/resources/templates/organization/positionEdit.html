@@ -33,7 +33,7 @@
 						required="" lay-verify="required|repeat" autocomplete="off"
 						class="layui-input">
 				</div>
-				<div id="account" class="layui-form-mid layui-word-aux">
+				<div id="info" class="layui-form-mid layui-word-aux">
 					至少3个字符</div>
 			</div>
 			<div class="layui-form-item">
@@ -52,23 +52,22 @@
 					class="x-red">*</span>所属部门
 				</label>
 				<div class="layui-input-inline">
-					<select name="departName">
+					<select name="departId">
 						<option th:each="department,departmentStatus : ${departments}" 
-							th:selected="${department.departName} == ${position.departName}" 
-							th:value="${department.departName}" th:text="${department.departName}"></option>
+							th:selected="${department.departId} == ${position.departId}" 
+							th:value="${department.departId}" th:text="${department.departName}"></option>
 					</select>
 				</div>
 			</div>
 			<div class="layui-form-item" style="text-align: center;">
 				<a class="layui-btn" lay-filter="add" lay-submit=""> 确定 </a> <a
 					class="layui-btn layui-btn-normal"
-					onclick="javascript:history.go(-1);" style="text-align: center">返回</a>
+					onclick="x_admin_close();" style="text-align: center">返回</a>
 			</div>
 		</form>
 	</div>
 </body>
 <script type="text/javascript">
-	var isRepeat=false;
 	layui.use(['form', 'layedit', 'laydate'], function(){
 		var form = layui.form,
 		layer = layui.layer,
@@ -81,15 +80,13 @@
 		//自定义验证规则
 		form.verify({
 			title: function(value){
-				if(value.length < 5){
-					return '标题至少得5个字符啊';
+				if(value.length < 2){
+					return '标题至少得2个字符啊';
 				}
 			},
 			repeat:function(value){
-				if(value.length < 3){
-					return '至少三个字啊';
-				}else if(isRepeat){
-					return '名称已存在';  
+				if(value.length < 2){
+					return '至少2个字啊';
 				}
 			},
 			content: function(value){
@@ -104,7 +101,7 @@
 	       		type : "POST",
 	       		data : $('#form1').serialize(),
 	       		dataType : "text",
-	       		url :"/organization/doPositionEdit",
+	       		url :"/organization/editPosition",
 	       		success : function(data) {
 	       			var result = eval("(" + data + ")");
 	    			if (result.status == 200) {

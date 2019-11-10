@@ -98,7 +98,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 		if (resourceTemp != null && 
 				(resource.getResourceId() <= 0 || 
 				(resource.getResourceId() != resourceTemp.getResourceId()))) {
-			return Result.getResult(-1);
+			return new Result(500, "操作失败。");
 		}
 		
 		try {
@@ -113,10 +113,10 @@ public class AuthorityServiceImpl implements AuthorityService {
 			for (Role role : roles) {
 				authorityDao.insertRoleResource(new RoleResource(role.getRoleId(), resource.getResourceId()));
 			}
-			return Result.getResult(1);
+			return new Result(200, "操作成功。");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Result.getResult(0);
+			return new Result(500, "操作失败。");
 		}
 	}
 
@@ -125,10 +125,10 @@ public class AuthorityServiceImpl implements AuthorityService {
 		try {
 			authorityDao.deleteResource(resourceId);
 			authorityDao.deleteRoleResource(resourceId);
-			return Result.getResult(1);
+			return new Result(200, "删除成功。");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return Result.getResult(0);
+			return new Result(500, "删除失败。");
 		}
 	}
 

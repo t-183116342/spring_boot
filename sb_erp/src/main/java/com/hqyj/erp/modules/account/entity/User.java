@@ -1,6 +1,6 @@
 package com.hqyj.erp.modules.account.entity;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -10,6 +10,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.hqyj.erp.modules.authority.entity.Role;
 import com.hqyj.erp.util.MD5Util;
 
@@ -31,14 +34,22 @@ public class User {
 	private String userTelephone;
 	private String userEmail;
 	private String userAddress;
-	private Date userBirthday;
 	// 学历
 	private String userDiploma;
 	// 入职时间
+	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
+	private Date userBirthday;
+	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date userEntrytime;
-	private String userPosition;
-	private String userDepartement;
+	private Integer positionId;
+	private Integer departId;
 	
+	@Transient
+	private String userPosition;
+	@Transient
+	private String userDepartement;
 	@Transient
 	private boolean rememberMe;
 	
@@ -47,8 +58,21 @@ public class User {
 	@Transient
 	private Integer[] userRoles;
 	
-	public void initUser(User user) {
-		user.setPassword(MD5Util.getMD5(user.getPassword()));
+	public void initUserInfo() {
+		this.setUserAddress("--");
+		this.setUserBirthday(new Date());
+		this.setUserDiploma("--");
+		this.setUserEmail("--");
+		this.setUserEntrytime(new Date());
+		this.setUserName("--");
+		this.setUserSex("男");
+		this.setUserTelephone("--");
+		this.setUserDepartement("--");
+		this.setUserPosition("--");
+	}
+	
+	public void initUserPassword() {
+		this.setPassword(MD5Util.getMD5(this.getPassword()));
 	}
 
 	public int getUserId() {
@@ -177,5 +201,21 @@ public class User {
 
 	public void setRememberMe(boolean rememberMe) {
 		this.rememberMe = rememberMe;
+	}
+
+	public Integer getPositionId() {
+		return positionId;
+	}
+
+	public void setPositionId(Integer positionId) {
+		this.positionId = positionId;
+	}
+
+	public Integer getDepartId() {
+		return departId;
+	}
+
+	public void setDepartId(Integer departId) {
+		this.departId = departId;
 	}
 }

@@ -168,7 +168,7 @@
 						currentPage:n
 					},
 					dataType : "text",
-					url : "/flow/applies",
+					url : "/flow/applyFlows",
 					success : function(result) {
 						console.log(result);
 						var tl = eval("(" + result + ")");
@@ -209,7 +209,7 @@
 								$("#applies").append(str);
 							})
 						}else{
-							$("#applies").append("<tr><td colspan=8 align=\"center\">暂时没有数据哦，快去添加一条吧</td></tr>");
+							$("#applies").append("<tr><td colspan=11 align=\"center\">暂时没有数据哦，快去添加一条吧</td></tr>");
 						}
 						
 					},

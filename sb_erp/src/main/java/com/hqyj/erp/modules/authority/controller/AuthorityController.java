@@ -29,93 +29,81 @@ public class AuthorityController {
 	@Autowired
 	private AuthorityService authorityService;
 
-	@RequestMapping("/roleAuthPage")
-	public String rolePage(ModelMap modelMap) {
-		modelMap.addAttribute("template", "authority/roleAuthPage");
-		return "indexSimple";
-	}
-	
-	@RequestMapping("/departmentAuthPage")
-	public String departmentPage(ModelMap modelMap) {
-		modelMap.addAttribute("template", "authority/departmentAuthPage");
-		return "indexSimple";
-	}
-	
-	@RequestMapping("/roleList")
+	@RequestMapping("/roleListPage")
 	public String roleListPage(ModelMap modelMap) {
 		modelMap.addAttribute("roles", authorityService.getRoles());
 		return "authority/roleList";
 	}
 	
-	@RequestMapping("/roleAdd")
-	public String roleAddPage() {
+	@RequestMapping("/addRolePage")
+	public String addRolePage() {
 		return "authority/roleAdd";
 	}
 	
-	@PostMapping(value="/doRoleAdd",consumes="application/x-www-form-urlencoded")
+	@PostMapping(value="/addRole",consumes="application/x-www-form-urlencoded")
 	@ResponseBody
-	public Result doRoleAdd(@ModelAttribute Role role) {
+	public Result addRole(@ModelAttribute Role role) {
 		return authorityService.insertOrUpdateRole(role);
 	}
 	
-	@RequestMapping("/roleEdit")
-	public String roleEditPage(@RequestParam int roleId, ModelMap modelMap) {
+	@RequestMapping("/editRolePage")
+	public String editRolePage(@RequestParam int roleId, ModelMap modelMap) {
 		modelMap.addAttribute("role", authorityService.getRoleById(roleId));
 		return "authority/roleEdit";
 	}
 	
-	@PostMapping(value="/doRoleEdit",consumes="application/x-www-form-urlencoded")
+	@PostMapping(value="/editRole",consumes="application/x-www-form-urlencoded")
 	@ResponseBody
-	public Result doRoleEdit(@ModelAttribute Role role) {
+	public Result editRole(@ModelAttribute Role role) {
 		return authorityService.insertOrUpdateRole(role);
 	}
 	
-	@PostMapping(value="/doRoleDelete",consumes="application/x-www-form-urlencoded")
+	@PostMapping(value="/deleteRole",consumes="application/x-www-form-urlencoded")
 	@ResponseBody
-	public Result doRoleDelete(@ModelAttribute Role role) {
+	public Result deleteRole(@ModelAttribute Role role) {
 		return authorityService.deleteRole(role.getRoleId());
 	}
 	
-	@RequestMapping("/resourceList")
+	@RequestMapping("/resourceListPage")
 	public String resourceListPage() {
 		return "authority/resourceList";
 	}
 	
-	@RequestMapping(value="/resourcesByPage",consumes="application/x-www-form-urlencoded")
+	@RequestMapping(value="/resources",consumes="application/x-www-form-urlencoded")
 	@ResponseBody
-	public PageInfo<Resource> resourcesByPage(@ModelAttribute SearchVo searchVo) {
+	public PageInfo<Resource> resources(@ModelAttribute SearchVo searchVo) {
 		return authorityService.getResource(searchVo);
 	}
 	
-	@RequestMapping("/resourceAdd")
-	public String resourceAddPage(ModelMap modelMap) {
+	@RequestMapping("/addResourcePage")
+	public String addResourcePage(ModelMap modelMap) {
 		modelMap.addAttribute("roles", authorityService.getRoles());
 		return "authority/resourceAdd";
 	}
 	
-	@PostMapping(value="/doPositionAdd",consumes="application/json")
+	@PostMapping(value="/addResource",consumes="application/json")
 	@ResponseBody
-	public Result doPositionAdd(@RequestBody Resource resource) {
+	public Result addResource(@RequestBody Resource resource) {
 		return authorityService.insertOrUpdateResource(resource);
 	}
 	
-	@RequestMapping("/resourceEdit")
-	public String resourceEditPage(@RequestParam int resourceId, ModelMap modelMap) {
+	@RequestMapping("/editResourcePage")
+	public String editResourcePage(@RequestParam int resourceId, ModelMap modelMap) {
 		Resource resource = authorityService.getResourceById(resourceId);
 		modelMap.addAttribute("resource", resource);
 		modelMap.addAttribute("roles", Role.composeRoleList(authorityService.getRoles(), resource.getRoles()));
 		return "authority/resourceEdit";
 	}
 	
-	@PostMapping(value="/doResourceEdit",consumes="application/json")
+	@PostMapping(value="/editResource",consumes="application/json")
 	@ResponseBody
-	public Result doResourceEdit(@RequestBody Resource resource) {
+	public Result editResource(@RequestBody Resource resource) {
 		return authorityService.insertOrUpdateResource(resource);
 	}
 	
-	@PostMapping(value="/doResourceDelete",consumes="application/x-www-form-urlencoded")
+	@PostMapping(value="/deleteResource",consumes="application/x-www-form-urlencoded")
 	@ResponseBody
-	public Result doResourceDelete(@ModelAttribute Resource resource) {
+	public Result deleteResource(@ModelAttribute Resource resource) {
 		return authorityService.deleteResource(resource.getResourceId());
 	}
 }

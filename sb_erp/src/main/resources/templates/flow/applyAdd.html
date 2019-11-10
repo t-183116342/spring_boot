@@ -80,6 +80,16 @@
 							class="layui-input">
 					</div>
 				</div>
+				<div class="layui-form-item">
+					<label for="approveUserId" class="layui-form-label"><span
+						class="x-red">*</span>提交审批人</label>
+					<div class="layui-input-inline">
+						<select name="approveUserId" id="quiz3">
+							<option th:each="leader : ${leaders}" 
+								th:value="${leader.userId}" th:text="${leader.userName}"></option>
+						</select>
+					</div>
+				</div>
 	
 				<div class="layui-form-item" style="text-align: center;">
 					<a class="layui-btn" lay-filter="add" lay-submit=""> 确定 </a> <a

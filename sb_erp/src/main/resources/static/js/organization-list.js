@@ -115,7 +115,7 @@ function saveChanges(staffNode){
   		dataType : "text",
   		url :"manageEmeController/userChanged.ajax",
   		success : function(result) {
-  		 console.log("after changed:"+result);
+  			console.log("after changed:"+result);
   		},
   		error : function() {
 //  			layer.msg('无法连接服务器', {icon: 2});

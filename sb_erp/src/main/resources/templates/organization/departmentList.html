@@ -33,8 +33,8 @@
 						<span th:text="${department.departName}"></span>
 						<input type="hidden" th:value="${department.departId}"/>
 						<div style="float: right;">
-							<a><i th:onclick="x_admin_show('修改','/organization/departmentUpdate?departId=[[${department.departId}]]')" class="layui-icon">&#xe642;</i></a>
-							<a th:onclick="delUser([[${department.departId}]],[[${department.departName}]])" name="close" ><i class="layui-icon">&#xe640;</i></a>
+							<a><i th:onclick="x_admin_show('修改','/organization/updateDepartmentPage?departId=[[${department.departId}]]')" class="layui-icon">&#xe642;</i></a>
+							<a th:onclick="delDepartment([[${department.departId}]],[[${department.departName}]])" name="close" ><i class="layui-icon">&#xe640;</i></a>
 						</div>
 					</div>
 						<div class="panel-body"  style="height: 110px;">
@@ -48,7 +48,7 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">添加新的部门</div>
 						<div class="panel-body" style="height: 110px;">
-								<div style="text-align: center;cursor: pointer;" onclick="x_admin_show('添加新部门','/organization/departmentAdd')">
+								<div style="text-align: center;cursor: pointer;" onclick="x_admin_show('添加新部门','/organization/addDepartmentPage')">
 									<i class="layui-icon" style="font-size: 80px; color: #1E9FFF;">&#xe61f;</i>  
 								</div>
 						</div>
@@ -58,7 +58,7 @@
 		</div>
 	</body>
 	<script type="text/javascript">
-		function delUser(departId,departName){
+		function delDepartment(departId,departName){
 			layer.confirm('你确定要删除吗?', {icon: 3, title:'提示'}, function(index){
 				$.ajax({
 					type : "POST",
@@ -67,7 +67,7 @@
 						departId:departId
 					},
 					dataType : "text",
-					url : "/organization/doDepartmentDelete",
+					url : "/organization/deleteDepartment",
 					success : function(data) {
 						var result = eval("(" + data + ")");
 		    			if (result.status == 200) {

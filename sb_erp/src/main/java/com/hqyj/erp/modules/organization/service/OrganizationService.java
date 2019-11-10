@@ -2,8 +2,6 @@ package com.hqyj.erp.modules.organization.service;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.github.pagehelper.PageInfo;
 import com.hqyj.erp.modules.common.vo.Result;
 import com.hqyj.erp.modules.common.vo.SearchVo;
@@ -33,7 +31,7 @@ public interface OrganizationService {
 	
 	Result deletePosition(int positionId);
 	
-	List<Position> getPositionsByDepartName(@RequestParam String departName);
+	List<Position> getPositionsByDepartId(int departId);
 	
 	List<ZtreeModel> getOrgTree();
 }

@@ -1,5 +1,7 @@
 package com.hqyj.erp.modules.account.service;
 
+import java.util.List;
+
 import com.github.pagehelper.PageInfo;
 import com.hqyj.erp.modules.account.entity.User;
 import com.hqyj.erp.modules.common.vo.Result;
@@ -21,4 +23,5 @@ public interface AccountService {
 	
 	Result deleteUserById(int userId);
 	
+	List<User> getLeadersByCurrentUserId(int userId);
 }
