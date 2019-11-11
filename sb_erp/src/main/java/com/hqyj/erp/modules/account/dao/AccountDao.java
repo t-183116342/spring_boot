@@ -18,10 +18,18 @@ import com.hqyj.erp.modules.account.entity.User;
 import com.hqyj.erp.modules.common.vo.SearchVo;
 import com.hqyj.erp.modules.organization.vo.ZtreeModel;
 
+/**
+ * 账户相关dao
+ * @author: HymanHu
+ * @date: 2019年11月11日
+ */
 @Repository
 @Mapper
 public interface AccountDao {
 	
+	/**
+	 * 插入用户
+	 */
 	@Insert("insert user(account, password, user_name, user_sex, "
 			+ "user_telephone, user_email, user_address, user_birthday, "
 			+ "user_diploma, user_entrytime, position_id, depart_id) "
@@ -31,6 +39,9 @@ public interface AccountDao {
 	@Options(useGeneratedKeys=true,keyColumn="user_id",keyProperty="userId")
 	void insertUser(User user);
 	
+	/**
+	 * 根据user Id 查询user
+	 */
 	@Select("select *, p.position_name as userPosition, d.depart_name as userDepartement from user u "
 			+ "left join position p on u.position_id = p.position_id "
 			+ "left join department d on u.depart_id = d.depart_id "
@@ -43,6 +54,9 @@ public interface AccountDao {
 	})
 	User getUserById(int userId);
 	
+	/**
+	 * 根据user name 查询 user
+	 */
 	@Select("select *, p.position_name as userPosition, d.depart_name as userDepartement from user u "
 			+ "left join position p on u.position_id = p.position_id "
 			+ "left join department d on u.depart_id = d.depart_id "
@@ -50,6 +64,9 @@ public interface AccountDao {
 	@ResultMap(value="userResult")
 	User getUserByName(String account);
 	
+	/**
+	 * 根据查询条件查询user
+	 */
 	@Select("<script>" + 
 		"select *, p.position_name as userPosition, d.depart_name as userDepartement from user u "
 		+ "left join position p on u.position_id = p.position_id "
@@ -85,6 +102,9 @@ public interface AccountDao {
 			+ "and r.role_name ='manager')")
 	List<User> getLeadersByCurrentUserId(int userId);
 	
+	/**
+	 * 更新user
+	 */
 	@Update("<script> " +
         "update user set " +
         "<if test='password!=null'> password = #{password},</if>" +
@@ -102,11 +122,18 @@ public interface AccountDao {
         "</script>")
 	void updateUserById(User user);
 	
+	/**
+	 * 根据user id删除user
+	 */
 	@Delete("delete from user where user_id = #{userId}")
 	void deleteUserById(int userId);
 	
-	@Select("select user_id as id, user_name as name, depart_id as pId from user "
-			+ "where depart_id >= 0")
+	/**
+	 * 查询user信息封装为组织结构树
+	 */
+	@Select("select u.user_id as id, u.user_name as name, d.depart_name as pId from user u "
+			+ "left join department d on u.depart_id = d.depart_id "
+			+ "where u.depart_id >= 0")
 	List<ZtreeModel> getOrgTree();
 
 }

@@ -3,6 +3,11 @@ package com.hqyj.erp.modules.property.constant;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 资产类型
+ * @author: HymanHu
+ * @date: 2019年11月11日
+ */
 public enum PropertyType {
 	CURRENT_ASSETS("流动资产"),
 	FIXED_ASSETS("固定资产"),

@@ -176,24 +176,28 @@
 	</div>
 </body>
 <script>
+	// 密码输入框事件
 	function safePW(){
 		if($('#L_pass').val().length>5){
 			$("#password").html("<i class=\"layui-icon layui-anim layui-anim-scale \" style=\"color: #1E9FFF;\">&#xe618;</i>")
 		}
 	}
 	
+	//密码确认框事件
 	function confirm(){
 		if($('#L_pass').val()==$('#L_repass').val()){
                  $("#confire").html("<i class=\"layui-icon layui-anim layui-anim-scale \" style=\"color: #1E9FFF;\">&#xe618;</i>") 
                }
 	}
 	
+	//layui监听器
 	layui.use(['form','layer','laydate'], function(){
 		$ = layui.jquery;
 		var form = layui.form,
 		layer = layui.layer,
 		laydate=layui.laydate;
        	
+		// 加载事件控件
 		laydate.render({
 			elem: '#date1',
     		trigger: 'click'
@@ -203,6 +207,7 @@
     		trigger: 'click'
 		});
 		
+		//页面输入框验证器
 		form.verify({
 			nikename: function(value){
 				if(value.length < 2){
@@ -217,6 +222,7 @@
 			}
 		});
 		
+		//form提交
 		form.on('submit(add)', function(data){
             console.log(data);
             $.ajax({
@@ -231,6 +237,7 @@
 							icon : 1,
 							time: 500,
 						},function () {
+							//关闭弹出窗，刷新list页面
 							var index = parent.layer.getFrameIndex(window.name);
 							parent.location.reload();
 							parent.layer.close(index);
@@ -246,6 +253,7 @@
             return false;
 		});
 		
+		// select 变更事件，获取不同部门的职位列表
 		form.on('select(departSelect)', function(data){
 			$.ajax({
 				url : "/organization/positionsByDepart?departId=" + $("[name=departId]").val(),

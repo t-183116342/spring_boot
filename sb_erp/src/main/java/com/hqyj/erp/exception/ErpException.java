@@ -1,5 +1,10 @@
 package com.hqyj.erp.exception;
 
+/**
+ * 业务相关exception
+ * @author: HymanHu
+ * @date: 2019年11月11日
+ */
 public class ErpException extends RuntimeException {
 	private static final long serialVersionUID = 6056932528407692580L;
 	private int status;

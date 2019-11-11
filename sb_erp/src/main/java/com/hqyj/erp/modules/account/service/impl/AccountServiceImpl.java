@@ -33,6 +33,9 @@ public class AccountServiceImpl implements AccountService {
 	@Autowired
 	private AuthorityDao authorityDao;
 
+	/* 
+	 * 新增或更新user信息，删除已有的用户角色信息，插入新的用户角色
+	 */
 	@Override
 	public Result inserOrUpdatetUser(User user) {
 		if (user == null || StringUtils.isBlank(user.getAccount()) 
@@ -70,6 +73,9 @@ public class AccountServiceImpl implements AccountService {
 		}
 	}
 
+	/* 
+	 * 用户登录获取用户信息，添加shiro用户验证、用户授权以及记住我功能点
+	 */
 	@Override
 	public Result getUserResult(User user) {
 		Subject subject = SecurityUtils.getSubject();
@@ -91,22 +97,34 @@ public class AccountServiceImpl implements AccountService {
 		return new Result(200, "success");
 	}
 
+	/* 
+	 * 从shiro中获取user
+	 */
 	@Override
 	public User getUserBySubject() {
 		Subject subject = SecurityUtils.getSubject();
 		return getUserByName((String)subject.getPrincipal());
 	}
 
+	/* 
+	 * 根据用户名查询user
+	 */
 	@Override
 	public User getUserByName(String account) {
 		return accountDao.getUserByName(account);
 	}
 
+	/* 
+	 * 根据user id查询user
+	 */
 	@Override
 	public User getUserById(int userId) {
 		return accountDao.getUserById(userId);
 	}
 
+	/* 
+	 * 根据页面查询条件获取user 列表，封装到pageInfo对象中
+	 */
 	@Override
 	public PageInfo<User> getUserList(SearchVo userSearch) {
 		Subject subject = SecurityUtils.getSubject();
@@ -128,6 +146,9 @@ public class AccountServiceImpl implements AccountService {
 		return new PageInfo<>(users);
 	}
 
+	/* 
+	 * 根据user id 删除用户
+	 */
 	@Override
 	public Result deleteUserById(int userId) {
 		try {
@@ -139,6 +160,9 @@ public class AccountServiceImpl implements AccountService {
 		}
 	}
 
+	/* 
+	 * 根据当前用户id查询上级user信息
+	 */
 	@Override
 	public List<User> getLeadersByCurrentUserId(int userId) {
 		return accountDao.getLeadersByCurrentUserId(userId);

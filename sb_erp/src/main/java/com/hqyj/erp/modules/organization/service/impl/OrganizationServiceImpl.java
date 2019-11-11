@@ -19,6 +19,11 @@ import com.hqyj.erp.modules.organization.entity.Position;
 import com.hqyj.erp.modules.organization.service.OrganizationService;
 import com.hqyj.erp.modules.organization.vo.ZtreeModel;
 
+/**
+ * Organization Service Impl
+ * @author: HymanHu
+ * @date: 2019年11月11日
+ */
 @Service
 public class OrganizationServiceImpl implements OrganizationService {
 	
@@ -27,21 +32,33 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Autowired
 	private AccountDao accountDao;
 
+	/* 
+	 * 查询部门列表
+	 */
 	@Override
 	public List<Department> getDepartments() {
 		return organizationDao.getDepartments();
 	}
 
+	/* 
+	 * 根据部门id查询部门
+	 */
 	@Override
 	public Department getDepartmentById(int departId) {
 		return organizationDao.getDepartmentById(departId);
 	}
 
+	/* 
+	 * 根据部门name查询部门
+	 */
 	@Override
 	public Department getDepartmentByName(String departName) {
 		return organizationDao.getDepartmentByName(departName);
 	}
 
+	/* 
+	 * 插入或更新部门
+	 */
 	@Override
 	public Result insertOrUpdateDepartment(Department department) {
 		Department departmentTemp = organizationDao.getDepartmentByName(department.getDepartName());
@@ -64,6 +81,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 		}
 	}
 
+	/* 
+	 * 删除部门
+	 */
 	@Override
 	public Result deleteDepartment(int departId) {
 		try {
@@ -75,16 +95,25 @@ public class OrganizationServiceImpl implements OrganizationService {
 		}
 	}
 
+	/* 
+	 * 获取职位列表
+	 */
 	@Override
 	public List<Position> getPositions() {
 		return organizationDao.getPositions();
 	}
 
+	/* 
+	 * 根据职位id查询职位信息
+	 */
 	@Override
 	public Position getPositionById(int positionId) {
 		return organizationDao.getPositionById(positionId);
 	}
 
+	/* 
+	 * 插入或者更新职位信息
+	 */
 	@Override
 	public Result insertOrUpdatePosition(Position position) {
 		Position positionTemp = organizationDao.getPositionByName(position.getPositionName());
@@ -107,6 +136,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 		}
 	}
 
+	/* 
+	 * 根据查询茶树查询职位列表，封装到page info中
+	 */
 	@Override
 	public PageInfo<Position> getPositionsByPage(SearchVo searchVo) {
 		searchVo.setCurrentPage(searchVo.getCurrentPage() > 0 ? 
@@ -116,6 +148,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 		return new PageInfo<>(Optional.ofNullable(organizationDao.getPositions()).orElse(Collections.emptyList()));
 	}
 
+	/* 
+	 * 删除职位信息
+	 */
 	@Override
 	public Result deletePosition(int positionId) {
 		try {
@@ -127,11 +162,17 @@ public class OrganizationServiceImpl implements OrganizationService {
 		}
 	}
 
+	/* 
+	 * 根据部门id查询职位列表
+	 */
 	@Override
 	public List<Position> getPositionsByDepartId(int departId) {
 		return organizationDao.getPositionsByDepartId(departId);
 	}
 
+	/* 
+	 * 组织结构树
+	 */
 	@Override
 	public List<ZtreeModel> getOrgTree() {
 		List<ZtreeModel> zTreeModel = accountDao.getOrgTree();

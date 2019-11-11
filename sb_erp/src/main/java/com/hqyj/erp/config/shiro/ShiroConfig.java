@@ -20,12 +20,20 @@ import org.springframework.context.annotation.DependsOn;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 
+/**
+ * Shiro配置类
+ * @author: HymanHu
+ * @date: 2019年11月11日
+ */
 @Configuration
 public class ShiroConfig {
 
 	@Autowired
 	private MyRealm myRealm;
 	
+	/**
+	 * 装配核心组件securityManager
+	 */
 	@Bean
 	public DefaultWebSecurityManager securityManager() {
 		DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();

@@ -3,6 +3,11 @@ package com.hqyj.erp.modules.property.constant;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 申请状态
+ * @author: HymanHu
+ * @date: 2019年11月11日
+ */
 public enum ApplyStatus {
 	APPLY(0, "审核中"), APPROVE(1, "批准"), REJECT(-1, "拒绝");
 	

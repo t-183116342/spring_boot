@@ -93,6 +93,7 @@
 	var userName=null;
 	var total=0;
 	
+	//删除用户
 	function deleteUser(userId){
 		layer.confirm('你确定要删除吗?', {icon: 3, title:'提示'}, function(index){
 			$.ajax({
@@ -110,6 +111,7 @@
 							icon : 1,
 							time: 500,
 						},function () {
+							//刷新页面
 							location.replace(location.href)
 						});
 					} else {
@@ -124,12 +126,14 @@
 		});
 	}
 	
+	//layui监听器
 	layui.use(['form', 'laypage', 'laydate'], function(){
 		var form = layui.form,
 		layer = layui.layer,
 		laypage = layui.laypage,
 		laydate = layui.laydate;
 	  
+		//时间控件
 		var start=null;
 		var end=null;
 		laydate.render({
@@ -144,6 +148,7 @@
 			}
 		});
 	
+		//验证器
 		form.verify({
 			title: function(value){
 				if(value.length < 2){
@@ -156,6 +161,7 @@
 			}
 		});
 		
+		//search按钮事件
 		form.on('submit(sreach)', function(data){
 			console.log(data);
 			userDepart=$("#userDepart").val();
@@ -179,6 +185,7 @@
 			return false;
 	    });
 	  
+		// form提交
 		form.on('submit(demo1)', function(data){
 			layer.alert(JSON.stringify(data.field), {
 				title: '最终的提交信息'
@@ -186,6 +193,7 @@
 			return false;
 		});
 		
+		// 加载分页数据
 		function showPage(n) {
 			$.ajax({
 				type : "POST",
@@ -235,6 +243,7 @@
 			});
 		}
 		
+		// 调用分页数据并展示页码
 		showPage(-1);
 		laypage.render({
 			elem: 'test1',

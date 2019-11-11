@@ -12,7 +12,7 @@ import org.springframework.beans.BeanUtils;
 import com.hqyj.erp.modules.flow.entity.Apply;
 
 /**
- * 已发放资产
+ * 在用资产
  * 
  * @author: HymanHu
  * @date: 2019年10月27日

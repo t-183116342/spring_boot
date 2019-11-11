@@ -7,6 +7,11 @@ import com.hqyj.erp.modules.property.entity.GrantProperty;
 import com.hqyj.erp.modules.property.entity.Property;
 import com.hqyj.erp.modules.property.entity.ScrapProperty;
 
+/**
+ * Property Service
+ * @author: HymanHu
+ * @date: 2019年11月11日
+ */
 public interface PropertyService {
 
 	Result addProperty(Property property);

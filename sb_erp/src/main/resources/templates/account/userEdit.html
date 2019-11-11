@@ -203,6 +203,7 @@
 		</div>
 	</body>
 	<script type="text/javascript">
+		// 初始化时间
 		$(function(){
 			if($("#date2").val()!=""){
 				$("#date2").val(new Date($("#date2").val()).format("yyyy-MM-dd"));
@@ -213,18 +214,22 @@
 			}
 		});
 		
+		//密码输入框事件
 		function safePW(){
 			if($('#L_pass').val().length>5){
 				$("#password").html("<i class=\"layui-icon layui-anim layui-anim-scale \" style=\"color: #1E9FFF;\">&#xe618;</i>")
 			}
 		};
 		
+		//密码确认框事件
 		function confirm(){
 			if($('#L_pass').val()==$('#L_repass').val()){
                   $("#confire").html("<i class=\"layui-icon layui-anim layui-anim-scale \" style=\"color: #1E9FFF;\">&#xe618;</i>") 
                 }
 		};
 		
+		
+		//layui监听器
 		layui.use(['form','layer','laydate','upload'], function(){
 			$ = layui.jquery;
 			var form = layui.form,
@@ -232,6 +237,7 @@
 				laydate=layui.laydate,
 				upload = layui.upload;
 			
+			//上传文件
 			upload.render({
 				elem: '#uploadFile',
 				url: '/account/upload/',
@@ -248,6 +254,7 @@
 				}
 			});
 			
+			//时间控件
 			laydate.render({
 	    		elem: '#date1',
 	    		trigger: 'click'
@@ -257,6 +264,7 @@
 	    		trigger: 'click'
 	  		});
 	        
+	        //验证器
 			form.verify({
 				nikename: function(value){
 					if(value.length < 2){
@@ -271,6 +279,7 @@
 				}
 			});
 	      
+	        //页面转换开关
 			form.on('switch(filter)', function(data){
 	  			console.log(data.elem.checked);
 	  			if(!data.elem.checked){
@@ -286,6 +295,7 @@
 	  			$("div [name='pwd']").toggle(300);
 			});
 	        
+	        //form提交
 			form.on('submit(add)', function(data){
 	            console.log(data);
 	            $.ajax({
@@ -315,6 +325,7 @@
 	            return false;
 			});
 			
+	        //select变更事件，获取不同部门的职位列表
 			form.on('select(departSelect)', function(data){
 				$.ajax({
 					url : "/organization/positionsByDepart?departId=" + $("[name=departId]").val(),

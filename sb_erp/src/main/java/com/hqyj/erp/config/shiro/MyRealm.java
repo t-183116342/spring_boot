@@ -23,6 +23,11 @@ import com.hqyj.erp.modules.authority.entity.Role;
 import com.hqyj.erp.modules.authority.service.AuthorityService;
 import com.hqyj.erp.modules.common.constant.SystemConstant;
 
+/**
+ * Shiro核心组件，实现用户验证和授权两大功能
+ * @author: HymanHu
+ * @date: 2019年11月11日
+ */
 @Component
 public class MyRealm extends AuthorizingRealm {
 	
@@ -31,6 +36,9 @@ public class MyRealm extends AuthorizingRealm {
 	@Autowired
 	private AuthorityService authorityService;
 
+	/* 
+	 * 资源授权，获取当前用户，封装该用户下所有角色，再封装角色对应的授权资源
+	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		// 授权类
@@ -60,6 +68,9 @@ public class MyRealm extends AuthorizingRealm {
 		return authorizationInfo;
 	}
 
+	/* 
+	 * 身份验证
+	 */
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
 		String account = (String) token.getPrincipal();

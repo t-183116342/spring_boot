@@ -8,6 +8,11 @@ import com.hqyj.erp.modules.authority.entity.Role;
 import com.hqyj.erp.modules.common.vo.Result;
 import com.hqyj.erp.modules.common.vo.SearchVo;
 
+/**
+ * Authority Service
+ * @author: HymanHu
+ * @date: 2019年11月11日
+ */
 public interface AuthorityService {
 
 	List<Role> getRoles();

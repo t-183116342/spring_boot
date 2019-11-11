@@ -1,5 +1,10 @@
 package com.hqyj.erp.modules.organization.vo;
 
+/**
+ * 组织结构树对象
+ * @author: HymanHu
+ * @date: 2019年11月11日
+ */
 public class ZtreeModel {
 
 	private String id;

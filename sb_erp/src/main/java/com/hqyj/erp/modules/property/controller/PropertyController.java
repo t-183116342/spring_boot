@@ -30,6 +30,11 @@ public class PropertyController {
 	@Autowired
 	private AccountService accountService;
 
+	/**
+	 * 跳转到在用资产页面
+	 * @param modelMap
+	 * @return
+	 */
 	@RequestMapping("/grantPropertyListPage")
 	public String grantPropertyListPage(ModelMap modelMap) {
 		modelMap.addAttribute("user", accountService.getUserBySubject());
@@ -37,12 +42,18 @@ public class PropertyController {
 		return "property/grantPropertyList";
 	}
 	
+	/**
+	 * 获取在用资产
+	 */
 	@RequestMapping(value="/grantProperties",consumes="application/x-www-form-urlencoded")
 	@ResponseBody
 	public PageInfo<GrantProperty> grantProperties(@ModelAttribute SearchVo searchVo) {
 		return propertyService.getGrantProperties(searchVo);
 	}
 	
+	/**
+	 * 跳转到报废资产页面
+	 */
 	@RequestMapping("/scrapPropertyListPage")
 	public String scrapPropertyListPage(ModelMap modelMap) {
 		modelMap.addAttribute("user", accountService.getUserBySubject());
@@ -50,18 +61,27 @@ public class PropertyController {
 		return "property/scrapPropertyList";
 	}
 	
+	/**
+	 * 获取报废资产列表
+	 */
 	@RequestMapping(value="/scrapProperties",consumes="application/x-www-form-urlencoded")
 	@ResponseBody
 	public PageInfo<ScrapProperty> scrapProperties(@ModelAttribute SearchVo searchVo) {
 		return propertyService.getScrapProperties(searchVo);
 	}
 	
+	/**
+	 * 跳转到资产列表页面
+	 */
 	@RequestMapping("/propertyListPage")
 	public String propertyListPage(ModelMap modelMap) {
 		modelMap.addAttribute("propertyTypes", PropertyType.propertyTypes);
 		return "property/propertyList";
 	}
 	
+	/**
+	 * 获取资产列表
+	 */
 	@RequestMapping(value="/properties",consumes="application/x-www-form-urlencoded")
 	@ResponseBody
 	public PageInfo<Property> properties(@ModelAttribute SearchVo searchVo) {

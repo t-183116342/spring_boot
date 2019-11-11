@@ -26,6 +26,11 @@ import com.hqyj.erp.modules.property.entity.GrantProperty;
 import com.hqyj.erp.modules.property.entity.Property;
 import com.hqyj.erp.modules.property.entity.ScrapProperty;
 
+/**
+ * Flow Service Impl
+ * @author: HymanHu
+ * @date: 2019年11月11日
+ */
 @Service
 public class FlowServiceImpl implements FlowService {
 	
@@ -36,6 +41,9 @@ public class FlowServiceImpl implements FlowService {
 	@Autowired
 	private PropertyDao propertyDao;
 
+	/* 
+	 * 插入和更新申请
+	 */
 	@Override
 	public Result insertOrUpdateApply(Apply apply) {
 		try {
@@ -67,6 +75,9 @@ public class FlowServiceImpl implements FlowService {
 		}
 	}
 
+	/* 
+	 * 获取申请列表，封装到page info中
+	 */
 	@Override
 	public PageInfo<Apply> getApplies(SearchVo searchVo) {
 		try {
@@ -84,6 +95,9 @@ public class FlowServiceImpl implements FlowService {
 		return new PageInfo<>();
 	}
 
+	/* 
+	 * 获取申请流程列表，封装到pageinfo中
+	 */
 	@Override
 	public PageInfo<Apply> applyFlows(SearchVo searchVo) {
 		try {
@@ -101,11 +115,17 @@ public class FlowServiceImpl implements FlowService {
 		return new PageInfo<>();
 	}
 
+	/* 
+	 * 根据id查询申请
+	 */
 	@Override
 	public Apply getApplyById(int applyId) {
 		return flowDao.getApplyById(applyId);
 	}
 
+	/* 
+	 * 删除申请
+	 */
 	@Override
 	public Result deleteApply(int applyId) {
 		try {
@@ -117,6 +137,9 @@ public class FlowServiceImpl implements FlowService {
 		}
 	}
 
+	/* 
+	 * 更新申请流程，根据申请提交状态，更新资产表、在用资产表、报废资产表
+	 */
 	@Override
 	@Transactional
 	public Result updateApplyFlow(Apply apply) {
@@ -135,6 +158,9 @@ public class FlowServiceImpl implements FlowService {
 		return new Result(200, "操作成功。");
 	}
 	
+	/**
+	 * 更新资产表
+	 */
 	public void updateProperyByFlow(Apply apply) {
 		if (apply.getApplyStatus().equals(ApplyStatus.APPROVE.getDesc())) {
 			Property property = Property.initProperty(apply);
@@ -166,6 +192,9 @@ public class FlowServiceImpl implements FlowService {
 		}
 	}
 	
+	/**
+	 * 更新在用资产表
+	 */
 	public void updateGrantPropertyByFlow(Apply apply) {
 		GrantProperty grantProperty = GrantProperty.init(apply);
 		GrantProperty existGrantProperty = 
@@ -202,6 +231,9 @@ public class FlowServiceImpl implements FlowService {
 		}
 	}
 	
+	/**
+	 * 更新报废资产表
+	 */
 	public void updateScrapPropertyByFlow(Apply apply) {
 		ScrapProperty scrapProperty = ScrapProperty.initScrapProperty(apply);
 		ScrapProperty existScrapProperty = propertyDao.getScrapPropertyByAttribute(scrapProperty);

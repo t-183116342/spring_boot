@@ -17,12 +17,20 @@ import com.hqyj.erp.modules.property.entity.Property;
 import com.hqyj.erp.modules.property.entity.ScrapProperty;
 import com.hqyj.erp.modules.property.service.PropertyService;
 
+/**
+ * Property Service Impl
+ * @author: HymanHu
+ * @date: 2019年11月11日
+ */
 @Service
 public class PropertyServiceImpl implements PropertyService {
 
 	@Autowired
 	private PropertyDao propertyDao;
 	
+	/* 
+	 * 添加资产
+	 */
 	@Override
 	public Result addProperty(Property property) {
 		Property existProperty = propertyDao.getPropertyByAttribute(property);
@@ -31,6 +39,9 @@ public class PropertyServiceImpl implements PropertyService {
 		return null;
 	}
 	
+	/* 
+	 * 获取在用资产列表，封装到page info中
+	 */
 	@Override
 	public PageInfo<GrantProperty> getGrantProperties(SearchVo searchVo) {
 		try {
@@ -48,6 +59,9 @@ public class PropertyServiceImpl implements PropertyService {
 		return new PageInfo<>();
 	}
 
+	/* 
+	 * 获取报废资产列表，封装到page info中
+	 */
 	@Override
 	public PageInfo<ScrapProperty> getScrapProperties(SearchVo searchVo) {
 		try {
@@ -65,6 +79,9 @@ public class PropertyServiceImpl implements PropertyService {
 		return new PageInfo<>();
 	}
 	
+	/* 
+	 * 获取资产列表，封装到page info中
+	 */
 	@Override
 	public PageInfo<Property> getProperties(SearchVo searchVo) {
 		try {

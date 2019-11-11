@@ -7,6 +7,11 @@ import com.hqyj.erp.modules.account.entity.User;
 import com.hqyj.erp.modules.common.vo.Result;
 import com.hqyj.erp.modules.common.vo.SearchVo;
 
+/**
+ * account service
+ * @author: HymanHu
+ * @date: 2019年11月11日
+ */
 public interface AccountService {
 
 	Result inserOrUpdatetUser(User user);

@@ -35,16 +35,25 @@ public class CommonController {
 	@Autowired
 	private AccountService accountService;
 
+	/**
+	 * login页面
+	 */
 	@RequestMapping("/login")
 	public String loginPage() {
 		return "common/login";
 	}
 	
+	/**
+	 * 注册页面
+	 */
 	@RequestMapping("/register")
 	public String registerPage() {
 		return "common/register";
 	}
 	
+	/**
+	 * 用户注册
+	 */
 	@PostMapping(value="/doRegister", consumes="application/json")
 	@ResponseBody
 	public Result doRegister(@RequestBody User user) {
@@ -52,6 +61,9 @@ public class CommonController {
 		return accountService.inserOrUpdatetUser(user);
 	}
 	
+	/**
+	 * 用户登录
+	 */
 	@PostMapping(value="/doLogin", consumes="application/json")
 	@ResponseBody
 	public Result doLogin(@RequestBody User user) {
@@ -59,6 +71,9 @@ public class CommonController {
 		return accountService.getUserResult(user);
 	}
 	
+	/**
+	 * 退出登录
+	 */
 	@RequestMapping("/loginOut")
 	public String loginOut() {
 		Subject subject = SecurityUtils.getSubject();
@@ -66,6 +81,9 @@ public class CommonController {
 		return "common/login";
 	}
 	
+	/**
+	 * indexpage
+	 */
 	@RequestMapping("/index")
 	public String indexPage(HttpServletRequest request, ModelMap modelMap) {
 		

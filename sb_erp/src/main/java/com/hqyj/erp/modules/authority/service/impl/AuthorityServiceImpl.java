@@ -18,17 +18,28 @@ import com.hqyj.erp.modules.authority.service.AuthorityService;
 import com.hqyj.erp.modules.common.vo.Result;
 import com.hqyj.erp.modules.common.vo.SearchVo;
 
+/**
+ * Authority Service Impl
+ * @author: HymanHu
+ * @date: 2019年11月11日
+ */
 @Service
 public class AuthorityServiceImpl implements AuthorityService {
 	
 	@Autowired
 	private AuthorityDao authorityDao;
 
+	/* 
+	 * 获取角色列表
+	 */
 	@Override
 	public List<Role> getRoles() {
 		return authorityDao.getRoles();
 	}
 
+	/* 
+	 * 插入或更新角色
+	 */
 	@Override
 	public Result insertOrUpdateRole(Role role) {
 		Role roleTemp = authorityDao.getRoleByNmae(role.getRoleName());
@@ -49,11 +60,17 @@ public class AuthorityServiceImpl implements AuthorityService {
 		}
 	}
 
+	/* 
+	 * 根据id查询角色
+	 */
 	@Override
 	public Role getRoleById(int roleId) {
 		return authorityDao.getRoleById(roleId);
 	}
 
+	/* 
+	 * 删除角色
+	 */
 	@Override
 	public Result deleteRole(int roleId) {
 		try {
@@ -65,11 +82,17 @@ public class AuthorityServiceImpl implements AuthorityService {
 		}
 	}
 
+	/* 
+	 * 根据角色id查询所有资源
+	 */
 	@Override
 	public List<Resource> getResourcesByRoleId(int roleId) {
 		return authorityDao.getResourcesByRoleId(roleId);
 	}
 
+	/* 
+	 * 查询所有资源，封装到page info中
+	 */
 	@Override
 	public PageInfo<Resource> getResource(SearchVo resarchVo) {
 		try {
@@ -86,11 +109,17 @@ public class AuthorityServiceImpl implements AuthorityService {
 		return new PageInfo<>();
 	}
 
+	/* 
+	 * 根据资源id查询资源
+	 */
 	@Override
 	public Resource getResourceById(int resourceId) {
 		return authorityDao.getResourceById(resourceId);
 	}
 
+	/* 
+	 * 插入或者更新资源
+	 */
 	@Override
 	@Transactional
 	public Result insertOrUpdateResource(Resource resource) {
@@ -120,6 +149,9 @@ public class AuthorityServiceImpl implements AuthorityService {
 		}
 	}
 
+	/* 
+	 * 删除资源
+	 */
 	@Override
 	public Result deleteResource(int resourceId) {
 		try {
@@ -132,6 +164,9 @@ public class AuthorityServiceImpl implements AuthorityService {
 		}
 	}
 
+	/* 
+	 * 根据用户id查询角色列表
+	 */
 	@Override
 	public List<Role> getRolesByUserId(int userId) {
 		return authorityDao.getRolesByUserId(userId);
