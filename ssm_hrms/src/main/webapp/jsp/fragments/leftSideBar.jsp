@@ -1,24 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <div class="leftnav">
 	<div class="leftnav-title"><strong><span class="icon-list"></span>菜单列表</strong></div>
-	<h2><span class="icon-user"></span>基本信息管理</h2>
+	<h2><span class="icon-user"></span>组织管理</h2>
 	<ul style="display:block">
-		<li><a href="info.html" target="right"><span class="icon-caret-right"></span>学生基本信息管理</a></li>
-		<li><a href="pass.html" target="right"><span class="icon-caret-right"></span>教师基本信息管理</a></li>
-		<li><a href="page.html" target="right"><span class="icon-caret-right"></span>院系基本信息管理</a></li>  
-		<li><a href="adv.html" target="right"><span class="icon-caret-right"></span>专业信息维护</a></li>   
-		<li><a href="book.html" target="right"><span class="icon-caret-right"></span>班级信息维护</a></li>     
-		<li><a href="column.html" target="right"><span class="icon-caret-right"></span>课程总库维护</a></li>
-		<li><a href="column.html" target="right"><span class="icon-caret-right"></span>开课课程管理</a></li>
+		<li><a href="/organization/departmentListPage" target="right"><span class="icon-caret-right"></span>部门信息</a></li>
+		<li><a href="/organization/positionListPage" target="right"><span class="icon-caret-right"></span>职业信息</a></li>
+		<li><a href="/account/userListPage" target="right"><span class="icon-caret-right"></span>用户信息</a></li>  
+		<li><a href="/organization/structure" target="right"><span class="icon-caret-right"></span>组织结构</a></li>   
 	</ul> 
 	<h2><span class="icon-user"></span>考试报名系统</h2>
-	<ul style="display:block">
+	<ul>
 		<li><a href="info.html" target="right"><span class="icon-caret-right"></span>考试项目设置管理</a></li>
 		<li><a href="pass.html" target="right"><span class="icon-caret-right"></span>考试报名管理</a></li>
 		<li><a href="page.html" target="right"><span class="icon-caret-right"></span>考试成绩管理</a></li>  
 	</ul>  
 	<h2><span class="icon-user"></span>选课管理</h2>
-	<ul style="display:block">
+	<ul>
 		<li><a href="info.html" target="right"><span class="icon-caret-right"></span>学生网上选课</a></li>
 		<li><a href="pass.html" target="right"><span class="icon-caret-right"></span>选课数据调整</a></li>
 		<li><a href="page.html" target="right"><span class="icon-caret-right"></span>选课结果查询</a></li>  

@@ -8,16 +8,21 @@ public class CommonController {
 
 	@RequestMapping("/login")
 	public String login() {
-		return "login";
+		return "common/login";
 	}
 	
 	@RequestMapping("/register")
 	public String register() {
-		return "register";
+		return "common/register";
 	}
 	
 	@RequestMapping("/index")
 	public String index() {
 		return "index";
+	}
+	
+	@RequestMapping("/wellcome")
+	public String wellcome() {
+		return "common/wellcome";
 	}
 }

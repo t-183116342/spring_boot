@@ -12,15 +12,15 @@
         http://www.springframework.org/schema/mvc   
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
         
-	<!--开启注解-->
-	<mvc:annotation-driven />
-	
 	<!-- 扫描包，@Repository、@Service、@Controller等 -->
 	<context:component-scan base-package="com.hqyj.hrms"/>
+	
+	<!--开启注解-->
+	<mvc:annotation-driven />
     
     <!-- 对模型视图名称进行解析，在模型视图名称上添加前后缀 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"   
-		p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"></bean>
+		p:prefix="/jsp/" p:suffix=".jsp"></bean>
 
 	<!-- 处理静态资源 -->
 	<mvc:default-servlet-handler/>
