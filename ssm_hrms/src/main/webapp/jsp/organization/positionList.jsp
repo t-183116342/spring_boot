@@ -30,11 +30,7 @@
 				</div>
 				<div class="padding border-bottom">
 					<ul class="search" style="padding-left:10px;">
-						<li> <a class="button border-main icon-plus-square-o" href="/organization/addDepartmentPage"> 增加</a> </li>
-						<li>
-							<input type="text" placeholder="请输入搜索关键字" name="keywords" class="input" style="width:250px; line-height:17px;display:inline-block" />
-          					<a href="javascript:void(0)" class="button border-main icon-search" onclick="changesearch()" > 搜索</a>
-          				</li>
+						<li> <a class="button border-main icon-plus-square-o" href="/organization/addPositionPage"> 增加</a> </li>
 					</ul>
 				</div>
 				
@@ -47,7 +43,7 @@
 					        <th width="310" style="text-align:center;">操作</th>
 						</tr>
 					</thead>
-					<tbody id="departments">
+					<tbody id="positions">
 					</tbody>
 					
 					<tr>
@@ -93,10 +89,10 @@
 					type : "POST",
 					async:false,
 					data : {
-						departId:id
+						positionId:id
 					},
 					dataType : "text",
-					url : "/organization/deleteDepartment",
+					url : "/organization/deletePosition",
 					success : function(data) {
 						var result = eval("(" + data + ")");
 		    			if (result.status == 200) {
@@ -122,7 +118,7 @@
 					currentPage:n
 				},
 				dataType : "text",
-				url : "/organization/departments",
+				url : "/organization/positions",
 				success : function(result) {
 					console.log(result);
 					var tl = eval("(" + result + ")");
@@ -131,21 +127,21 @@
 						totalPages = tl.pages;
 						currentPage = tl.pageNum;
 					}
-					$("#departments").html("");
+					$("#positions").html("");
 					if(tl.list.length>0){
 						$.each(tl.list, function(n,val){
 							console.log(n);
 							var str="";
 						    str+="<tr>";
-						    str+="<td>"+getDefaultString(val.departId)+"</td>"
-						    str+="<td>"+getDefaultString(val.departName)+"</td>"
-						    str+="<td>"+getDefaultString(val.departDesc)+"</td>"
-						    str+="<td><div class='button-group'><a class='button border-main' href='/organization/updateDepartmentPage?departId=" + val.departId + "'><span class='icon-edit'></span>修改</a><a class='button border-red' href='javascript:void(0)' onclick='del(" + val.departId + ")'><span class='icon-trash-o'></span>删除</a></div></td>"
+						    str+="<td>"+getDefaultString(val.positionId)+"</td>"
+						    str+="<td>"+getDefaultString(val.positionName)+"</td>"
+						    str+="<td>"+getDefaultString(val.positionDescription)+"</td>"
+						    str+="<td><div class='button-group'><a class='button border-main' href='/organization/editPositionPage?positionId=" + val.positionId + "'><span class='icon-edit'></span>修改</a><a class='button border-red' href='javascript:void(0)' onclick='del(" + val.positionId + ")'><span class='icon-trash-o'></span>删除</a></div></td>"
 						    str+="</tr>";
-							$("#departments").append(str);
+							$("#positions").append(str);
 						})
 					}else{
-						$("#departments").append("<tr><td colspan=8 align=\"center\">暂时没有数据哦，快去添加一条吧</td></tr>");
+						$("#positions").append("<tr><td colspan=8 align=\"center\">暂时没有数据哦，快去添加一条吧</td></tr>");
 					}
 				},
 				error : function() {

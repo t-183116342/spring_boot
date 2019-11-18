@@ -87,7 +87,7 @@ public interface OrganizationDao {
 	 */
 	@Select("select *, d.depart_name as departName "
 			+ "from position p left join department d on p.depart_id = d.depart_id "
-			+ "where d.depart_name=#{positionName}")
+			+ "where p.position_name=#{positionName}")
 	Position getPositionByName(String positionName);
 	
 	/**
