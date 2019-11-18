@@ -14,10 +14,12 @@
 		<title>人事管理系统</title>
 		
 		<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+		<!-- <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script> -->
 		<script src="${pageContext.request.contextPath}/static/js/jqPaginator.js" type="text/javascript"></script>
 		<script src="${pageContext.request.contextPath}/static/js/hrms.js" type="text/javascript"></script>
 		<script src="${pageContext.request.contextPath}/static/js/common.js" type="text/javascript"></script>
 		
+	    <!-- <link href="http://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css" type="text/css" rel="stylesheet"> -->
 	    <link href="${pageContext.request.contextPath}/static/css/admin.css" type="text/css" rel="stylesheet">
 	    <link href="${pageContext.request.contextPath}/static/css/hrms.css" type="text/css" rel="stylesheet">
 	</head>
@@ -69,6 +71,7 @@
 			
 			showPage(-1);
 			
+			// 分页
 			$('#pagination1').jqPaginator({
 			    totalPages: totalPages,
 			    visiblePages: visiblePages,
@@ -85,6 +88,34 @@
 			});
 		});
 		
+		// 删除
+		function del(id) {
+			if (confirm('确定要删除吗')==true) {
+				$.ajax({
+					type : "POST",
+					async:false,
+					data : {
+						departId:id
+					},
+					dataType : "text",
+					url : "/organization/deleteDepartment",
+					success : function(data) {
+						var result = eval("(" + data + ")");
+		    			if (result.status == 200) {
+							console.log(result);
+							location.replace(location.href);
+						} else {
+							alert(result.message);
+						}
+					},
+					error : function() {
+						alert("无法连接服务器");
+					}
+				});
+			}
+		}
+		
+		// 分页
 		function showPage(n) {
 			$.ajax({
 				type : "POST",
@@ -111,7 +142,7 @@
 						    str+="<td>"+getDefaultString(val.departId)+"</td>"
 						    str+="<td>"+getDefaultString(val.departName)+"</td>"
 						    str+="<td>"+getDefaultString(val.departDesc)+"</td>"
-						    str+="<td><a class=\"layui-btn  layui-btn-mini\" onclick=\"x_admin_show('修改','/account/editUserPage?userId="+val.userId+"')\" ><i class=\"layui-icon\">&#xe642;</i>编辑</a><button onclick=\"deleteUser('"+val.userId+"')\" class=\"layui-btn  layui-btn-mini layui-btn-danger\"><i class=\"layui-icon\">&#xe640;</i>删除</button></td>"
+						    str+="<td><div class='button-group'><a class='button border-main' href='/organization/updateDepartmentPage?departId=" + val.departId + "'><span class='icon-edit'></span>修改</a><a class='button border-red' href='javascript:void(0)' onclick='del(" + val.departId + ")'><span class='icon-trash-o'></span>删除</a></div></td>"
 						    str+="</tr>";
 							$("#departments").append(str);
 						})

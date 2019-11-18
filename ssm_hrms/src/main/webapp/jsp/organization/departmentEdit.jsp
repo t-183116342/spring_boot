@@ -29,12 +29,13 @@
 				</div>
 				
 				<form id="form1" method="post" class="form-x" action="cdsacdas">
+					<input type="hidden" name="departId" value="${department.departId}"/>
 					<div class="form-group">
 						<div class="label">
 							<label>部门名称：</label>
 						</div>
 						<div class="field">
-							<input type="text" class="input w50" value="" name="departName" data-validate="required:请输入部门名称" />
+							<input type="text" class="input w50" value="${department.departName}" name="departName" data-validate="required:请输入部门名称" />
 							<div class="tips"></div>
 						</div>
 					</div>
@@ -43,7 +44,7 @@
 							<label>部门描述：</label>
 						</div>
 						<div class="field">
-							<input type="text" class="input w50" value="" name="departDesc" data-validate="required:请输入部门描述" />
+							<input type="text" class="input w50" value="${department.departDesc}" name="departDesc" data-validate="required:请输入部门描述" />
 							<div class="tips"></div>
 						</div>
 					</div>
@@ -62,7 +63,7 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			
-			// 添加
+			// 编辑
 			$("[name=submitButton]").bind("click", function() {
 				var departName = $("[name=departName]").val();
 				var departDesc = $("[name=departDesc]").val();
@@ -72,7 +73,7 @@
 					return false;
 				} else {
 					$.ajax({
-						url :"/organization/addDepartment",
+						url :"/organization/updateDepartment",
 						type : "POST",
 						data : $('#form1').serialize(),
 						dataType : "text",
