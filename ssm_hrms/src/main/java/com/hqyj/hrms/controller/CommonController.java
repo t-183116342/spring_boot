@@ -74,9 +74,13 @@ public class CommonController {
 	 * indexpage
 	 */
 	@RequestMapping("/index")
-	public String indexPage(HttpServletRequest request, ModelMap modelMap) {
-		
-	    Subject subject = SecurityUtils.getSubject();
+	public String indexPage() {
+		return "index";
+	}
+	
+	@RequestMapping("/wellcome")
+	public String wellcomePage(HttpServletRequest request, ModelMap modelMap) {
+		Subject subject = SecurityUtils.getSubject();
 	    LOGGER.debug("------------------" + subject.isRemembered());
 	    LOGGER.debug("------------------" + subject.isAuthenticated());
 	    
@@ -104,8 +108,7 @@ public class CommonController {
 		modelMap.addAttribute("localIp", ipAddress);
 		modelMap.addAttribute("serverName", serverName);
 		modelMap.addAttribute("loacalUrl", loacalUrl);
-		modelMap.addAttribute("template", "common/wellcome");
 		
-		return "index";
+		return "common/wellcome";
 	}
 }
