@@ -2,6 +2,7 @@ package com.hqyj.hrms.entity;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,8 +20,11 @@ import javax.persistence.Transient;
 public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="role_id")
 	private int roleId;
+	@Column(name="role_name")
 	private String roleName;
+	@Column(name="role_desc")
 	private String roleDesc;
 	
 	@Transient

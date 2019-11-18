@@ -3,6 +3,7 @@ package com.hqyj.hrms.entity;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,24 +26,35 @@ import com.hqyj.hrms.util.MD5Util;
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="user_id")
 	private int userId;
 	private String account;
 	private String password;
+	@Column(name="user_name")
 	private String userName;
+	@Column(name="user_sex")
 	private String userSex;
+	@Column(name="user_telephone")
 	private String userTelephone;
+	@Column(name="user_email")
 	private String userEmail;
+	@Column(name="user_address")
 	private String userAddress;
 	// 学历
+	@Column(name="user_diploma")
 	private String userDiploma;
 	// 入职时间
 	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@Column(name="user_birthday")
 	private Date userBirthday;
 	@JsonFormat(pattern="yyyy-MM-dd",timezone = "GMT+8")
 	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@Column(name="user_entrytime")
 	private Date userEntrytime;
+	@Column(name="position_id")
 	private Integer positionId;
+	@Column(name="depart_id")
 	private Integer departId;
 	
 	@Transient

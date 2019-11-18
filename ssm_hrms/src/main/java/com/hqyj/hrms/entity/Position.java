@@ -1,5 +1,6 @@
 package com.hqyj.hrms.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,9 +18,13 @@ import javax.persistence.Transient;
 public class Position {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="position_id")
 	private int positionId;
+	@Column(name="position_name")
 	private String positionName;
+	@Column(name="position_description")
 	private String positionDescription;
+	@Column(name="depart_id")
 	private Integer departId;
 	@Transient
 	private String departName;

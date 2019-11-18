@@ -1,5 +1,6 @@
 package com.hqyj.hrms.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,8 +12,11 @@ import javax.persistence.Table;
 public class RoleResource {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="role_resource_id")
 	private int roleResourceId;
+	@Column(name="role_id")
 	private int roleId;
+	@Column(name="resource_id")
 	private int resourceId;
 
 	public RoleResource() {

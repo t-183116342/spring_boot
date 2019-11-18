@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import com.hqyj.hrms.dao.AuthorityDao;
 import com.hqyj.hrms.entity.User;
 import com.hqyj.hrms.entity.UserRole;
 import com.hqyj.hrms.service.AccountService;
+import com.hqyj.hrms.util.MD5Util;
 import com.hqyj.hrms.vo.Result;
 import com.hqyj.hrms.vo.SearchVo;
 
@@ -74,21 +78,21 @@ public class AccountServiceImpl implements AccountService {
 	 */
 	@Override
 	public Result getUserResult(User user) {
-//		Subject subject = SecurityUtils.getSubject();
-//		try {
-//			UsernamePasswordToken usernamePasswordToken = 
-//					new UsernamePasswordToken(user.getAccount(), MD5Util.getMD5(user.getPassword()));
-//			usernamePasswordToken.setRememberMe(user.getRememberMe());
-//			
-//			// 登录验证，调用MyRealm中doGetAuthenticationInfo方法
-//			subject.login(usernamePasswordToken);
-//			
-//			// 授权，调用MyRealm中doGetAuthorizationInfo方法
-//			subject.checkRoles();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return new Result(500, e.getMessage());
-//		}
+		Subject subject = SecurityUtils.getSubject();
+		try {
+			UsernamePasswordToken usernamePasswordToken = 
+					new UsernamePasswordToken(user.getAccount(), MD5Util.getMD5(user.getPassword()));
+			usernamePasswordToken.setRememberMe(user.getRememberMe());
+			
+			// 登录验证，调用MyRealm中doGetAuthenticationInfo方法
+			subject.login(usernamePasswordToken);
+			
+			// 授权，调用MyRealm中doGetAuthorizationInfo方法
+			subject.checkRoles();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(500, e.getMessage());
+		}
 		
 		return new Result(200, "success");
 	}
@@ -98,9 +102,8 @@ public class AccountServiceImpl implements AccountService {
 	 */
 	@Override
 	public User getUserBySubject() {
-//		Subject subject = SecurityUtils.getSubject();
-//		return getUserByName((String)subject.getPrincipal());
-		return null;
+		Subject subject = SecurityUtils.getSubject();
+		return getUserByName((String)subject.getPrincipal());
 	}
 
 	/* 
@@ -124,15 +127,14 @@ public class AccountServiceImpl implements AccountService {
 	 */
 	@Override
 	public PageInfo<User> getUserList(SearchVo userSearch) {
-//		Subject subject = SecurityUtils.getSubject();
-//		String currentRole = (String) subject.getPrincipal();
+		Subject subject = SecurityUtils.getSubject();
+		String currentRole = (String) subject.getPrincipal();
 		
 		List<User> users = new ArrayList<>();
 		SearchVo.initSearchVo(userSearch);
 		PageHelper.startPage(userSearch.getCurrentPage(), userSearch.getPageSize());
 		try {
-//			if ("staff".equals(currentRole)) {
-			if ("staff".equals("")) {
+			if ("staff".equals(currentRole)) {
 				users.add(accountDao.getUserById(getUserBySubject().getUserId()));
 			} else {
 				users = accountDao.getUserListBySearch(userSearch);

@@ -50,7 +50,7 @@ public interface AccountDao {
 		@Result(column="user_id", property="userId"),
 		@Result(column="user_id",property="roles",
 				javaType=List.class,
-				many=@Many(select="com.hqyj.erp.modules.authority.dao.AuthorityDao.getRolesByUserId"))
+				many=@Many(select="com.hqyj.hrms.dao.AuthorityDao.getRolesByUserId"))
 	})
 	User getUserById(int userId);
 	

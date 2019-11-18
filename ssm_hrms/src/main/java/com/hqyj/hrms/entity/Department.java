@@ -1,5 +1,6 @@
 package com.hqyj.hrms.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -16,8 +17,11 @@ import javax.persistence.Table;
 public class Department {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="depart_id")
 	private int departId;
+	@Column(name="depart_name")
 	private String departName;
+	@Column(name="depart_desc")
 	private String departDesc;
 
 	public int getDepartId() {

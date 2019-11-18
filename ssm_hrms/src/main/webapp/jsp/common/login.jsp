@@ -24,15 +24,15 @@
 		    <div class="line bouncein">
 		        <div class="xs6 xm4 xs3-move xm4-move">
 		            <div style="height:60px;"></div>
-		            <div class="media media-y margin-big-bottom">           
-		            </div>         
-		            <form action="index.html" method="post">
+		            <div class="media media-y margin-big-bottom"></div>         
+		            <form method="post">
 			            <div class="panel loginbox">
 			                <div class="text-center margin-big padding-big-top"><h1>后台管理中心</h1></div>
+			                <div id="errorMessage" class="text-center" style="color: red;"></div>
 			                <div class="panel-body" style="padding:30px; padding-bottom:10px; padding-top:10px;">
 			                    <div class="form-group">
 			                        <div class="field field-icon-right">
-			                            <input type="text" class="input input-big" name="name" placeholder="登录账号" data-validate="required:请填写账号" />
+			                            <input type="text" class="input input-big" name="account" placeholder="登录账号" data-validate="required:请填写账号" />
 			                            <span class="icon icon-user margin-small"></span>
 			                        </div>
 			                    </div>
@@ -49,11 +49,12 @@
 			                        </div>
 			                    </div>
 			                </div>
-			                <div style="padding:10px;"><input type="submit" 
-			                	class="button button-block bg-main text-big input-big" value="登录"></div>
+			                <div style="padding:10px;">
+			                	<input type="button" id="loginButton" class="button button-block bg-main text-big input-big" value="登录">
+			                </div>
 			                <div class="form-group" style="padding:10px;">
 								<label for="rememberMe" style="font-weight:100;">
-									<input type="checkbox" id="rememberMe"> Remember Me
+									<input type="checkbox" name="rememberMe"> Remember Me
 								</label>
 								<div style="float:right;"><a href="/register">注册</a></div>
 							</div>
@@ -95,7 +96,6 @@
 			 * 用户登录
 			 */
 			$("#loginButton").bind("click", function() {
-				var layer = layui.layer;
 				var val = $(".input-val").val().toLowerCase();
 		        var num = show_num.join("");
 		        if(val==''){
@@ -118,11 +118,11 @@
 		        			if (data.status == 200) {
 		        				location.href = "/index";
 		        			} else {
-		        				layer.msg(data.message, {icon: 0});
+		        				$("#errorMessage").text(data.message);
 		        			}
 		        		},
 		        		error : function (data) {
-		        			layer.msg(data.responseText, {icon: 0});
+		        			$("#errorMessage").text(data.responseText);
 		        		}
 		        	});
 		        }

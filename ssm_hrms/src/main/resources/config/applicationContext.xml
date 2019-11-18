@@ -48,7 +48,7 @@
     </bean>
     
     <!-- 引入别的配置文件 -->
-	<import resource="mybatis.xml"/>
+	<import resource="springMybatis.xml"/>
 	<import resource="springHibernate.xml"/>
 	<import resource="springShiro.xml"/>
 	  
