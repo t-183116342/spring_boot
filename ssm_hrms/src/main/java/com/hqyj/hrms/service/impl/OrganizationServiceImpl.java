@@ -40,6 +40,15 @@ public class OrganizationServiceImpl implements OrganizationService {
 		return organizationDao.getDepartments();
 	}
 
+	@Override
+	public PageInfo<Department> getDepartmentsByPage(SearchVo searchVo) {
+		searchVo.setCurrentPage(searchVo.getCurrentPage() > 0 ? 
+				searchVo.getCurrentPage() : SystemConstant.DEFAULT_CURRENT_PAGE);
+		searchVo.setPageSize(SystemConstant.DEFAULT_PAGE_SIZE);
+		PageHelper.startPage(searchVo.getCurrentPage(), searchVo.getPageSize());
+		return new PageInfo<>(Optional.ofNullable(organizationDao.getDepartments()).orElse(Collections.emptyList()));
+	}
+
 	/* 
 	 * 根据部门id查询部门
 	 */

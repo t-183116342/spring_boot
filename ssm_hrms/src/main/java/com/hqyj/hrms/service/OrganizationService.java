@@ -18,6 +18,8 @@ public interface OrganizationService {
 
 	List<Department> getDepartments();
 	
+	PageInfo<Department> getDepartmentsByPage(SearchVo searchVo);
+	
 	Department getDepartmentById(int departId);
 	
 	Department getDepartmentByName(String departName);

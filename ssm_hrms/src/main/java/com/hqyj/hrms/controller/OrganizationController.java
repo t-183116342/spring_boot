@@ -43,9 +43,17 @@ public class OrganizationController {
 	 * 跳转到部门列表页面
 	 */
 	@RequestMapping("/departmentListPage")
-	public String departmentListPage(ModelMap modelMap) {
-		modelMap.addAttribute("departments", organizationService.getDepartments());
+	public String departmentListPage() {
 		return "organization/departmentList";
+	}
+	
+	/**
+	 * 获取部门分页数据
+	 */
+	@PostMapping(value="/departments", consumes="application/x-www-form-urlencoded")
+	@ResponseBody
+	public PageInfo<Department> departments(@ModelAttribute SearchVo userSearch) {
+		return organizationService.getDepartmentsByPage(userSearch);
 	}
 	
 	/**

@@ -18,7 +18,7 @@
 			<blockquote style="margin-bottom:10px;padding:15px;line-height:22px;border-left:5px solid #009688;border-radius:0 2px 2px 0;background-color:#f2f2f2;">欢迎进入人事管理系统！v1.0；登录时间：${loginTime}</blockquote>
 			<fieldset style="margin-bottom:10px;padding:0;border:1px solid #e2e2e2">
 				<legend>信息总览</legend>
-				<div style="height: 200px;">
+				<div style="height: 200px;margin-left:20px;">
 					<table class="layui-table" style="width: 60%;margin-bottom:10px;padding:15px;">
 						<thead>
 							<tr>
