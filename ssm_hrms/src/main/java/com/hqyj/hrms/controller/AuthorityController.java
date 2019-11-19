@@ -38,6 +38,12 @@ public class AuthorityController {
 		return "authority/roleList";
 	}
 	
+	@RequestMapping(value="/roles",consumes="application/x-www-form-urlencoded")
+	@ResponseBody
+	public PageInfo<Role> roles(@ModelAttribute SearchVo searchVo) {
+		return authorityService.getRoles(searchVo);
+	}
+	
 	/**
 	 * 跳转到添加角色页面
 	 */
@@ -96,7 +102,7 @@ public class AuthorityController {
 	@RequestMapping(value="/resources",consumes="application/x-www-form-urlencoded")
 	@ResponseBody
 	public PageInfo<Resource> resources(@ModelAttribute SearchVo searchVo) {
-		return authorityService.getResource(searchVo);
+		return authorityService.getResources(searchVo);
 	}
 	
 	/**

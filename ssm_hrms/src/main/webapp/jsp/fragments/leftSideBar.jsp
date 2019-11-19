@@ -8,9 +8,9 @@
 	</ul> 
 	<h2><span class="icon-user"></span>权限管理</h2>
 	<ul>
-		<li><a href="info.html" target="right"><span class="icon-caret-right"></span>考试项目设置管理</a></li>
-		<li><a href="pass.html" target="right"><span class="icon-caret-right"></span>考试报名管理</a></li>
-	</ul>  
+		<li><a href="/authority/roleListPage" target="right"><span class="icon-caret-right"></span>角色信息</a></li>
+		<li><a href="/authority/resourceListPage" target="right"><span class="icon-caret-right"></span>资源信息</a></li>
+	</ul>
 	<h2><span class="icon-user"></span>人事管理</h2>
 	<ul>
 		<li><a href="/account/userListPage" target="right"><span class="icon-caret-right"></span>雇员信息</a></li>  

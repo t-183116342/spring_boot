@@ -37,6 +37,22 @@ public class AuthorityServiceImpl implements AuthorityService {
 		return authorityDao.getRoles();
 	}
 
+	@Override
+	public PageInfo<Role> getRoles(SearchVo resarchVo) {
+		try {
+			SearchVo.initSearchVo(resarchVo);
+			PageHelper.startPage(resarchVo.getCurrentPage(), resarchVo.getPageSize());
+			
+			List<Role> roles = Optional.ofNullable(
+					authorityDao.getRoles()).orElse(Collections.emptyList());
+			return new PageInfo<>(roles);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return new PageInfo<>();
+	}
+
 	/* 
 	 * 插入或更新角色
 	 */
@@ -94,7 +110,7 @@ public class AuthorityServiceImpl implements AuthorityService {
 	 * 查询所有资源，封装到page info中
 	 */
 	@Override
-	public PageInfo<Resource> getResource(SearchVo resarchVo) {
+	public PageInfo<Resource> getResources(SearchVo resarchVo) {
 		try {
 			SearchVo.initSearchVo(resarchVo);
 			PageHelper.startPage(resarchVo.getCurrentPage(), resarchVo.getPageSize());

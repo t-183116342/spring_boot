@@ -17,6 +17,8 @@ public interface AuthorityService {
 
 	List<Role> getRoles();
 	
+	PageInfo<Role> getRoles(SearchVo resarchVo);
+	
 	Result insertOrUpdateRole(Role role);
 	
 	Role getRoleById(int roleId);
@@ -25,7 +27,7 @@ public interface AuthorityService {
 	
 	List<Resource> getResourcesByRoleId(int roleId);
 	
-	PageInfo<Resource> getResource(SearchVo resarchVo);
+	PageInfo<Resource> getResources(SearchVo resarchVo);
 	
 	Resource getResourceById(int resourceId);
 	

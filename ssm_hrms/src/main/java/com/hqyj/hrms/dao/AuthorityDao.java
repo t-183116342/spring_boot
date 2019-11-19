@@ -103,7 +103,7 @@ public interface AuthorityDao {
 		@Result(column="resource_id", property="resourceId"),
 		@Result(column="resource_id",property="roles",
 				javaType=List.class,
-				many=@Many(select="com.hqyj.erp.modules.authority.dao.AuthorityDao.getRolesByResourceId"))
+				many=@Many(select="com.hqyj.hrms.dao.AuthorityDao.getRolesByResourceId"))
 	})
 	Resource getResourceById(int resourceId);
 	
