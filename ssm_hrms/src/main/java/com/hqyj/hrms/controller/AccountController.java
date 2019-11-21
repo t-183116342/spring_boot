@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -126,7 +127,7 @@ public class AccountController {
 	 */
 	@PostMapping(value="/deleteUser",consumes="application/x-www-form-urlencoded")
 	@ResponseBody
-//	@RequiresPermissions("deleteUser")
+	@RequiresPermissions("deleteUser")
 	public Result deleteUser(@ModelAttribute User user) {
 		return accountService.deleteUserById(user.getUserId());
 	}

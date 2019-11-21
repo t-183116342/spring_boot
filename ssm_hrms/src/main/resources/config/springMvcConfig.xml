@@ -25,4 +25,11 @@
 	<!-- 处理静态资源 -->
 	<mvc:default-servlet-handler/>
 	
+	<!-- 开启shiro注解,必须在spring-mvc.xml中配置，在其他配置文件中不生效，因为开启注解扫描是在mvc配置文件中配置的 -->
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+        depends-on="lifecycleBeanPostProcessor" />
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+	
 </beans>

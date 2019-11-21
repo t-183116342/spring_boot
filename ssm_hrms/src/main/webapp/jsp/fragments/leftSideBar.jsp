@@ -1,16 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>
 <div class="leftnav">
 	<div class="leftnav-title"><strong><span class="icon-list"></span>菜单列表</strong></div>
+	<shiro:hasAnyRoles name="admin,manager">
 	<h2><span class="icon-user"></span>组织管理</h2>
 	<ul>
 		<li><a href="/organization/departmentListPage" target="right"><span class="icon-caret-right"></span>部门信息</a></li>
 		<li><a href="/organization/positionListPage" target="right"><span class="icon-caret-right"></span>职业信息</a></li>
 	</ul> 
+	</shiro:hasAnyRoles>
+	<shiro:hasAnyRoles name="admin,manager">
 	<h2><span class="icon-user"></span>权限管理</h2>
 	<ul>
 		<li><a href="/authority/roleListPage" target="right"><span class="icon-caret-right"></span>角色信息</a></li>
 		<li><a href="/authority/resourceListPage" target="right"><span class="icon-caret-right"></span>资源信息</a></li>
 	</ul>
+	</shiro:hasAnyRoles>
 	<h2><span class="icon-user"></span>人事管理</h2>
 	<ul>
 		<li><a href="/account/userListPage" target="right"><span class="icon-caret-right"></span>雇员信息</a></li>  

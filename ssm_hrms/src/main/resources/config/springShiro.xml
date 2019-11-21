@@ -27,6 +27,8 @@
 		<property name="globalSessionTimeout" value="6000000"/>
 		<!-- 删除失效的session -->
 		<property name="deleteInvalidSessions" value="true"/>
+		<!-- 去掉重定向后Url追加SESSIONID -->
+		<property name="sessionIdUrlRewritingEnabled" value="false" />
 	</bean>
 	<!-- 记住我配置 -->
 	<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
@@ -68,7 +70,7 @@
 	
 	<!-- Shiro生命周期处理器 -->
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
-    
+	
     <!-- 配置authc，默认表单的用户名和密码必须是：username，password -->
 	<bean id="authc" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">
 		<property name="usernameParam" value="account"></property>
