@@ -1,41 +1,40 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"  
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"  
-      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+<html>
 	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-		<TITLE>SpringDemo</TITLE>
-		<META name="description" content="THORNBIRD.COM"/>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta name="renderer" content="webkit">
+		<title>人事管理系统</title>
 		
-		<!-- 引入外部js或css -->
-		<script th:src="@{https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js}"></script>
+		<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+		<script src="${pageContext.request.contextPath}/static/js/hrms.js" type="text/javascript"></script>
+		<script src="${pageContext.request.contextPath}/static/js/common.js" type="text/javascript"></script>
+		<script src="${pageContext.request.contextPath}/static/js/jquery.ztree.all.js" type="text/javascript"></script>
+		<script src="${pageContext.request.contextPath}/static/js/organization-list.js" type="text/javascript"></script>
 		
-		<!-- 引入内部js或css -->
-		<script th:src="${'/lib/layui/layui.js'}" charset="utf-8"></script>
-		<script th:src="${'/js/xadmin.js'}" type="text/javascript"></script>
-		<script th:src="${'/js/jquery.ztree.all.js'}" type="text/javascript"></script>
-		<script th:src="${'/js/bootstrap.js'}" type="text/javascript"></script>
-		<script th:src="${'/js/organization-list.js'}" type="text/javascript"></script>
-		<link th:href="${'/css/font.css'}" rel="stylesheet">
-		<link th:href="${'/css/xadmin.css'}" rel="stylesheet">
-		<link th:href="${'/css/zTreeStyle/zTreeStyle.css'}" rel="stylesheet">
-		<link th:href="${'/css/bootstrap.css'}" rel="stylesheet">
-		<link th:href="${'/css/cutsom-style.css'}" rel="stylesheet">
+		<link href="http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" >
+	    <link href="${pageContext.request.contextPath}/static/css/admin.css" type="text/css" rel="stylesheet">
+	    <link href="${pageContext.request.contextPath}/static/css/hrms.css" type="text/css" rel="stylesheet">
+	    <link href="${pageContext.request.contextPath}/static/css/zTreeStyle/zTreeStyle.css" type="text/css" rel="stylesheet">
 	</head>
 	<body>
-		<div class="x-nav">
-			<span class="layui-breadcrumb"> <a>人员管理</a> <a> <cite>组织管理</cite></a>
-			</span> <a class="layui-btn layui-btn-small"
-				style="line-height: 1.6em; margin-top: 3px; float: right"
-				href="javascript:location.replace(location.href);" title="刷新"> <i
-				class="layui-icon" style="line-height: 30px">ဂ</i></a>
+		<div class="panel-head">
+			<strong class="icon-reorder"> 内容列表</strong> 
+			<a href="" style="float:right; display:none;">添加字段</a>
 		</div>
 		<div class="x-body">
 			<div class="row">
 				<!-- 页面左侧（树形结构）部分 -->
 				<div class="col-md-2">
 					<div class="panel panel-default">
-						<div class="panel-heading">组织结构</div>
+						<div class="panel-heading">人事结构</div>
 						<div class="panel-body fullhight">
 							<!-- 这里放置左侧内容主体 -->
 							<div>
@@ -47,7 +46,7 @@
 				</div>
 				<!-- end 左侧 -->
 				<!-- 页面右侧（详细信息）部分 -->
-				<div class="col-md-10">
+				<div class="col-md-10" style="width: 80%">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h3 class="panel-title">详细信息</h3>
