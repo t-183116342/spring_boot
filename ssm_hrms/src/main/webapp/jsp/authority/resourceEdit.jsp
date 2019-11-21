@@ -119,7 +119,7 @@
 						success : function(result) {
 							if (result.status == 200) {
 								$("[name=messageDiv]").hide();
-								location.replace("/authority/resourceListPage")
+								location.replace("/authority/resourceListPage");
 							} else {
 								$("[name=messageDiv]").show();
 								$("[name=message]").text(result.message);
