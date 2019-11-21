@@ -9,7 +9,7 @@
 	    <title>HRMS Login</title>
 	    
 	    <script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
-		<script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+	    <script src="http://cdn.bootcss.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 		<script src="${pageContext.request.contextPath}/static/js/hrms.js" type="text/javascript"></script>
 		
 		<link href="http://cdn.bootcss.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
@@ -99,9 +99,9 @@
 				var val = $(".input-val").val().toLowerCase();
 		        var num = show_num.join("");
 		        if(val==''){
-		            layer.msg("请输入验证码！", {icon: 0});
+		        	$("#errorMessage").text("请输入验证码！");
 		        }else if(val != num){
-		        	layer.msg("验证码错误！请重新输入！", {icon: 0});
+		        	$("#errorMessage").text("验证码错误！请重新输入！");
 		            $(".input-val").val('');
 		            draw(show_num);
 		        }else{
