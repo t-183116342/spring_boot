@@ -107,6 +107,7 @@
 	<build>
 		<finalName>ssm_hrms</finalName>
 		
+		
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
