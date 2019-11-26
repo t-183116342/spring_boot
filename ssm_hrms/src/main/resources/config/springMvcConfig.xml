@@ -12,17 +12,24 @@
         http://www.springframework.org/schema/mvc   
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
         
-	<!--开启注解-->
-	<mvc:annotation-driven />
-	
 	<!-- 扫描包，@Repository、@Service、@Controller等 -->
 	<context:component-scan base-package="com.hqyj.hrms"/>
+	
+	<!--开启注解-->
+	<mvc:annotation-driven />
     
     <!-- 对模型视图名称进行解析，在模型视图名称上添加前后缀 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"   
-		p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"></bean>
+		p:prefix="/jsp/" p:suffix=".jsp"></bean>
 
 	<!-- 处理静态资源 -->
 	<mvc:default-servlet-handler/>
+	
+	<!-- 开启shiro注解,必须在spring-mvc.xml中配置，在其他配置文件中不生效，因为开启注解扫描是在mvc配置文件中配置的 -->
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+        depends-on="lifecycleBeanPostProcessor" />
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
 	
 </beans>

@@ -11,7 +11,45 @@
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
         http://www.springframework.org/schema/context   
         http://www.springframework.org/schema/context/spring-context.xsd">
+      
+    <!-- 加载配置文件 -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	    <property name="locations">
+	       <list>
+	          <value>classpath:config/properties/jdbc-parms.properties</value>
+	          <value>classpath:config/properties/pool-parms.properties</value>
+	          <value>classpath:config/properties/hibernate-parms.properties</value>
+	        </list>
+	    </property>
+	</bean>
+	
+	<!-- 数据源，spring jdbc || c3p0 jdbc -->
+	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+	</bean> -->
+	<!-- 配置c3p0数据源 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driverClassName}" />  
+        <property name="jdbcUrl" value="${jdbc.url}" />  
+        <property name="user" value="${jdbc.username}" />  
+        <property name="password" value="${jdbc.password}" /> 
         
-	<!-- 引入别的配置文件 -->
-	<import resource="mybatis.xml"/>
+        <!-- 连接池中连接用完时，c3p0一次性创建的连接数 -->
+        <property name="acquireIncrement" value="${pool.acquireIncrement}" />
+        <!-- 初始化连接数，在minPoolSize和maxPoolSize之间 -->
+        <property name="initialPoolSize" value="${pool.initialPoolSize}" />
+        <property name="minPoolSize" value="${pool.minPoolSize}" />
+        <property name="maxPoolSize" value="${pool.maxPoolSize}" />
+        <!-- 连接关闭时默认将所有未提交的操作回滚,默认为false -->
+        <property name="autoCommitOnClose" value="${pool.autoCommitOnClose}"/>
+    </bean>
+    
+    <!-- 引入别的配置文件 -->
+	<import resource="springMybatis.xml"/>
+	<import resource="springHibernate.xml"/>
+	<import resource="springShiro.xml"/>
+	  
 </beans>

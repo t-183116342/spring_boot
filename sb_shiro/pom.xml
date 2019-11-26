@@ -6,6 +6,7 @@
 	<artifactId>sb_shiro</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>sb_shiro</name>
+	<packaging>jar</packaging>
 	<description>Demo project for Spring Boot</description>
 	
 	<parent>
@@ -18,6 +19,7 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
+		<failOnMissingWebXml>false</failOnMissingWebXml>
 	</properties>
 
 	<dependencies>
@@ -35,6 +37,13 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+		<!-- tomcat -->
+		<!-- <dependency>
+		    <groupId>org.springframework.boot</groupId>
+		    <artifactId>spring-boot-starter-tomcat</artifactId>
+		    <scope>provided</scope>
+		</dependency> -->
 		
 		<!-- mysql -->
 		<dependency>

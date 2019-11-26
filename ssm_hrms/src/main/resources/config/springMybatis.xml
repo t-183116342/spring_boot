@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:tx="http://www.springframework.org/schema/tx" 
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd 
+        http://www.springframework.org/schema/tx   
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+    <!-- sqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<!-- 指定mybatis的 XML映射器文件地址 -->
+		<property name="mapperLocations" value="classpath*:mybatis/*.xml" />
+		<!-- 开启自动驼峰命名规则 -->
+		<property name="configuration">
+			<bean class="org.apache.ibatis.session.Configuration">
+				<property name="mapUnderscoreToCamelCase" value="true"/>
+			</bean>
+		</property>
+		<property name="plugins">
+			<array>
+				<bean class="com.github.pagehelper.PageHelper">
+					<property name="properties">
+						<value>dialect=mysql</value>
+					</property>
+				</bean>
+			</array>
+		</property>
+	</bean>
+	
+	<!-- 配置一个可以执行批量的sqlSessionTemplate -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <constructor-arg name="executorType" value="BATCH"/>
+    </bean>
+    
+    <!-- 开启自动扫描dao接口 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+		<property name="basePackage" value="com.hqyj.hrms.dao" />
+	</bean>
+	
+	<!-- 配置事务管理器 -->
+	<bean id="mybatisTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<!-- 开启事务注解 -->
+    <tx:annotation-driven transaction-manager="mybatisTransactionManager" />
+</beans>
