@@ -40,13 +40,13 @@ public class TestController {
 	@RequestMapping("/test/log")
 	@ResponseBody
 	public String loggerTest() {
-		LOGGER.trace("aaaaaaaaaaaaaaThis is trace log");
+		LOGGER.trace("bbbbbbbbbbbbbbbThis is trace log");
 		LOGGER.debug("This is debug log");
 		LOGGER.info("This is info log");
 		LOGGER.warn("This is warn log");
 		LOGGER.error("This is error log");
 		
-		return "11111111111111111This is logger test.";
+		return "22222222222This is logger test.";
 	}
 
 	/**
