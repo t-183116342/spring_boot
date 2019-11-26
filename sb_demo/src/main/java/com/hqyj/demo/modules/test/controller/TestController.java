@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.hqyj.demo.modules.test.vo.ApplicationTestBean;
 
+/**
+ * 测试类控制器
+ * @author: HymanHu
+ * @date: 2019年11月26日
+ */
 @Controller
 public class TestController {
 	
@@ -29,6 +34,9 @@ public class TestController {
 	
 	private final static Logger LOGGER = LoggerFactory.getLogger(TestController.class);
 	
+	/**
+	 * log相关接口
+	 */
 	@RequestMapping("/test/log")
 	@ResponseBody
 	public String loggerTest() {
@@ -41,6 +49,9 @@ public class TestController {
 		return "This is logger test.";
 	}
 
+	/**
+	 * 配置相关接口
+	 */
 	@RequestMapping("/test/config")
 	@ResponseBody
 	public String configTest() {
@@ -58,6 +69,9 @@ public class TestController {
 		return sb.toString();
 	}
 	
+	/**
+	 * spring boot第一个接口
+	 */
 	@RequestMapping("/test/info")
 	@ResponseBody
 	public String testInfo() {
