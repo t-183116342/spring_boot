@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -16,7 +17,9 @@ import com.hqyj.demo.modules.test.vo.ApplicationTestBean;
  * @date: 2019年11月26日
  */
 @Controller
+@RequestMapping("/test")
 public class TestController {
+	private final static Logger LOGGER = LoggerFactory.getLogger(TestController.class);
 	
 	@Value("${server.port}")
 	private int port;
@@ -32,12 +35,17 @@ public class TestController {
 	@Autowired
 	private ApplicationTestBean applicationTestBean;
 	
-	private final static Logger LOGGER = LoggerFactory.getLogger(TestController.class);
+	
+	@PostMapping("/post")
+	@ResponseBody
+	public String postTest() {
+		return "This is a post interface.";
+	}
 	
 	/**
 	 * log相关接口
 	 */
-	@RequestMapping("/test/log")
+	@RequestMapping("/log")
 	@ResponseBody
 	public String loggerTest() {
 		LOGGER.trace("This is trace log");
@@ -46,13 +54,13 @@ public class TestController {
 		LOGGER.warn("This is warn log");
 		LOGGER.error("This is error log");
 		
-		return "This is logger test.";
+		return "This is logger test1111111111111111111111.";
 	}
 
 	/**
 	 * 配置相关接口
 	 */
-	@RequestMapping("/test/config")
+	@RequestMapping("/config")
 	@ResponseBody
 	public String configTest() {
 		StringBuffer sb = new StringBuffer();
@@ -72,7 +80,7 @@ public class TestController {
 	/**
 	 * spring boot第一个接口
 	 */
-	@RequestMapping("/test/info")
+	@RequestMapping("/info")
 	@ResponseBody
 	public String testInfo() {
 		return "This is spring boot app.";
