@@ -7,12 +7,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.github.pagehelper.PageInfo;
 import com.hqyj.demo.modules.test.entity.City;
 import com.hqyj.demo.modules.test.entity.Country;
 import com.hqyj.demo.modules.test.service.TestService;
@@ -43,6 +48,44 @@ public class TestController {
 	private ApplicationTestBean applicationTestBean;
 	@Autowired
 	private TestService testService;
+	
+	/**
+	 * 删除城市
+	 */
+	@DeleteMapping(value="/city/{cityId}")
+	@ResponseBody
+	public void deleteCity(@PathVariable int cityId) {
+		testService.deleteCity(cityId);
+	}
+	
+	/**
+	 * 更改城市
+	 * 接受form表单数据 ---- application/x-www-form-urlencoded || @ModelAttribute
+	 */
+	@PutMapping(value="/city", consumes="application/x-www-form-urlencoded")
+	@ResponseBody
+	public City updateCity(@ModelAttribute City city) {
+		return testService.updateCity(city);
+	}
+	
+	/**
+	 * 插入城市
+	 * 接受json数据 ---- @RequestBody || application/json
+	 */
+	@PostMapping(value="/city", consumes="application/json")
+	@ResponseBody
+	public City insertCity(@RequestBody City city) {
+		return testService.insertCity(city);
+	}
+	
+	/**
+	 * 分页查询城市信息
+	 */
+	@RequestMapping("/cities/{currentPage}/{pageSize}")
+	@ResponseBody
+	public PageInfo<City> getCitiesByPage(@PathVariable int currentPage, @PathVariable int pageSize) {
+		return testService.getCitiesByPage(currentPage, pageSize);
+	}
 	
 	/**
 	 * 根据country name 查询国家信息
