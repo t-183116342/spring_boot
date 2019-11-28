@@ -1,12 +1,14 @@
 package com.hqyj.demo.modules.test.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,6 +50,31 @@ public class TestController {
 	private ApplicationTestBean applicationTestBean;
 	@Autowired
 	private TestService testService;
+	
+	/**
+	 * 返回test/index页面
+	 * return index ---- return classpath:/templates/index.html
+	 * template:test/index ---- classpath:/templates/test/index.html
+	 */
+	@RequestMapping("/index")
+	public String testPage(ModelMap modelMap) {
+		int countryId = 522;
+		List<City> cities = testService.getCitiesByCountryId(countryId);
+		cities = cities.stream().limit(10).collect(Collectors.toList());
+		
+		modelMap.addAttribute("thymeleafTitle", "This is thymeleaf test page.");
+		modelMap.addAttribute("changeType", "checkbox");
+		modelMap.addAttribute("checked", true);
+		modelMap.addAttribute("currentNumber", 88);
+		modelMap.addAttribute("baiduUrl", "/test/config");
+//		modelMap.addAttribute("shopLogo", "http://cdn.duitang.com/uploads/item/201308/13/20130813115619_EJCWm.thumb.700_0.jpeg");
+		modelMap.addAttribute("country", testService.getcountryByCountryId(countryId));
+		modelMap.addAttribute("city", cities.get(0));
+		modelMap.addAttribute("cities", cities);
+		modelMap.addAttribute("updateCityUri", "/test/city");
+		modelMap.addAttribute("template", "test/index");
+		return "index";
+	}
 	
 	/**
 	 * 删除城市
