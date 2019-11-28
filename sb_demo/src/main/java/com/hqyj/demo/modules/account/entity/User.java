@@ -1,13 +1,20 @@
 package com.hqyj.demo.modules.account.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+/**
+ * 用户类
+ * @author: HymanHu
+ * @date: 2019年11月28日
+ */
 @Entity
 @Table(name="m_user")
 public class User {
@@ -17,6 +24,9 @@ public class User {
 	private String userName;
 	private String password;
 	private Date createDate;
+	
+	@Transient
+	private List<Role> roles;
 
 	public int getUserId() {
 		return userId;
@@ -48,5 +58,13 @@ public class User {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
 	}
 }
