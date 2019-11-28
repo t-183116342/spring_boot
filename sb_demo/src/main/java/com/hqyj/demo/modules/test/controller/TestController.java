@@ -89,6 +89,7 @@ public class TestController {
 	
 	/**
 	 * 根据country name 查询国家信息
+	 * 接受查询参数 ---- @RequestParam
 	 */
 	@RequestMapping("/country")
 	@ResponseBody
@@ -98,6 +99,7 @@ public class TestController {
 	
 	/**
 	 * 根据国家id查询国家信息
+	 * 接受path参数 ---- @PathVariable
 	 */
 	@RequestMapping("/country/{countryId}")
 	@ResponseBody
