@@ -10,6 +10,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+/**
+ * uri 拦截器
+ * 实现步骤：继承HandlerInterceptor ---- 注册为组件 ---- 重写postHandle方法 ---- 配置类中注册addInterceptors
+ * @author: HymanHu
+ * @date: 2019年11月29日
+ */
 @Component
 public class UriInterceptor implements HandlerInterceptor {
 	private final static Logger LOGGER = LoggerFactory.getLogger(UriInterceptor.class);
@@ -21,8 +27,6 @@ public class UriInterceptor implements HandlerInterceptor {
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}
 
-	
-	
 	/* 
 	 * 前置条件：页面放置位置和uri一一对应
 	 * 拦截器需求：在控制器中，如果满足前置条件，则无需设置template，直接返回index

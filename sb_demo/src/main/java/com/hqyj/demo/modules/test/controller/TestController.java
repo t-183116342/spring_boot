@@ -1,5 +1,6 @@
 package com.hqyj.demo.modules.test.controller;
 
+import java.io.File;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,8 +19,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.github.pagehelper.PageInfo;
 import com.hqyj.demo.modules.test.entity.City;
@@ -52,6 +56,77 @@ public class TestController {
 	private ApplicationTestBean applicationTestBean;
 	@Autowired
 	private TestService testService;
+	
+	/**
+	 * 上传多个文件
+	 */
+	@RequestMapping(value="/uploadBatchFile", method=RequestMethod.POST, consumes="multipart/form-data")
+	public String uploadBatchFile(@RequestParam MultipartFile[] files, 
+			RedirectAttributes redirectAttributes) {
+		boolean isEmpty = true;
+		try {
+			for (MultipartFile file : files) {
+				if (file.isEmpty()) {
+//					break;
+					continue;
+				}
+				
+				String fileName = file.getOriginalFilename();
+				String destFileName = "D:/upload" + File.separator + fileName;
+				
+				File destFile = new File(destFileName);
+				file.transferTo(destFile);
+				
+				isEmpty = false;
+			}
+		} catch (Exception e) {
+			LOGGER.debug(e.getMessage());
+			e.printStackTrace();
+			redirectAttributes.addFlashAttribute("message", "upload file fail.");
+			return "redirect:/test/index";
+		}
+		
+		if (isEmpty) {
+			redirectAttributes.addFlashAttribute("message", "Please select file.");
+		} else {
+			redirectAttributes.addFlashAttribute("message", "upload file success.");
+		}
+		
+		return "redirect:/test/index";
+	}
+	
+	/**
+	 * 上传耽搁文件，虽然是form表单，但file是以参数的形式传递的，采用requestParam注解接收MultipartFile
+	 */
+	@RequestMapping(value="/upload", method=RequestMethod.POST, consumes="multipart/form-data")
+	public String uploadFile(@RequestParam MultipartFile file, RedirectAttributes redirectAttributes) {
+		
+		if (file.isEmpty()) {
+			redirectAttributes.addFlashAttribute("message", "Please select file.");
+			return "redirect:/test/index";
+		}
+		
+		try {
+			String fileName = file.getOriginalFilename();
+			String destFileName = "D:/upload" + File.separator + fileName;
+			
+			File destFile = new File(destFileName);
+			file.transferTo(destFile);
+			
+			// 使用工具类Files来上传文件
+//			byte[] bytes = file.getBytes();
+//			Path path = Paths.get(destFileName);
+//			Files.write(path, bytes);
+			
+			redirectAttributes.addFlashAttribute("message", "upload file success.");
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute("message", "upload file fail.");
+			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
+		}
+		
+		return "redirect:/test/index";
+	}
 	
 	/**
 	 * 返回test/index页面
