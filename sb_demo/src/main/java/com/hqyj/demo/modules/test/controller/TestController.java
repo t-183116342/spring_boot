@@ -1,6 +1,7 @@
 package com.hqyj.demo.modules.test.controller;
 
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -56,6 +61,35 @@ public class TestController {
 	private ApplicationTestBean applicationTestBean;
 	@Autowired
 	private TestService testService;
+	
+	/**
+	 * 下载文件
+	 * 响应头信息
+	 * 'Content-Type': 'application/octet-stream',
+	 * 'Content-Disposition': 'attachment;filename=req_get_download.js'
+	 * @return ResponseEntity ---- spring专门包装响应信息的类
+	 */
+	@RequestMapping("/download")
+	@ResponseBody
+	public ResponseEntity<Resource> downloadFile(@RequestParam String fileName) {
+		try {
+			// 使用resource来包装下载文件
+			Resource resource = new UrlResource(
+					Paths.get("D:/upload" + File.separator + fileName).toUri());
+			if (resource.exists() && resource.isReadable()) {
+				return ResponseEntity.ok()
+						.header(HttpHeaders.CONTENT_TYPE, "application/octet-stream")
+						.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=\"" + 
+								resource.getFilename() + "\"")
+						.body(resource);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
+		}
+		
+		return null;
+	}
 	
 	/**
 	 * 上传多个文件
