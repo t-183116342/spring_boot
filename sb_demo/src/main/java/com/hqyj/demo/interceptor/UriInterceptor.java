@@ -21,6 +21,8 @@ public class UriInterceptor implements HandlerInterceptor {
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}
 
+	
+	
 	/* 
 	 * 前置条件：页面放置位置和uri一一对应
 	 * 拦截器需求：在控制器中，如果满足前置条件，则无需设置template，直接返回index
