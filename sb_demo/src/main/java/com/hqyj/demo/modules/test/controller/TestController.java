@@ -3,6 +3,8 @@ package com.hqyj.demo.modules.test.controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -193,7 +195,9 @@ public class TestController {
 	 */
 	@RequestMapping("/info")
 	@ResponseBody
-	public String testInfo() {
-		return "This is spring boot app.";
+	public String testInfo(HttpServletRequest request, 
+			@RequestParam(name="key", defaultValue="1111", required=false) String value) {
+		String value2 = request.getParameter("key");
+		return "This is spring boot app." + value + "---" + value2;
 	}
 }
